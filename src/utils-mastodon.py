@@ -2,6 +2,7 @@ import websocket
 import requests
 import json
 
+''' techhub.social '''  
 # Replace [mastodon-instance] with the hostname of your Mastodon instance
 stream_url = "wss://techhub.social/api/v1/streaming/?stream=public"
 
