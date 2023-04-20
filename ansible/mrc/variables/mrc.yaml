@@ -1,20 +1,18 @@
 # Common vars
 availability_zone: melbourne-qh2-uom
-instance_flavor: uom.mse.1c4g
+instance_flavor: uom.mse.2c9g # 2 cores, 9 GB memory
 instance_image: bbaf16f8-2484-48d7-b455-42209cc4b8d2
-instance_key_name: default
+instance_key_name: default  # key-pairs
 instance_network: qh2-uom-internal
 
 # Volume
 volumes:
-  - vol_name: vol-1-1
-    vol_size: 10
-  - vol_name: vol-1-2
-    vol_size: 10
-  - vol_name: vol-2-1
-    vol_size: 10
-  - vol_name: vol-2-2
-    vol_size: 10
+  - vol_name: couchdb
+    vol_size: 70
+  - vol_name: harvester-1
+    vol_size: 70
+  - vol_name: webapp
+    vol_size: 40
 
 # Security group
 security_groups:
@@ -33,7 +31,9 @@ security_groups:
 
 # Instance
 instances:
-  - name: comp90024-grp-64-1
-    volumes: ["vol-1-1", "vol-1-2"]
-  - name: comp90024-grp-64-2
-    volumes: ["vol-2-1", "vol-2-2"]
+  - name: couchdb
+    volumes: ["couchdb"]
+  - name: harvester-1
+    volumes: ["harvester-1"]
+  - name: webapp
+    volumes: ["webapp"]
