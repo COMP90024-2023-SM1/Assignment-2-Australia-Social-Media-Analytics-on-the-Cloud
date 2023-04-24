@@ -15,5 +15,5 @@ export async function fetchData2(params) {
 }
 
 export async function fetchGetDetails(params) {
-    return get(webserver + `/api/getDetails`)
+    return get(webserver + `/api/getDetails/`)
 }

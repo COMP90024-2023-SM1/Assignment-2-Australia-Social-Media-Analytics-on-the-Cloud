@@ -4,11 +4,12 @@ import { message } from 'antd'
 const { stringify, parse } = qs
 
 const checkStatus = res => {
+    console.log(res)
     if (200 >= res.status < 300) {
         return res
     }
-    message.error(`Network error,${res.status}`)
-    const error = new Error(res.statusText)
+    message.error(`Network error,${res.code}`)
+    const error = new Error(res.message)
     error.response = error
     throw error
 }
@@ -41,12 +42,7 @@ class http {
             credentials: 'include',
             /*允许跨域**/
             mode: 'cors',
-            headers: {
-                token: null,
-                Authorization: null
-                // 当请求方法是POST，如果不指定content-type是其他类型的话，默认为如下，要求参数传递样式为 key1=value1&key2=value2，但实际场景以json为多
-                // 'content-type': 'application/x-www-form-urlencoded',
-            }
+            headers: {}
         }
         if (options.method === 'POST' || 'PUT') {
             defaultOptions.headers['Content-Type'] = 'application/json; charset=utf-8'

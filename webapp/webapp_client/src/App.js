@@ -5,14 +5,14 @@ import { useState } from 'react'
 import React from 'react'
 
 function App() {
-    const [details, setDetails] = useState('')
+    const [results, setResults] = useState('')
     const handleClick = async () => {
         let result = await fetchGetDetails()
-        setDetails(result)
+        setResults(result.data)
     }
     return (
         <div className="App">
-            <header className="App-header">{details}</header>
+            <header className="App-header">{results.details}</header>
             <button onClick={handleClick}></button>
         </div>
     )

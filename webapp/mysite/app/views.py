@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import couchdb
+from . import response_result
 
 # Create your views here.
 
@@ -23,5 +24,8 @@ def index(request):
     return response
 
 
+@csrf_exempt
 def getDetils(request):
-    return HttpResponse("This is your detail")
+    print(request)
+    data = {"details": "hello"}
+    return response_result.ok("", data)
