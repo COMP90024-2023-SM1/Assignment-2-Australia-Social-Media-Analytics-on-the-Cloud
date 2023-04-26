@@ -36,8 +36,11 @@ class DataStore():
                 try:
                     tweet = json.loads(line)
                     if tweet['doc']['data']['geo'] != {}:
-                        tweet = extract_tweet_info(tweet)
-                        self.save_record(tweet)
+                        try:
+                            tweet = extract_tweet_info(tweet)
+                            self.save_record(tweet)
+                        except KeyError:
+                            pass
 
                 except Exception as e:
                     pass
