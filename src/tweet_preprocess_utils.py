@@ -40,12 +40,15 @@ def extract_tweet_info(one_tweet):
     Arguments:
     one_tweet --- one tweet JSON object
     """
+    # Parse date format into YYYY-MM-DD HH:MM:SS
     tweet_time = datetime.strptime(one_tweet['doc']['data']['created_at'],
                                    DATE_FORMAT)
     simplified_tweet = {
         'tweet_time': tweet_time,
         'language_code': one_tweet['doc']['data']['lang'],
         'tweet_metrics': one_tweet['doc']['data']['public_metrics'],
+        'tweet_tags': {'hashtags': one_tweet['value']['tags'].split('|'),
+                       'tokens': one_tweet['value']['tokens'].split('|')},
         'tweet_text': one_tweet['doc']['data']['text'],
         'location': one_tweet['doc']['includes']['places']
     }
