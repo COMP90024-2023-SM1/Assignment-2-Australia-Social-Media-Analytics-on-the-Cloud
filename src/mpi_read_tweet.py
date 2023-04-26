@@ -27,3 +27,15 @@ def main():
 
     else:
         block_list = None
+
+    # Distribute data blocks to different cores
+    scattered_data = COMM.scatter(block_list, root = 0)
+    print("Hello world from process", RANK + 1, "of",SIZE)
+    print("RANK #" + str(RANK) + " responsible for block between byte " + str(
+        scattered_data['block_start']) + " and byte " + str(scattered_data['block_end']))
+    
+    # Split data into blocks for preprocessing and storing into couchDB
+    data_store.tweet_processor(tweet_path,
+                               scattered_data['block_start'], 
+                               scattered_data['block_end'])
+    

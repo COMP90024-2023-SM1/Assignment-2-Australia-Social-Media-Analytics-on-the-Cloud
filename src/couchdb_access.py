@@ -29,7 +29,7 @@ class DataStore():
         with open(tweet_path, 'rb') as file:
             file.seek(block_start)
             while file.tell() != block_end:
-                line = file.readline().splitlines()
+                line = file.readline().splitlines().decode('utf-8')
                 if line[-1] == ',': # Check if current line has trailing comma
                     line = line[:-1] # Remove trailing comma
 
