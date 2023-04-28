@@ -15,9 +15,9 @@ class DataStore():
             self.db = self.server.create(db_name)
         else:
             self.db = self.server[db_name]
-        print(self.db)
 
     def save_record(self, one_record):
+        one_record = json.dumps(one_record)
         one_record = json.loads(one_record)
         self.db.save(one_record)
 

@@ -62,4 +62,4 @@ def extract_tweet_info(one_tweet):
         'location': location
     }
 
-    return str(simplified_tweet)
+    return simplified_tweet
