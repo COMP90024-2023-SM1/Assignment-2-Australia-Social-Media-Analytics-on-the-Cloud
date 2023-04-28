@@ -3,19 +3,19 @@ import json
 
 from tweet_preprocess_utils import *
 
-MASTER_NODE = ''
+MASTER_NODE = 'localhost'
 ADMIN = 'admin'
 PASSWORD = 'mysuperfancypassword'
 
 class DataStore():
 
-    def __init__(self, db_name, url=f'http://{ADMIN}:{PASSWORD}@{MASTER_NODE}:5984/'):
-        try:
-            self.server = couchdb.Server(url)
+    def __init__(self, db_name, url=f'http://{ADMIN}:{PASSWORD}@127.0.0.1:5984/'):
+        self.server = couchdb.Server(url)
+        if db_name not in self.server:
             self.db = self.server.create(db_name)
-            # self._create_views()
-        except couchdb.http.PreconditionFailed:
+        else:
             self.db = self.server[db_name]
+        print(self.db)
 
     def save_record(self, one_record):
         one_record = json.loads(one_record)
@@ -29,7 +29,7 @@ class DataStore():
         with open(tweet_path, 'rb') as file:
             file.seek(block_start)
             while file.tell() != block_end:
-                line = file.readline().splitlines().decode('utf-8')
+                line = file.readline().splitlines()[0].decode('utf-8')
                 if line[-1] == ',': # Check if current line has trailing comma
                     line = line[:-1] # Remove trailing comma
 
@@ -42,5 +42,5 @@ class DataStore():
                         except KeyError:
                             pass
 
-                except Exception as e:
+                except (KeyError, ValueError) as e:
                     pass

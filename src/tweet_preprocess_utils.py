@@ -42,10 +42,16 @@ def extract_tweet_info(one_tweet):
     """
     # Parse date format into YYYY-MM-DD HH:MM:SS
     tweet_time = datetime.strptime(one_tweet['doc']['data']['created_at'],
-                                   DATE_FORMAT).strftime('%Y-%m-%d %H:%M:%S')
+                                   DATE_FORMAT)
+    tweet_time = tweet_time.strftime('%Y:%m:%d %H:%M:%S')
+    try:
+        location = one_tweet['doc']['includes']['places']
+    except (KeyError, TypeError):
+        location = {}
     tokens = one_tweet['value']['tokens'].split('|')
     tokens = [word.lower() for word in tokens]
     simplified_tweet = {
+        'id': one_tweet['id'],
         'tweet_time': tweet_time,
         'language_code': one_tweet['doc']['data']['lang'],
         'tweet_metrics': one_tweet['doc']['data']['public_metrics'],
@@ -53,7 +59,7 @@ def extract_tweet_info(one_tweet):
                        'tokens': tokens},
         'tweet_text': one_tweet['doc']['data']['text'].lower(),
         "sentiment": one_tweet['doc']['data']['sentiment'],
-        'location': one_tweet['doc']['includes']['places']
+        'location': location
     }
 
-    return simplified_tweet
+    return str(simplified_tweet)
