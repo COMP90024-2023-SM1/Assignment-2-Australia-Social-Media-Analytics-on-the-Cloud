@@ -44,7 +44,5 @@ def main():
     
 if __name__ == "__main__":
     # To run the code locally
-    ## mpiexec -n 1 python -m mpi4py main.py -location ../data/sal.json -dataset ../data/smallTwitter.json
-    # To run the code on spartan
-    ## srun -n 1 python -m mpi4py main.py -location ../data/sal.json -dataset ../data/smallTwitter.json
+    ## mpiexec -n 8 python -m mpi4py main.py
     main()
