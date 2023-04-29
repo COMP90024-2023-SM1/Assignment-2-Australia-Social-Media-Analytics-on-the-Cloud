@@ -4,7 +4,7 @@ COPY ./package.json ./
 COPY ./package-lock.json ./
 RUN npm i
 COPY . ./app
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "build"]
 
 FROM nginx
 EXPOSE 3000
