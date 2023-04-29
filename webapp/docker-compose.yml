@@ -6,24 +6,22 @@ services:
       - client
     restart: always
     build:
-      dockerfile: dockerfile.dev
       context: ./nginx
+      dockerfile: dockerfile
     ports:
       - "3050:80"
   api:
       build:
-        dockerfile: dockerfile.dev
         context: ./webapp_server
+        dockerfile: dockerfile
       volumes:
         - /app/node_modules
-        -  ~/mnt/comp90024/server:/app
+        - ./webapp_server:/app
   client: 
-   stdin_open: true
-   environment:
-    - CHOKDAR_USERPOLLING=true
-   build:
-    dockerfile: dockerfile.dev
+   stdin_open: false
+   build:   
     context: ./webapp_client
+    dockerfile: dockerfile
    volumes:
      - /app/node_modules
-     -  ~/mnt/comp90024/client:/app
+     - ./webapp_client:/app
