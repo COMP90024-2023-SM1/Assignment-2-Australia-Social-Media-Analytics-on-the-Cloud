@@ -1,12 +1,12 @@
 #!/bin/bash
 
-NODES=("172.26.128.215" "172.26.128.179" "172.26.132.88")
+NODES=(${NODES//,/ })
 PORT=5984
 MASTER_NODE=${NODES[0]}
 CURRENT_NODE=$(ip addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
 OTHER_NODES=`echo ${NODES[@]} | sed s/${MASTER_NODE}//`
-USERNAME="admin"
-PASSWORD="admin"
+USERNAME="${USERNAME}"
+PASSWORD="${PASSWORD}"
 COOKIE="a192aeb9904e6590849337933b000c99"
 VERSION="3.2.1"
 
@@ -39,7 +39,7 @@ sudo docker create \
 
 sudo docker start "${CONTAINER_NAME}"
 
-sleep 10
+sleep 5
 
 # Check if the current node is the master node
 if [ "${CURRENT_NODE}" == "${MASTER_NODE}" ]; then
@@ -58,11 +58,10 @@ if [ "${CURRENT_NODE}" == "${MASTER_NODE}" ]; then
   echo "Adding nodes to cluster..."
   for node in ${OTHER_NODES}; do
     echo "Adding node ${node} to cluster..."
-    curl -XPOST "http://${USERNAME}:${PASSWORD}@${MASTER_NODE}:${PORT}/_cluster_setup" \
+    curl -XPOST "http://${USERNAME}:${PASSWORD}@${MASTER_NODE}:${_PORT}/_cluster_setup" \
       --header "Content-Type: application/json" \
       --data "{\"action\": \"add_node\", \"host\":\"${node}\",\
-               \"port\": \"${PORT}\", \"username\": \"${USERNAME}\", \"password\":\"${PASSWORD}\"}" \
-      --max-time 300
+               \"port\": \"${PORT}\", \"username\": \"${USERNAME}\", \"password\":\"${PASSWORD}\"}"
   done
 
   echo "Finishing cluster setup..."
@@ -70,8 +69,9 @@ if [ "${CURRENT_NODE}" == "${MASTER_NODE}" ]; then
     --header "Content-Type: application/json" --data "{\"action\": \"finish_cluster\"}"
 
 else
-    echo "This node (${CURRENT_NODE}) is not the master node. Skipping cluster setup."
+  echo "This node (${CURRENT_NODE}) is not the master node. Skipping cluster setup."
 fi
 
 echo "Checking cluster status..."
 curl -X GET "http://${USERNAME}:${PASSWORD}@${CURRENT_NODE}:${PORT}/_membership"
+
