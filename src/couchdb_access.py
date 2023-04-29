@@ -13,6 +13,7 @@ class DataStore():
         self.server = couchdb.Server(url)
         if db_name not in self.server:
             self.db = self.server.create(db_name)
+            self._create_views()
         else:
             self.db = self.server[db_name]
 
@@ -21,8 +22,18 @@ class DataStore():
         one_record = json.loads(one_record)
         self.db.save(one_record)
 
-    # def create_view(self):
-    #     pass
+    def _create_views(self):
+        count_map = 'function(doc) { emit(doc.id, 1); }'
+        count_reduce = 'function(keys, values) { return sum(values); }'
+        view = couchdb.design.ViewDefinition('twitter', 
+                                             'count_tweets', 
+                                             count_map, 
+                                             reduce_fun=count_reduce)
+        view.sync(self.db)
+
+    def count_tweets(self):
+        for doc in self.db.view('twitter/count_tweets'):
+            return doc.value
 
     def tweet_processor(self, tweet_path, block_start, block_end):
 
