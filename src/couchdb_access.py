@@ -5,7 +5,7 @@ from tweet_preprocess_utils import *
 
 MASTER_NODE = 'localhost'
 ADMIN = 'admin'
-PASSWORD = 'mysuperfancypassword'
+PASSWORD = 'admin'
 
 class DataStore():
 
