@@ -8,7 +8,7 @@ from . import response_result
 
 
 COUCHDB_SERVER = "http://localhost:5984"
-
+DATABASE_NAME = "my_couchdb"
 
 # Create your views here.
 @csrf_exempt
@@ -18,8 +18,11 @@ def index(request):
     version = couch.version()
     couch.resource.credentials = ("admin", "password")
     # create a database
-    # db = couch.create("my_couchdb")
-    response = JsonResponse({"status": "ok", "version": version})
+    if (DATABASE_NAME in couch):
+        db = couch[DATABASE_NAME]
+    else:
+        db = couch.create(DATABASE_NAME)
+    response = JsonResponse({"status": "ok", "version": version, "db": db.name})
     response["Access-Control-Allow-Origin"] = "http://localhost:3000"
     return response
 

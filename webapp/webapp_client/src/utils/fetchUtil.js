@@ -8,7 +8,7 @@ const checkStatus = res => {
     if (200 >= res.status < 300) {
         return res
     }
-    message.error(`Network error,${res.code}`)
+    message.error(`Network error,${res.status}`)
     const error = new Error(res.message)
     error.response = error
     throw error

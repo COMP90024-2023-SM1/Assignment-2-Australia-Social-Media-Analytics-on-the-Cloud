@@ -1,0 +1,29 @@
+version: '3'
+services:
+  nginx: 
+    depends_on:
+      - api
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "3050:80"
+  api:
+      build:
+        dockerfile: Dockerfile
+        context: ./webapp_server
+      volumes:
+        - /app/node_modules
+        - ./server:/app
+  client: 
+   stdin_open: true
+   environment:
+    - CHOKDAR_USERPOLLING=true
+   build:
+    dockerfile: Dockerfile
+    context: ./webapp_client
+   volumes:
+     - /app/node_modules
+     - ./client:/app
