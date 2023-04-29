@@ -6,13 +6,13 @@ services:
       - client
     restart: always
     build:
-      dockerfile: Dockerfile
+      dockerfile: dockerfile.dev
       context: ./nginx
     ports:
       - "3050:80"
   api:
       build:
-        dockerfile: Dockerfile
+        dockerfile: dockerfile.dev
         context: ./webapp_server
       volumes:
         - /app/node_modules
@@ -22,7 +22,7 @@ services:
    environment:
     - CHOKDAR_USERPOLLING=true
    build:
-    dockerfile: Dockerfile
+    dockerfile: dockerfile.dev
     context: ./webapp_client
    volumes:
      - /app/node_modules
