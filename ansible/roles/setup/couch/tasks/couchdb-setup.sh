@@ -11,7 +11,7 @@ COOKIE="a192aeb9904e6590849337933b000c99"
 VERSION="3.2.1"
 
 if sudo docker image ls | awk '{print $1":"$2}' | grep -q "couchdb:${VERSION}"; then
-  echo "CouchDB3 with version ${VERSION} is already installed."
+  echo "CouchDB with version ${VERSION} is already installed."
 else
   echo "Pulling CouchDB3 with version ${VERSION}..."
   sudo docker pull couchdb:${VERSION}
