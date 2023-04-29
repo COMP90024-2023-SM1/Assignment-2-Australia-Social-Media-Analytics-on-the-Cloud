@@ -7,13 +7,13 @@ services:
     restart: always
     build:
       context: ./nginx
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
       - "3050:80"
   api:
       build:
         context: ./webapp_server
-        dockerfile: dockerfile
+        dockerfile: Dockerfile
       volumes:
         - /app/node_modules
         - ./webapp_server:/app
@@ -21,7 +21,7 @@ services:
    stdin_open: false
    build:   
     context: ./webapp_client
-    dockerfile: dockerfile
+    dockerfile: Dockerfile
    volumes:
      - /app/node_modules
      - ./webapp_client:/app
