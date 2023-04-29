@@ -13,7 +13,7 @@ services:
   api:
       build:
         context: ./webapp_server
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       volumes:
         - /app/node_modules
         - ./webapp_server:/app
@@ -21,7 +21,7 @@ services:
    stdin_open: false
    build:   
     context: ./webapp_client
-    dockerfile: Dockerfile
+    dockerfile: Dockerfile.dev
    volumes:
      - /app/node_modules
      - ./webapp_client:/app
