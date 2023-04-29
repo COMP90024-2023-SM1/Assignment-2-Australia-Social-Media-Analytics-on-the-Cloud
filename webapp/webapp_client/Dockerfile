@@ -1,9 +1,9 @@
 FROM node:16-alpine as builder
 WORKDIR /app
-COPY ./package.json ./
-COPY ./package-lock.json ./
+COPY ./package.json ./app
+COPY ./package-lock.json ./app
 RUN npm i
-COPY . .
+COPY . ./app
 CMD ["npm", "run", 'build']
 
 FROM nginx

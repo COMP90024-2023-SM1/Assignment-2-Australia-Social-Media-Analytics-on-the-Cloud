@@ -16,7 +16,7 @@ services:
         context: ./webapp_server
       volumes:
         - /app/node_modules
-        - ./server:/app
+        -  ~/mnt/comp90024/server:/app
   client: 
    stdin_open: true
    environment:
@@ -26,4 +26,4 @@ services:
     context: ./webapp_client
    volumes:
      - /app/node_modules
-     - ./client:/app
+     -  ~/mnt/comp90024/client:/app
