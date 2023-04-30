@@ -1,7 +1,4 @@
-import qs from 'qs'
 import { message } from 'antd'
-
-const { stringify, parse } = qs
 
 const checkStatus = res => {
     console.log(res)

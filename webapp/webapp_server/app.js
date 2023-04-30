@@ -36,7 +36,7 @@ app.use(
         }
     })
 )
-app.get('/api/getDetails/', (req, res) => {
+app.get('/getDetails/', (req, res) => {
     res.status(200).json({ data: { result: 'hello' } })
 })
 
