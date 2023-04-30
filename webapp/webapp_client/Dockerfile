@@ -1,10 +1,10 @@
-FROM node:16-alpine as builder
+FROM node:16-alpine
 WORKDIR /app
 COPY ./package.json ./
 COPY ./package-lock.json ./
 RUN npm i
-COPY . ./app
-CMD ["npm", "run", "build"]
+COPY . .
+CMD ["npm", "run", "start"]
 
 FROM nginx
 EXPOSE 3000
