@@ -9,25 +9,22 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 
-// Postgres client setup
-// const { Pool } = require("pg");
-// const pgClient = new Pool({
-//   user: keys.pgUser,
-//   host: keys.pgHost,
-//   database: keys.pgDatabase,
-//   password: keys.pgPassword,
-//   port: keys.pgPort
-// });
+const NodeCouchDB = require('node-couchdb')
 
-// pgClient.on("connect", client => {
-//   client
-//     .query("CREATE TABLE IF NOT EXISTS values (number INT)")
-//     .catch(err => console.log("PG ERROR", err));
-// });
+const couch = new NodeCouchDB({
+    host: 'localhost',
+    protocol: 'http',
+    port: 5984,
+    auth: {
+        user: 'admin',
+        password: 'password'
+    }
+})
+console.log(couch)
 
 //Express route definitions
-app.get('/getDetail', (req, res) => {
-    res.send('Hi')
+app.get('/getDetails', (req, res) => {
+    res.send({ value: 'Hi' })
 })
 
 // get the values
