@@ -1,18 +1,25 @@
 # Common vars
 availability_zone: melbourne-qh2-uom
-instance_flavor: uom.mse.2c9g # 2 cores, 9 GB memory
 instance_image: bbaf16f8-2484-48d7-b455-42209cc4b8d2
 instance_key_name: default  # key-pairs
 instance_network: qh2-uom-internal
 
+# uom.mse.1c4g # 1 cores, 4.5 GB memory, 30 GB disk
+# uom.mse.2c9g # 2 cores, 9 GB memory, 30 GB disk
+flavor:
+  - uom.mse.1c4g
+  - uom.mse.2c9g
+
 # Volume
 volumes:
-  - vol_name: couchdb
-    vol_size: 70
   - vol_name: harvester-1
-    vol_size: 70
+    vol_size: 7
+  - vol_name: harvester-2
+    vol_size: 7
+  - vol_name: harvester-3
+    vol_size: 7
   - vol_name: webapp
-    vol_size: 40
+    vol_size: 4
 
 # Security group
 security_groups:
@@ -29,11 +36,18 @@ security_groups:
     port_range_max: 80
     remote_ip_prefix: 0.0.0.0/0
 
+
 # Instance
 instances:
-  - name: couchdb
-    volumes: ["couchdb"]
   - name: harvester-1
+    flavor: "uom.mse.2c9g"
     volumes: ["harvester-1"]
+  - name: harvester-2
+    flavor: "uom.mse.1c4g"
+    volumes: ["harvester-2"]
+  - name: harvester-3
+    flavor: "uom.mse.1c4g"
+    volumes: ["harvester-3"]
   - name: webapp
+    flavor: "uom.mse.1c4g"
     volumes: ["webapp"]
