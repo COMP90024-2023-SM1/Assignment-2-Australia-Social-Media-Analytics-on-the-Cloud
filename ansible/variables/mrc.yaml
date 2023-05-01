@@ -19,32 +19,50 @@ volumes:
   - vol_name: harvester-3
     vol_size: 7
 
-# Security group
+# Security a group
 security_groups:
   - name: group-64-2
+    description: "default"
+    ether_type: IPv6
+    protocol: any
+    direction: egress
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: ::/0
+  - name: group-64-2
+    description: "default"
+    ether_type: IPv4
+    protocol: any
+    direction: egress
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/0
+  - name: group-64-2
+    ether_type: IPv4
     description: "SSH access"
     protocol: tcp
+    direction: ingress
     port_range_min: 22
     port_range_max: 22
     remote_ip_prefix: 0.0.0.0/0
+    remote_security_group: "-"
   - name: group-64-2
     description: "HTTP access"
+    ether_type: IPv4
     protocol: tcp
+    direction: ingress
     port_range_min: 80
     port_range_max: 80
     remote_ip_prefix: 0.0.0.0/0
   - name: group-64-2
-    description: "Erlang node access"
+    description: "All Engress"
+    ether_type: IPv4
     protocol: tcp
-    port_range_min: 9100
-    port_range_max: 9200
+    direction: egress
+    port_range_min: 1
+    port_range_max: 65535
     remote_ip_prefix: 0.0.0.0/0
-  - name: group-64-2
-    description: "Couchdb access"
-    protocol: tcp
-    port_range_min: 5984
-    port_range_max: 5984
-    remote_ip_prefix:
+  
 
 
 # Instance
