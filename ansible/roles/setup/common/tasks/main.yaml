@@ -1,8 +1,9 @@
 ---
-- name: Set up environment
+- name: Install dependencies
+  hosts: melbourne_research_cloud
   become: yes
-  block:
-    - name: Install dependencies
+  tasks:
+    - name: Install packages
       apt:
         name:
           [
