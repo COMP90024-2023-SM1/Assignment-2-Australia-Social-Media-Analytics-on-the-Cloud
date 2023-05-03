@@ -43,7 +43,7 @@ def extract_tweet_info(one_tweet):
     # Parse date format into YYYY-MM-DD HH:MM:SS
     tweet_time = datetime.strptime(one_tweet['doc']['data']['created_at'],
                                    DATE_FORMAT)
-    tweet_time = tweet_time.strftime('%Y:%m:%d %H:%M:%S')
+    tweet_time = tweet_time.strftime('%Y-%m-%d %H:%M:%S')
     try:
         location = one_tweet['doc']['includes']['places']
     except (KeyError, TypeError):
