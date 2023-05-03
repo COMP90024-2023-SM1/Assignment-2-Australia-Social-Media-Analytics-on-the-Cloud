@@ -28,6 +28,8 @@ def main():
     else:
         block_list = None
 
+    COMM.Barrier()
+
     # Distribute data blocks to different cores
     scattered_data = COMM.scatter(block_list, root = 0)
     print("Hello world from process", RANK + 1, "of",SIZE)
@@ -39,3 +41,8 @@ def main():
                                scattered_data['block_start'], 
                                scattered_data['block_end'])
     
+    
+if __name__ == "__main__":
+    # To run the code locally
+    ## mpiexec -n 8 python -m mpi4py main.py
+    main()
