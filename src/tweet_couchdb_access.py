@@ -45,7 +45,7 @@ class DataStore():
 
                 try:
                     tweet = json.loads(line)
-                    if tweet['doc']['data']['geo'] != {}:
+                    if tweet['doc']['data']['geo'] != {} and tweet['doc']['data']['lang'] != 'und':
                         tweet = extract_tweet_info(tweet)
                         tweet = json.dumps(tweet)
                         tweet = json.loads(tweet)
