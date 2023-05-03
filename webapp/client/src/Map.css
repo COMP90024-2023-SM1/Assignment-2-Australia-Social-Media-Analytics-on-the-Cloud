@@ -1,0 +1,9 @@
+.map-container {
+  display: flex;
+  place-items: center;
+  height:100%;
+  width: 100%
+}
+.mapboxgl-ctrl-logo {
+    display: none !important;
+}
