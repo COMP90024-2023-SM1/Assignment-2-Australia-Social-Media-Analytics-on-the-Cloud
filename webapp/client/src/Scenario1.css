@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left {
+    width: 60vh;
+    height: 80vh;
+    background-color: #ccc;
+    display: flex;
+    flex-direction: column;
+}
+
+.right {
+    width: 60vh;
+    height: 80vh;
+    background-color: #ccc;
+    display:flex;
+    flex-direction: column;
+}
+.big {
+    width: 80vh;
+    height: 80vh;
+    background-color: #000;
+}
+.small_top{
+    flex-grow:1;
+    background-color: #fff;
+    margin-bottom:10px;
+    margin-inline: 20px;
+
+}
+
+.small_bottom{
+    flex-grow: 1;
+    background-color: #fff;
+    margin-inline: 20px;
+}

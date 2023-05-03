@@ -11,7 +11,8 @@
         "cors": "2.8.4",
         "nodemon": "1.18.3",
         "body-parser": "*",
-        "node-couchdb": "2.0.0"
+        "node-couchdb": "2.0.0",
+        "nano": "10.1.2"
     },
     "scripts": {
         "dev": "nodemon",
