@@ -12,12 +12,14 @@ flavor:
 
 # Volume
 volumes:
+  - vol_name: webapp
+    vol_size: 50
   - vol_name: harvester-1
-    vol_size: 7
+    vol_size: 150
   - vol_name: harvester-2
-    vol_size: 7
+    vol_size: 150
   - vol_name: harvester-3
-    vol_size: 7
+    vol_size: 150
 
 # Security a group
 security_groups:
@@ -67,12 +69,15 @@ security_groups:
 
 # Instance
 instances:
+  - name: webapp
+    flavor: "uom.mse.2c9g"
+    volumes: ["webapp"]
   - name: harvester-1
-    flavor: "uom.mse.1c4g"
+    flavor: "uom.mse.2c9g"
     volumes: ["harvester-1"]
   - name: harvester-2
-    flavor: "uom.mse.1c4g"
+    flavor: "uom.mse.2c9g"
     volumes: ["harvester-2"]
   - name: harvester-3
-    flavor: "uom.mse.1c4g"
+    flavor: "uom.mse.2c9g"
     volumes: ["harvester-3"]

@@ -5,6 +5,12 @@
   roles:
     - role: setup/common
 
+- name: Mount Volumme
+  hosts: melbourne_research_cloud
+  become: yes
+  roles:
+    - role: setup/mount
+
 - name: Create couchdb cluster
   hosts: melbourne_research_cloud
   become: yes

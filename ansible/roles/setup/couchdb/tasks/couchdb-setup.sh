@@ -28,6 +28,11 @@ else
   done
 fi
 
+echo "Creating data directory..."
+sudo mkdir -p /data/couch
+sudo chmod 755 /data/couch
+
+
 sudo docker create \
   --name "${CONTAINER_NAME}" \
   --network host \
@@ -35,6 +40,7 @@ sudo docker create \
   --env COUCHDB_PASSWORD=${PASSWORD} \
   --env COUCHDB_SECRET=${COOKIE} \
   --env ERL_FLAGS="-setcookie \"${COOKIE}\" -name \"couchdb@${CURRENT_NODE}\" -kernel inet_dist_listen_min 9100 -kernel inet_dist_listen_max 9100" \
+  -v /data/couch:/opt/couchdb/data \
   couchdb:${VERSION}
 
 sudo docker start "${CONTAINER_NAME}"

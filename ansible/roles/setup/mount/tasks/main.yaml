@@ -1,0 +1,46 @@
+- name: Install dependencies
+  become: yes
+  apt:
+    name: ["xfsprogs"]
+    state: latest
+    install_recommends: no
+    update_cache: yes
+
+- name: Make file system
+  become: yes
+  community.general.filesystem:
+    fstype: xfs
+    dev: /dev/vdb
+
+- name: Checking folders
+  become: yes
+  stat:
+    path: /data
+  register: directory_stats
+
+- name: Create directory
+  become: yes
+  file:
+    path: /data
+    recurse: yes
+    state: directory
+  when: directory_stats.stat.exists == false
+
+- name: Mount device
+  become: yes
+  ansible.posix.mount:
+    path: /data
+    src: /dev/vdb
+    fstype: xfs
+    state: mounted
+    
+- name: Clear fstab file
+  become: yes
+  shell: sed "s/\/dev\/vdb \/data auto defaults 0 0//g" /etc/fstab
+
+- name: Reboot
+  become: yes
+  lineinfile:
+    path: /etc/fstab
+    line: "/dev/vdb /data auto defaults 0 0"
+    create: yes
