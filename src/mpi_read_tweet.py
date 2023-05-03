@@ -2,7 +2,7 @@ import os
 
 from mpi4py import MPI
 from tweet_preprocess_utils import *
-from tweet_couchdb_access import DataStore
+from couchdb_access import DataStore
 
 tweet_path = '../data/twitter-huge.json'
 
