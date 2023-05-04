@@ -51,6 +51,18 @@ app.get('/getDetails', (req, res) => {
     res.send({ value: 'Hi' })
 })
 
+app.get('/api/AustraliaRandom', (req, res) => {
+    const result = [
+        ['au-nt', Math.floor(Math.random() * 100)],
+        ['au-wa', Math.floor(Math.random() * 100)],
+        ['au-sa', Math.floor(Math.random() * 100)],
+        ['au-ql', Math.floor(Math.random() * 100)],
+        ['au-nsw', Math.floor(Math.random() * 100)],
+        ['au-vi', Math.floor(Math.random() * 100)],
+        ['au-ta', Math.floor(Math.random() * 100)]
+    ]
+    res.send({ data: result })
+})
 // get the values
 // app.get("/values/all", async (req, res) => {
 //   const values = await pgClient.query("SELECT * FROM values");
