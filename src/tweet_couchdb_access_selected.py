@@ -81,23 +81,23 @@ class DataStore():
                 try:
                     tweet = json.loads(line)
                     if tweet['doc']['data']['geo'] != {} and tweet['doc']['data']['lang'] != 'und':
-                        tweet = extract_tweet_info(tweet)
+                        if is_within_australia([tweet['doc']['includes']['places'][0]['geo']['bbox'][1], tweet['doc']['includes']['places'][0]['geo']['bbox'][0]]):
+                            tweet = extract_tweet_info(tweet)
+                            if any(kw in tweet['tweet_text']for kw in keyword_religion):
+                                tweet['category'] = 'religion'
+                            elif any(kw in tweet['tweet_text']for kw in keyword_depression):
+                                tweet['category'] = 'depression'
+                            elif any(kw in tweet['tweet_text']for kw in keyword_crime):
+                                tweet['category'] = 'crime'
+                            else:
+                                tweet['category'] = ''
 
-                        if any(kw in tweet['tweet_text']for kw in keyword_religion):
-                            tweet['category'] = 'religion'
-                        elif any(kw in tweet['tweet_text']for kw in keyword_depression):
-                            tweet['category'] = 'depression'
-                        elif any(kw in tweet['tweet_text']for kw in keyword_crime):
-                            tweet['category'] = 'crime'
-                        else:
-                            tweet['category'] = ''
-                        
-                        if tweet['category'] != '':
-                            tweet = json.dumps(tweet)
-                            tweet = json.loads(tweet)
-                            docs_to_insert.append(tweet)
+                            if tweet['category'] != '':
+                                tweet = json.dumps(tweet)
+                                tweet = json.loads(tweet)
+                                docs_to_insert.append(tweet)
 
-                except (KeyError, ValueError) as e:
+                except (KeyError, ValueError, TypeError) as e:
                     pass
 
                 # Inserting tweets by batch to speed up the process
