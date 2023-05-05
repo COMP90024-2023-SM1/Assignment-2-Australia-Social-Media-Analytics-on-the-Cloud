@@ -30,6 +30,7 @@ const HighchartsWrapper = ({ detail }) => {
         },
         series: [
             {
+                name: detail.seriesName,
                 data: detail.data
             }
         ]

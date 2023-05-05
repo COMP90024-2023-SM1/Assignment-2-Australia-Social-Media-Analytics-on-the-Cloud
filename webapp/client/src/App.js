@@ -10,7 +10,7 @@ import './css/App.css'
 const { Header, Content, Footer } = Layout
 
 const App = () => {
-    const [selectedMenuItem, setSelectedMenuItem] = useState('scenario1')
+    const [selectedMenuItem, setSelectedMenuItem] = useState('Home')
     const componentsSwtich = key => {
         console.log(key)
         switch (key) {

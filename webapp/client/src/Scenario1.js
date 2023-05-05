@@ -6,17 +6,31 @@ import HighChartsWrapper from './HighChartsWrapper'
 
 const Scenario1 = () => {
     const [chart1, setChart1] = useState(null)
-    const getOption1Data = async () => {
+    const [chart2, setChart2] = useState(null)
+    const getAystraliaRandomData = async () => {
         const value = await axios.get('http://localhost:5000/api/AustraliaRandom')
         setChart1({
             data: value.data.data,
             title: 'Australia Random',
-            chartType: 'pie'
+            chartType: 'pie',
+            seriesName: 'Australian Random'
+        })
+    }
+
+    const getTwitterByMonth = async () => {
+        const value = await axios.get('http://localhost:5000/api/twitter/by-month')
+        console.log(value.data.data)
+        setChart2({
+            data: value.data.data,
+            title: 'Australia Twitter by month',
+            chartType: 'line',
+            seriesName: '2022 Twitter Data'
         })
     }
 
     useEffect(() => {
-        getOption1Data()
+        getAystraliaRandomData()
+        getTwitterByMonth()
     }, [])
 
     return (
@@ -24,9 +38,7 @@ const Scenario1 = () => {
             <div className="left">
                 <div className="small_top">{chart1 && <HighChartsWrapper detail={chart1} />}</div>
 
-                <div className="small_bottom">
-                    <div className="small_top">{chart1 && <HighChartsWrapper detail={chart1} />}</div>
-                </div>
+                <div className="small_bottom">{chart2 && <HighChartsWrapper detail={chart2} />}</div>
             </div>
             <div className="big">
                 <Map></Map>
