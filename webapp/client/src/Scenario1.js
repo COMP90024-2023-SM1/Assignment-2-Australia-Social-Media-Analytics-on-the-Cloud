@@ -1,21 +1,54 @@
 import Map from './Map'
-import './Scenario1.css'
-const scenario1 = () => {
+import './css/Scenario1.css'
+import { useCallback, useState, useEffect } from 'react'
+import axios from 'axios'
+import HighChartsWrapper from './HighChartsWrapper'
+
+const Scenario1 = () => {
+    const [chart1, setChart1] = useState(null)
+    const [chart2, setChart2] = useState(null)
+    const getAystraliaRandomData = async () => {
+        const value = await axios.get('http://localhost:5000/api/AustraliaRandom')
+        setChart1({
+            data: value.data.data,
+            title: 'Australia Random',
+            chartType: 'pie',
+            seriesName: 'Australian Random'
+        })
+    }
+
+    const getTwitterByMonth = async () => {
+        const value = await axios.get('http://localhost:5000/api/twitter/by-month')
+        console.log(value.data.data)
+        setChart2({
+            data: value.data.data,
+            title: 'Australia Twitter by month',
+            chartType: 'line',
+            seriesName: '2022 Twitter Data'
+        })
+    }
+
+    useEffect(() => {
+        getAystraliaRandomData()
+        getTwitterByMonth()
+    }, [])
+
     return (
-        <div class="container">
-            <div class="left">
-                <div class="small_top"></div>
-                <div class="small_bottom"></div>
+        <div className="container">
+            <div className="left">
+                <div className="small_top">{chart1 && <HighChartsWrapper detail={chart1} />}</div>
+
+                <div className="small_bottom">{chart2 && <HighChartsWrapper detail={chart2} />}</div>
             </div>
-            <div class="big">
+            <div className="big">
                 <Map></Map>
             </div>
             <div className="right">
-                <div class="small_top"></div>
-                <div class="small_bottom"></div>
+                <div className="small_top"></div>
+                <div className="small_bottom"></div>
             </div>
         </div>
     )
 }
 
-export default scenario1
+export default Scenario1

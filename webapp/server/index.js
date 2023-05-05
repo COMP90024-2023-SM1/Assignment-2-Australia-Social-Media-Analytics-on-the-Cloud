@@ -1,6 +1,6 @@
 const keys = require('./keys')
 
-const nano = require('nano')('http://admin:admin@172.26.131.15:5984')
+const nano = require('nano')('http://admin:admin@172.26.128.113:5984')
 // Express Application setup
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -21,8 +21,8 @@ app.use(bodyParser.json())
 //     }
 // })
 // console.log(couch)
-const dbName = 'mydatabase'
-const db = nano.use(dbName)
+const dbName = 'twitter_data'
+const twitter = nano.use(dbName)
 
 // couch.createDatabase(dbName).then(
 //     () => {
@@ -51,6 +51,29 @@ app.get('/getDetails', (req, res) => {
     res.send({ value: 'Hi' })
 })
 
+app.get('/api/AustraliaRandom', (req, res) => {
+    const result = [
+        ['au-nt', Math.floor(Math.random() * 100)],
+        ['au-wa', Math.floor(Math.random() * 100)],
+        ['au-sa', Math.floor(Math.random() * 100)],
+        ['au-ql', Math.floor(Math.random() * 100)],
+        ['au-nsw', Math.floor(Math.random() * 100)],
+        ['au-vi', Math.floor(Math.random() * 100)],
+        ['au-ta', Math.floor(Math.random() * 100)]
+    ]
+    res.send({ data: result })
+})
+
+app.get('/api/twitter/by-month', async (req, res) => {
+    const body = await twitter.view('myDesignDoc', 'count-by-month', { reduce: true, group: true })
+    const seriesData = body.rows.map(row => {
+        return {
+            name: row.key,
+            y: row.value
+        }
+    })
+    res.send({ data: seriesData })
+})
 // get the values
 // app.get("/values/all", async (req, res) => {
 //   const values = await pgClient.query("SELECT * FROM values");
