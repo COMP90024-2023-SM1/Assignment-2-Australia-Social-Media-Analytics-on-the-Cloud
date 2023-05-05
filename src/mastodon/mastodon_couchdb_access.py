@@ -27,12 +27,9 @@ class MastodonData():
         self.db.update(record_batch)
 
     # retrieves a predetermined number of toots within a certain date range
-    # set limit to 3,000,000 toots to match the amount of twitter data we have
-    def mastodon_processor(self, start_date, end_date, limit=40, total_limit=3000000):        
+    # set limit to 3,500,000 toots to match the amount of twitter data we have
+    def mastodon_processor(self, start_date, end_date, limit=40, total_limit=3500000):        
         # date range for mastodon data extraction
-        start_date = datetime(2022, 2, 1)
-        end_date = datetime(2023, 5, 6)
-
         url = "https://mastodon.social/api/v1/timelines/public"
         headers = {
             "Authorization": "Bearer D5u3t_naCNonkImCD19nuM-CW5O2yX8cdtwmuejr-ss"
