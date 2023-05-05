@@ -16,7 +16,6 @@ const Scenario1 = () => {
             seriesName: 'Australian Random'
         })
     }
-
     const getTwitterByMonth = async () => {
         const value = await axios.get('http://localhost:5000/api/twitter/by-month')
         console.log(value.data.data)
