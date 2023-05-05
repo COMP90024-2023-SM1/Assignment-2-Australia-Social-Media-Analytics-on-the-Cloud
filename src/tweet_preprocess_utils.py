@@ -63,3 +63,15 @@ def extract_tweet_info(one_tweet):
     }
 
     return simplified_tweet
+
+def is_within_australia(coord):
+    '''
+    This function checks if a coordinate is within the Australia bounding box
+    '''
+    
+    AU = ('Australia', (113.338953078, -43.6345972634, 153.569469029, -10.6681857235))
+    lat, lon = coord
+    if AU[1][0] <= lon <= AU[1][2] and AU[1][1] <= lat <= AU[1][3]:
+        return True
+    else:
+        return False
