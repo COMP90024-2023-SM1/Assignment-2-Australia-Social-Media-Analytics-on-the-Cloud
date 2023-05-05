@@ -35,8 +35,11 @@ class DataStore():
 
     def tweet_processor(self, tweet_path, block_start, block_end):
         # religion - catholic & christian
-        # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
-        keyword_religion = ['god', 'bless', 'jesus', 'catholic', 'christian', '上帝', '保佑', '耶稣', '天主', '基督', 'الله', 'يُبارِك', 
+        # english, simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
+        keyword_religion = ['god', 'jesus', 'holy spirit', 'bible', 'prayer', 'pray', 'faith', 'worship', 'church', 'mass',
+                            'sacrament', 'eucharist', 'communion', 'baptism', 'baptise', 'baptize', 'confession', 'amen',
+                            'bless', 'hallelujah', 'catholic', 'christian', 'christianity', 'salvation', 'heaven', 'religion',
+                            'religious', '上帝', '保佑', '耶稣', '天主', '基督', 'الله', 'يُبارِك', 
                             'يسوع', 'كاثوليكي', 'مسيحي', 'chúa', 'ban phước', 'giêsu', 'công giáo', 'kitô giáo', 'ਰੱਬ', 'ਆਸ਼ੀਰਵਾਦ ਦੇਣਾ', 'ਜੀਸਸ', 'ਕੈਥੋਲਿਕ',
                             'ਈਸਾਈ', 'Θεός', 'ευλογώ', 'Ιησούς', 'καθολικός', 'Χριστιανός', 'dio', 'benedire', 'gesù', 'cattolico', 'cristiano',
                             'diyos', 'pagpalain', 'hesus', 'katoliko', 'kristiyano', 'भगवान', 'आशीर्वाद', 'यीशु', 'कैथोलिक', 'ईसाई', 'dios', 'bendecir',
@@ -44,16 +47,17 @@ class DataStore():
 
 
         # mental health - depression
-        # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
-        keyword_depression = ['anxiety', 'depression', 'depressed', 'suicide', 'suicidal', 'want to die', 'mental disorder', 'frustrated', '焦虑', '抑郁', 
-                        '想死', '自杀', '焦躁', 'القلق', 'الاكتئاب', 'مكتئب', 'انتحار', 'أريد الموت', 'اضطراب نفسي', 'محبط', 'lo âu', 'trầm cảm', 
-                        'chán nản', 'tự tử', 'muốn chết', 'rối loạn tâm thần', 'nản lòng', 'ਚਿੰਤਾ', 'ਡਿਪ੍ਰੈਸ਼ਨ', 'ਉਦਾਸ', 'ਆਤਮਘਾਤੀ', 'ਮਰਨਾ ਚਾਹੁੰਦੇ', 'ਮਾਨਸਿਕ ਬਿਮਾਰੀ', 
-                        'ਮਾਯੂਸ', 'αγχος', 'κατάθλιψη', 'καταθλιπτικός', 'αυτοκτονία', 'αυτοκτονικός', 'θέλω να πεθάνω', 'ψυχική διαταραχή',
-                        'απογοητευμένος', 'ansia', 'depressione', 'depresso', 'suicidio', 'suicida', 'voglio morire', 'disturbo mentale', 'frustrato'
-                        'pagkabalisa', 'depresyon', 'deprimido', 'pagpapakamatay', 'nais mamatay', 'gusto mamatay', 'sakit sa isip', 'चिंता', 'अवसाद',
-                        'उदास', 'आत्महत्या', 'आत्मघाती', 'मरना चाहते हैं', 'मानसिक विकार', 'परेशान', 'ansiedad', 'depresión', 'deprimido/a', 'quiero morir', 
-                        'trastorno mental', 'frustrado/a', '抑うつ', '鬱症状', '自殺', '死にたい', '精神障害', '挫折した', '불안', '우울증', '우울한', '자살', 
-                        '죽고 싶다', '정신 장애', '좌절감']
+        # english, simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
+        keyword_depression = ['sad', 'lonely', 'isolated', 'hopeless', 'helpless', 'tired', 'exhausted', 'miserable', 'anxious', 'stressed', 'overwhelmed',
+                              'worthless', 'guilty', 'suicidal', 'suicide', 'numb', 'desperate', 'broken', 'lost', '焦虑', '抑郁', 
+                              '想死', '自杀', '焦躁', 'القلق', 'الاكتئاب', 'مكتئب', 'انتحار', 'أريد الموت', 'اضطراب نفسي', 'محبط', 'lo âu', 'trầm cảm', 
+                              'chán nản', 'tự tử', 'muốn chết', 'rối loạn tâm thần', 'nản lòng', 'ਚਿੰਤਾ', 'ਡਿਪ੍ਰੈਸ਼ਨ', 'ਉਦਾਸ', 'ਆਤਮਘਾਤੀ', 'ਮਰਨਾ ਚਾਹੁੰਦੇ', 'ਮਾਨਸਿਕ ਬਿਮਾਰੀ', 
+                              'ਮਾਯੂਸ', 'αγχος', 'κατάθλιψη', 'καταθλιπτικός', 'αυτοκτονία', 'αυτοκτονικός', 'θέλω να πεθάνω', 'ψυχική διαταραχή',
+                              'απογοητευμένος', 'ansia', 'depressione', 'depresso', 'suicidio', 'suicida', 'voglio morire', 'disturbo mentale', 'frustrato'
+                              'pagkabalisa', 'depresyon', 'deprimido', 'pagpapakamatay', 'nais mamatay', 'gusto mamatay', 'sakit sa isip', 'चिंता', 'अवसाद',
+                              'उदास', 'आत्महत्या', 'आत्मघाती', 'मरना चाहते हैं', 'मानसिक विकार', 'परेशान', 'ansiedad', 'depresión', 'deprimido/a', 'quiero morir', 
+                              'trastorno mental', 'frustrado/a', '抑うつ', '鬱症状', '自殺', '死にたい', '精神障害', '挫折した', '불안', '우울증', '우울한', '자살', 
+                              '죽고 싶다', '정신 장애', '좌절감']
         
 
         # crime
