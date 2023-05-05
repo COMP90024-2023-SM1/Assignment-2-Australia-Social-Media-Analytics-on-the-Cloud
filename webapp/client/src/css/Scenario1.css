@@ -4,24 +4,23 @@
 }
 
 .left {
-    width: 60vh;
-    height: 80vh;
+    width: 40vw;
+    height: 100vh;
     background-color: #ccc;
     display: flex;
     flex-direction: column;
 }
 
 .right {
-    width: 60vh;
-    height: 80vh;
+    width: 40vw;
+    height: 100vh;
     background-color: #ccc;
     display:flex;
     flex-direction: column;
 }
 .big {
-    width: 80vh;
-    height: 80vh;
-    background-color: #000;
+    width: 70vw;
+    height: 100vh;
 }
 .small_top{
     flex-grow:1;

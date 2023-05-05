@@ -10,7 +10,7 @@ services:
   #     - COUCHDB_USER=admin
   #     - COUCHDB_PASSWORD=admin
   #   ports:
-  #     - "5984:5984"
+  #     - "5984:5984“
 
   nginx:
     depends_on:
