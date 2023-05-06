@@ -2,9 +2,13 @@ import json
 from datetime import datetime
 import nltk
 from bs4 import BeautifulSoup
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-import string
+from transformers import pipeline
+# from nltk.tokenize import word_tokenize
+# from nltk.corpus import stopwords
+# import string
+
+model_path = "cardiffnlp/twitter-xlm-roberta-base-sentiment"
+sentiment_task = pipeline("sentiment-analysis", model=model_path, tokenizer=model_path)
 
 # def tokenize_toot_content(content, min_word_length = 2):
 #     soup = BeautifulSoup(content, 'html.parser')
@@ -125,6 +129,7 @@ def extract_toot_info(one_toot):
     tags_list = one_toot['tags']
     toot_tags = [tag["name"] for tag in tags_list]
     toot_language = one_toot['language']
+    toot_sentiment = sentiment_task(toot_content)
 
     # classify toots into categories
     toot_category = []
@@ -144,7 +149,8 @@ def extract_toot_info(one_toot):
         'toot_language': toot_language,
         'toot_content': toot_content,
         'toot_tags': toot_tags,
-        'toot_category': toot_category
+        'toot_category': toot_category,
+        'toot_sentiment': toot_sentiment
     }
 
     return simplified_toot
