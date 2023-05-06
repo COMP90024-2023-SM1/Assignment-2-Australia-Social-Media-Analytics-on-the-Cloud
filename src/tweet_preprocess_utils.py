@@ -58,7 +58,7 @@ def extract_tweet_info(one_tweet):
         'tweet_tags': {'hashtags': one_tweet['value']['tags'].split('|'),
                        'tokens': tokens},
         'tweet_text': one_tweet['doc']['data']['text'].lower(),
-        "sentiment": one_tweet['doc']['data']['sentiment'],
+        "sentiment": one_tweet['doc']['data']['sentiment']/5,
         'location': location
     }
 
