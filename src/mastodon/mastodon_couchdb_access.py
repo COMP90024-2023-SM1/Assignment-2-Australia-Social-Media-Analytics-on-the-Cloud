@@ -1,7 +1,7 @@
 import couchdb
 import json
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import time
 from mastodon_preprocess_utils import *
 
@@ -27,8 +27,8 @@ class MastodonData():
         self.db.update(record_batch)
 
     # retrieves a predetermined number of toots within a certain date range
-    # set limit to 3,500,000 toots to match the amount of twitter data we have
-    def mastodon_processor(self, start_date, end_date, limit=40, total_limit=3500000):        
+    # set limit to 2,500,000 toots
+    def mastodon_processor(self, start_date, end_date, limit=40, total_limit=2500000):        
         # date range for mastodon data extraction
         url = "https://mastodon.social/api/v1/timelines/public"
         headers = {
@@ -44,11 +44,22 @@ class MastodonData():
             # print(fetched_count) # Debugging: Print total statuses fetched after each request
             params = {"max_id": max_id, "limit": limit} if max_id else {"limit": limit}
             response = requests.get(url, headers = headers, params = params)
-            time.sleep(1)
+            time.sleep(1.5)
 
             if response.status_code != 200:
-                print(f"Error fetching data: {response.status_code}")
-                break
+                # if rate limit is reached, wait until limit resets
+                if response.status_code == 429:
+                    reset_time_str = response.headers.get("X-RateLimit-Reset")
+                    reset_time = datetime.strptime(reset_time_str, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
+                    current_time = datetime.now(timezone.utc)
+                    remaining_time = reset_time - current_time
+
+                    print(f"Rate limit exceeded. Waiting for {remaining_time} seconds...")
+                    time.sleep(remaining_time.total_seconds() + 1)
+                    continue
+                else:
+                    print(f"Error fetching data: {response.status_code}")
+                    break
 
             statuses = response.json()
             if not statuses:

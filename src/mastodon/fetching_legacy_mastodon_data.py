@@ -1,6 +1,6 @@
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 import time
 from transformers import pipeline
 from bs4 import BeautifulSoup
@@ -8,8 +8,8 @@ from bs4 import BeautifulSoup
 MASTODON_BASE_URL = "https://mastodon.social"
 ACCESS_TOKEN = "D5u3t_naCNonkImCD19nuM-CW5O2yX8cdtwmuejr-ss"
 
-model_path = "cardiffnlp/twitter-xlm-roberta-base-sentiment"
-sentiment_task = pipeline("sentiment-analysis", model=model_path, tokenizer=model_path)
+# model_path = "cardiffnlp/twitter-xlm-roberta-base-sentiment"
+# sentiment_task = pipeline("sentiment-analysis", model=model_path, tokenizer=model_path)
 
 def extract_toot_info(one_toot):
     """
@@ -58,7 +58,7 @@ def extract_toot_info(one_toot):
     tags_list = one_toot['tags']
     toot_tags = [tag["name"] for tag in tags_list]
     toot_language = one_toot['language']
-    toot_sentiment = sentiment_task(toot_content)
+    # toot_sentiment = sentiment_task(toot_content)
 
     # classify toots into categories
     toot_category = []
@@ -74,11 +74,12 @@ def extract_toot_info(one_toot):
         'toot_language': toot_language,
         'toot_content': toot_content,
         'toot_tags': toot_tags,
-        'toot_category': toot_category,
-        'toot_sentiment': toot_sentiment
+        'toot_category': toot_category
+        # 'toot_sentiment': toot_sentiment
     }
 
     return simplified_toot
+
 
 def get_legacy_data(start_date, end_date, limit=40, total_limit=40):
     url = "https://mastodon.social/api/v1/timelines/public"
@@ -95,11 +96,28 @@ def get_legacy_data(start_date, end_date, limit=40, total_limit=40):
         print(fetched_count)
         params = {"max_id": max_id, "limit": limit} if max_id else {"limit": limit}
         response = requests.get(url, headers=headers, params=params)
-        time.sleep(0.5)
+        time.sleep(1.5)
+
+        reset_time_str = response.headers.get("X-RateLimit-Reset")
+        reset_time = datetime.strptime(reset_time_str, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
+        current_time = datetime.now(timezone.utc)
+        remaining_time = reset_time - current_time
+        print(reset_time, current_time, remaining_time.total_seconds())
 
         if response.status_code != 200:
-            print(f"Error fetching data: {response.status_code}")
-            break
+            # if rate limit is reached, wait until limit resets
+            if response.status_code == 429:
+                reset_time_str = response.headers.get("X-RateLimit-Reset")
+                reset_time = datetime.strptime(reset_time_str, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
+                current_time = datetime.now(timezone.utc)
+                remaining_time = reset_time - current_time
+
+                print(f"Rate limit exceeded. Waiting for {remaining_time} seconds...")
+                time.sleep(remaining_time.total_seconds() + 1)
+                continue
+            else:
+                print(f"Error fetching data: {response.status_code}")
+                break
 
         statuses = response.json()
         if not statuses:
@@ -120,11 +138,52 @@ def get_legacy_data(start_date, end_date, limit=40, total_limit=40):
 
     return filtered_statuses
 
+
+# def get_legacy_data(start_date, end_date, limit=40, total_limit=6000):
+#     url = "https://mastodon.social/api/v1/timelines/public"
+#     headers = {
+#         "Authorization": "Bearer D5u3t_naCNonkImCD19nuM-CW5O2yX8cdtwmuejr-ss"
+#     }
+
+#     fetched_count = 0
+#     filtered_statuses = []
+#     max_id = None
+    
+#     # total limit = number of toots to fetch
+#     while total_limit is None or fetched_count < total_limit:
+#         print(fetched_count)
+#         params = {"max_id": max_id, "limit": limit} if max_id else {"limit": limit}
+#         response = requests.get(url, headers=headers, params=params)
+#         time.sleep(1.5)
+
+#         if response.status_code != 200:
+#             print(f"Error fetching data: {response.status_code}")
+#             break
+
+#         statuses = response.json()
+#         if not statuses:
+#             break
+
+#         for status in statuses:
+#             created_at = datetime.strptime(status["created_at"], "%Y-%m-%dT%H:%M:%S.%fZ")
+#             print(f"Status created at: {created_at}")  # Debugging: Print created_at for each status
+#             if start_date <= created_at <= end_date:
+#                 # preprocess toots and then save
+#                 status = extract_toot_info(status)
+#                 filtered_statuses.append(status)
+#                 fetched_count += 1  # Increment the counter
+#             elif created_at < start_date:
+#                 break
+
+#         max_id = statuses[-1]["id"]
+
+#     return filtered_statuses
+
 # Main function
 def main():
     # date range for fetching data
     start_date = datetime(2022, 2, 1)
-    end_date = datetime(2023, 5, 7)
+    end_date = datetime(2023, 5, 8)
 
     # Get legacy data
     legacy_data = get_legacy_data(start_date, end_date)
