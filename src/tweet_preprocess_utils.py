@@ -185,7 +185,7 @@ def extract_tweet_info_gcc(one_tweet):
         'tweet_text': one_tweet['doc']['data']['text'].lower(),
         "sentiment": one_tweet['doc']['data']['sentiment'] / 5,
         'location': location,
-        'tweet_gcc': tweet_gcc
+        'tweet_gcc': tweet_gcc.upper()
     }
 
     return simplified_tweet
