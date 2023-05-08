@@ -3,12 +3,13 @@ import './css/Scenario1.css'
 import { useCallback, useState, useEffect } from 'react'
 import axios from 'axios'
 import HighChartsWrapper from './HighChartsWrapper'
-
+import config from './config.json'
 const Scenario1 = () => {
     const [chart1, setChart1] = useState(null)
     const [chart2, setChart2] = useState(null)
     const getAystraliaRandomData = async () => {
-        const value = await axios.get('http://localhost:5000/api/AustraliaRandom')
+        console.log(config.server_url + '/api/AustraliaRandom')
+        const value = await axios.get(config.server_url + '/api/AustraliaRandom')
         setChart1({
             data: value.data.data,
             title: 'Australia Random',
@@ -17,7 +18,7 @@ const Scenario1 = () => {
         })
     }
     const getTwitterByMonth = async () => {
-        const value = await axios.get('http://localhost:5000/api/twitter/by-month')
+        const value = await axios.get(config.server_url + '/api/twitter/by-month')
         console.log(value.data.data)
         setChart2({
             data: value.data.data,
