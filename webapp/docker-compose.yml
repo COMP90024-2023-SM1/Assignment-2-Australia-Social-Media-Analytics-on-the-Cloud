@@ -30,7 +30,7 @@ services:
       - /app/node_modules
       - ./server:/app
     environment:
-       - DB_URL="http://admin:admin@couchdb:5984"
+       - DB_URL="http://admin:admin@172.26.128.113:5984"
   client:
     stdin_open: true
     environment:

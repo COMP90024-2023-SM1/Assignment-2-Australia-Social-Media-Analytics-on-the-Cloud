@@ -65,10 +65,11 @@ app.get('/api/AustraliaRandom', (req, res) => {
 })
 
 app.get('/api/twitter/by-month', async (req, res) => {
-    const body = await twitter.view('myDesignDoc', 'count-by-month', { reduce: true, group: true })
+    const body = await twitter.view('newDesignDoc', 'count-by-month', { reduce: true, group: true })
     const seriesData = body.rows.map(row => {
         return {
             name: row.key,
+            x: row.key[1],
             y: row.value
         }
     })

@@ -4,34 +4,42 @@
 }
 
 .left {
-    width: 40vw;
+    width: 30vw;
     height: 100vh;
     background-color: #ccc;
     display: flex;
     flex-direction: column;
+
 }
 
 .right {
-    width: 40vw;
+    width: 30vw;
     height: 100vh;
     background-color: #ccc;
-    display:flex;
+    display: flex;
     flex-direction: column;
+
 }
+
 .big {
-    width: 70vw;
+    width: 60vw;
     height: 100vh;
-}
-.small_top{
-    flex-grow:1;
-    background-color: #fff;
-    margin-bottom:10px;
-    margin-inline: 20px;
-
+    max-width: 100%;
+    padding: 5vh 3vw
 }
 
-.small_bottom{
+.small_top {
     flex-grow: 1;
     background-color: #fff;
-    margin-inline: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+
+.small_bottom {
+    flex-grow: 1;
+    background-color: #fff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-width: 100%;
 }
