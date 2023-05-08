@@ -51,7 +51,8 @@ app.get('/getDetails', (req, res) => {
     res.send({ value: 'Hi' })
 })
 
-app.get('/api/AustraliaRandom', (req, res) => {
+// If run in local, place keys.prod to "/api"
+app.get(keys.prod + '/AustraliaRandom', (req, res) => {
     const result = [
         ['au-nt', Math.floor(Math.random() * 100)],
         ['au-wa', Math.floor(Math.random() * 100)],
@@ -64,7 +65,7 @@ app.get('/api/AustraliaRandom', (req, res) => {
     res.send({ data: result })
 })
 
-app.get('/api/twitter/by-month', async (req, res) => {
+app.get(keys.prod + '/twitter/by-month', async (req, res) => {
     const body = await twitter.view('newDesignDoc', 'count-by-month', { reduce: true, group: true })
     const seriesData = body.rows.map(row => {
         return {
