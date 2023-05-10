@@ -183,7 +183,7 @@ def get_legacy_data(start_date, end_date, limit=40, total_limit=40):
 def main():
     # date range for fetching data
     start_date = datetime(2022, 2, 1)
-    end_date = datetime(2023, 5, 8)
+    end_date = datetime(2023, 5, 30)
 
     # Get legacy data
     legacy_data = get_legacy_data(start_date, end_date)
