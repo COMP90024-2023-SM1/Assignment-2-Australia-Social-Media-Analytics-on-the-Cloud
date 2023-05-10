@@ -1,10 +1,10 @@
 import Map from './Map'
-import './css/Scenario1.css'
-import { useCallback, useState, useEffect } from 'react'
+import './css/Scenario.css'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import HighChartsWrapper from './HighChartsWrapper'
 import config from './config.json'
-const Scenario1 = () => {
+const Religion = () => {
     const [chart1, setChart1] = useState(null)
     const [chart2, setChart2] = useState(null)
     const getAystraliaRandomData = async () => {
@@ -35,20 +35,25 @@ const Scenario1 = () => {
 
     return (
         <div className="container">
-            <div className="left">
-                <div className="small_top">{chart1 && <HighChartsWrapper detail={chart1} />}</div>
+            <div className="topic">
+                <p>This Scenario is about the analysis and comparison of religions in different states and cities in Australia.</p>
+            </div>
+            <div className="body">
+                <div className="left">
+                    <div className="small_top">{chart1 && <HighChartsWrapper detail={chart1} />}</div>
 
-                <div className="small_bottom">{chart2 && <HighChartsWrapper detail={chart2} />}</div>
-            </div>
-            <div className="big">
-                <Map></Map>
-            </div>
-            <div className="right">
-                <div className="small_top"></div>
-                <div className="small_bottom"></div>
+                    <div className="small_bottom">{chart2 && <HighChartsWrapper detail={chart2} />}</div>
+                </div>
+                <div className="big">
+                    <Map></Map>
+                </div>
+                <div className="right">
+                    <div className="small_top"></div>
+                    <div className="small_bottom"></div>
+                </div>
             </div>
         </div>
     )
 }
 
-export default Scenario1
+export default Religion

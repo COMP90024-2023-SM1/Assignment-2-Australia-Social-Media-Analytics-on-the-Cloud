@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Highcharts, { chart } from 'highcharts'
+import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
 const HighchartsWrapper = ({ detail }) => {

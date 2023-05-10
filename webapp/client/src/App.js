@@ -1,42 +1,32 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import { useCallback, useState, useEffect } from 'react'
-import axios from 'axios'
+import { useState } from 'react'
 import Home from './Home'
-import Scenario1 from './Scenario1'
-import OtherPage from './OtherPage'
-import { Layout, Menu, theme } from 'antd'
+import Depression from './Depression'
+import Religion from './Religion'
+import War from './War'
+import { Layout, Menu } from 'antd'
 import './css/App.css'
-const { Header, Content, Footer } = Layout
+const { Header, Content } = Layout
 
 const App = () => {
-    const [selectedMenuItem, setSelectedMenuItem] = useState('Home')
+    const [selectedMenuItem, setSelectedMenuItem] = useState('Religion')
     const componentsSwtich = key => {
         switch (key) {
-            case 'Home':
+            case 'Religion':
+                return <Religion></Religion>
+            case 'Depression':
+                return <Depression></Depression>
+            case 'War':
                 return <Home></Home>
-            case 'Scenario1':
-                return <Scenario1></Scenario1>
-            case 'Scenario2':
-                return <OtherPage></OtherPage>
-            case 'Scenario3':
-                return <h3>item3</h3>
             default:
                 break
         }
     }
-    const {
-        token: { colorBgContainer }
-    } = theme.useToken()
+
     const itemArray = [
-        { key: 'Home', label: 'Home' },
-        ...new Array(3).fill(null).map((_, index) => {
-            const key = index + 1
-            return {
-                key: `Scenario${key}`,
-                label: `Scenario ${key}`
-            }
-        })
+        { key: 'Religion', label: 'Religion' },
+        { key: 'Depression', label: 'Depression' },
+        { key: 'War', label: 'War' }
     ]
     return (
         <Layout className="layout">
@@ -44,7 +34,7 @@ const App = () => {
                 <Menu
                     theme="dark"
                     mode="horizontal"
-                    defaultSelectedKeys={['Home']}
+                    defaultSelectedKeys={['Religion']}
                     selectedKeys={selectedMenuItem}
                     onClick={e => setSelectedMenuItem(e.key)}
                     items={itemArray}
@@ -52,7 +42,8 @@ const App = () => {
             </Header>
             <Content
                 style={{
-                    padding: '20px 20px'
+                    padding: '20px 20px',
+                    backgroundColor: '#344d69'
                 }}
             >
                 {componentsSwtich(selectedMenuItem)}

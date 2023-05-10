@@ -2,9 +2,12 @@ import React from 'react'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import mapDataAU from '@highcharts/map-collection/countries/au/au-all.geo.json'
+
+// Load Highcharts modules
 import HighchartsMap from 'highcharts/modules/map'
 
 HighchartsMap(Highcharts)
+
 const options = {
     chart: {
         type: 'map'
@@ -20,18 +23,18 @@ const options = {
     },
     series: [
         {
-            name: 'Random data',
+            name: 'States',
             mapData: mapDataAU,
             data: [
-                ['au-nt', Math.floor(Math.random() * 100)],
-                ['au-wa', Math.floor(Math.random() * 100)],
-                ['au-sa', Math.floor(Math.random() * 100)],
-                ['au-qld', Math.floor(Math.random() * 100)],
-                ['au-nsw', Math.floor(Math.random() * 100)],
-                ['au-vic', Math.floor(Math.random() * 100)],
-                ['au-tas', Math.floor(Math.random() * 100)]
+                ['Northern Territory', Math.floor(Math.random() * 100)],
+                ['Western Australia', Math.floor(Math.random() * 100)],
+                ['South Australia', Math.floor(Math.random() * 100)],
+                ['Queensland', Math.floor(Math.random() * 100)],
+                ['New South Wales', Math.floor(Math.random() * 100)],
+                ['Victoria', Math.floor(Math.random() * 100)],
+                ['Tasmania', Math.floor(Math.random() * 100)]
             ],
-            joinBy: 'hc-key',
+            joinBy: 'STATE_NAME',
             states: {
                 hover: {
                     color: '#BADA55'
@@ -45,12 +48,11 @@ const options = {
     ]
 }
 
-const AustraliaMap = () => {
+const Home = () => {
     return (
         <div>
             <HighchartsReact highcharts={Highcharts} constructorType={'mapChart'} options={options} />
         </div>
     )
 }
-
-export default AustraliaMap
+export default Home

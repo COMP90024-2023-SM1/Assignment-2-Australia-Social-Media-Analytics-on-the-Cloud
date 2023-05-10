@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import mapboxgl from '!mapbox-gl' // eslint-disable-line import/no-webpack-loader-syntax
-import { func } from 'prop-types'
 import './Map.css'
 mapboxgl.accessToken = 'pk.eyJ1Ijoieml5dXEiLCJhIjoiY2xoNXBhaWdtMWx5aTNqbzF6Ymhyem90aCJ9.8g88_rjfEdoh67nfi8VWiA'
 
