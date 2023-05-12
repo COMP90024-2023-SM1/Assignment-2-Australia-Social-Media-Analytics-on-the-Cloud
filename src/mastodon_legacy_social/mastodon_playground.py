@@ -5,8 +5,8 @@ import time
 from transformers import pipeline
 from bs4 import BeautifulSoup
 
-MASTODON_BASE_URL = "https://mastodon.social"
-ACCESS_TOKEN = "D5u3t_naCNonkImCD19nuM-CW5O2yX8cdtwmuejr-ss"
+MASTODON_BASE_URL = "https://mastodon.world"
+ACCESS_TOKEN = "ejM7XC0yUcYazPJvNYt4EjBroHoW0GQ3V_f_ZTjBvsA"
 
 # model_path = "cardiffnlp/twitter-xlm-roberta-base-sentiment"
 # sentiment_task = pipeline("sentiment-analysis", model=model_path, tokenizer=model_path)
@@ -51,6 +51,7 @@ def extract_toot_info(one_toot):
     # toots do not contain location information
     toot_id = one_toot['id']
     toot_time = datetime.strptime(one_toot['created_at'], DATE_FORMAT)
+    # toot_time = one_toot['created_at']
     toot_time = toot_time.strftime('%Y-%m-%d %H:%M:%S')
     content_string = one_toot['content']
     soup = BeautifulSoup(content_string, 'html.parser')
@@ -82,9 +83,9 @@ def extract_toot_info(one_toot):
 
 
 def get_legacy_data(start_date, end_date, limit=40, total_limit=40):
-    url = "https://mastodon.social/api/v1/timelines/public"
+    url = "https://mastodon.world/api/v1/timelines/public"
     headers = {
-        "Authorization": "Bearer D5u3t_naCNonkImCD19nuM-CW5O2yX8cdtwmuejr-ss"
+        "Authorization": "Bearer ejM7XC0yUcYazPJvNYt4EjBroHoW0GQ3V_f_ZTjBvsA"
     }
 
     fetched_count = 0

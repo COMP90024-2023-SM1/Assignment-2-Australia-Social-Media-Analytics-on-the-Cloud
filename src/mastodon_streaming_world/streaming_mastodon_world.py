@@ -1,5 +1,5 @@
 from mastodon import Mastodon, StreamListener
-from mastodon_preprocess_utils import *
+from mastodon_streaming_social.mastodon_preprocess_utils_streaming import *
 import json
 
 # Create an instance with user credentials for mastodon.world server
@@ -11,9 +11,9 @@ mastodon = Mastodon(
 # Define a listener
 class MyStreamListener(StreamListener):
     def on_update(self, status):
-        # status = extract_toot_info(status)
-        # print(json.dumps(status, indent=2, ensure_ascii=False))
-        print(status)
+        status = extract_toot_info(status)
+        print(json.dumps(status, indent=2, ensure_ascii=False))
+        # print(status)
 
 # Start streaming
 mastodon.stream_public(MyStreamListener())

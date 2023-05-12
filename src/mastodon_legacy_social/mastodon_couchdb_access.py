@@ -27,8 +27,8 @@ class MastodonData():
         self.db.save(record_batch)
 
     # retrieves a predetermined number of toots within a certain date range
-    # set limit to 2,500,000 toots
-    def mastodon_processor(self, start_date, end_date, limit=40, total_limit=2500000):        
+    # set limit to 1,500,000 toots
+    def mastodon_processor(self, start_date, end_date, limit=40, total_limit=1500000):        
         # date range for mastodon data extraction
         url = "https://mastodon.social/api/v1/timelines/public"
         headers = {
