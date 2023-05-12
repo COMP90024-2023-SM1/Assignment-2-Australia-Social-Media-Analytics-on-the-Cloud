@@ -173,6 +173,7 @@ def extract_tweet_info_gcc(one_tweet):
 
     except (KeyError, TypeError):
         location = {}
+        tweet_gcc = {}
     tokens = one_tweet['value']['tokens'].split('|')
     tokens = [word.lower() for word in tokens]
     simplified_tweet = {
