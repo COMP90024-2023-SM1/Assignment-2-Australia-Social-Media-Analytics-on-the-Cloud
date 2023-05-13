@@ -8,7 +8,7 @@ def main():
 
     # Create an instance with user credentials for mastodon.world server
     mastodon = Mastodon(
-    access_token = 'ejM7XC0yUcYazPJvNYt4EjBroHoW0GQ3V_f_ZTjBvsA',
+    access_token = 'tQAfFvGG7MR2_gVWTA3lDT49kDJNZSJkV08iipRYdAI',
     api_base_url = 'https://mastodon.world'
     )
 

@@ -8,7 +8,7 @@ def main():
 
     # Create an instance with user credentials for mastodon.social server
     mastodon = Mastodon(
-    access_token = 'D5u3t_naCNonkImCD19nuM-CW5O2yX8cdtwmuejr-ss',
+    access_token = 'UshFiWoNf2IKxrpfjAkGsLphX-hheqatIph9E7mqq44',
     api_base_url = 'https://mastodon.social'
     )
 
