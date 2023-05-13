@@ -3,7 +3,7 @@ import json
 
 from tweet_preprocess_utils import *
 
-MASTER_NODE = '172.26.134.229'
+MASTER_NODE = '172.26.128.113'
 ADMIN = 'admin'
 PASSWORD = 'admin'
 
