@@ -3,7 +3,7 @@ import json
 import requests
 from datetime import datetime, timedelta, timezone
 import time
-from mastodon_legacy_social.mastodon_preprocess_utils import *
+from mastodon_preprocess_utils import *
 
 MASTER_NODE = '172.26.134.229'
 ADMIN = 'admin'

@@ -1,5 +1,5 @@
 from mastodon import Mastodon, StreamListener
-from mastodon_streaming_social.mastodon_preprocess_utils_streaming import *
+from mastodon_preprocess_utils_streaming import *
 import json
 
 # Create an instance with user credentials for mastodon.world server

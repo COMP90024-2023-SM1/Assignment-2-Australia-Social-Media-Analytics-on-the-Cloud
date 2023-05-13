@@ -1,6 +1,6 @@
 from datetime import datetime
-from mastodon_streaming_social.mastodon_preprocess_utils_streaming import *
-from mastodon_streaming_social.mastodon_couchdb_access_streaming import MastodonData
+from mastodon_preprocess_utils_streaming import *
+from mastodon_couchdb_access_streaming import MastodonData
 from mastodon import Mastodon, StreamListener
 
 def main():

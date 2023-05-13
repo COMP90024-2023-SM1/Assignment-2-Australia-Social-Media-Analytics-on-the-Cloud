@@ -1,5 +1,5 @@
 from datetime import datetime
-from mastodon_legacy_social.mastodon_preprocess_utils import *
+from mastodon_preprocess_utils import *
 from mastodon_couchdb_access_world import MastodonData
 
 def main():
