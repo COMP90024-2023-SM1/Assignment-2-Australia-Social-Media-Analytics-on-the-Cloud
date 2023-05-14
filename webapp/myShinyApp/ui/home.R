@@ -63,7 +63,7 @@ tabItemHome <- function(){
           hr(),
           fluidRow(
             column(6, highchartOutput("tweet_timeline")),
-            column(6, highchartOutput("unholy"))
+            column(6, highchartOutput("home_wordcloud"))
           ),
           hr(),
           h5('Charts and map are created using ', 
