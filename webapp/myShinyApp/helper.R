@@ -23,6 +23,10 @@ generalTweet_info$key <- location_mapping[generalTweet_info$key]
 population_sudo <- read.csv("../SUDO_data/population_religion_languages.csv", header = T)
 education_sudo <- read.csv("../SUDO_data/education.csv", header=T)
 income_sudo <- read.csv("../SUDO_data/investment_income.csv", header=T)
+merged_data1 <- merge(population_sudo, education_sudo, by = c("gccsa_code", "gccsa_name"))
+sudo_data <- merge(merged_data1, income_sudo, by = c("gccsa_code", "gccsa_name"))
+sudo_data$key <-  location_mapping[sudo_data$gccsa_code]
+
 
 capital_cities <- data.frame(
   key = c("Canberra", "Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Darwin", "Hobart",
