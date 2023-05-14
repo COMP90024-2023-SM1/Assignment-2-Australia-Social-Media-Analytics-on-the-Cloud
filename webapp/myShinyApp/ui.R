@@ -30,14 +30,14 @@ sidebar <- dashboardSidebar(
              selected = T,
              icon = fa_i('fas fa-house')),
     menuItem("Religion",
-             tabName = "religion",
+             tabName = "timeline",
              icon = fa_i("church")),
     menuItem("Depression",
-             tabName = "depression",
+             tabName = "shooter",
              icon = fa_i("heart-crack")),
-    menuItem("War",
-             tabName = "war",
-             icon = fa_i("jet-fighter"))
+    menuItem("School",
+             tabName = "school",
+             icon = fa_i("fas fa-school"))
   )
 )
 
@@ -62,24 +62,26 @@ body <- dashboardBody(
               )
             ),
             hr(),
-            # Adapt sidebar layout for the map visualization
-            sidebarLayout(
-              sidebarPanel(
-                dateRangeInput("dateRange",
-                               tags$p(fa("filter", fill = "forestgreen"),
-                               "Select date range:"),
-                               start = "2022-02-10",
-                               end = "2022-08-10",
-                               min = "2022-02-10",
-                               max = "2022-08-10"),
-                pickerInput("map_state", 
-                            tags$p(fa("filter", fill = "forestgreen"), 
-                                   "State filter for visualisation"),
-                            ruralcity_choiceVec, selected = ruralcity_choiceVec, 
-                            multiple = TRUE, options = list(`actions-box` = TRUE))
-              ),
-              mainPanel(
-                highchartOutput("aus_map", height = 505)
+            tags$style(type = "text/css", ".shiny-output-error { visibility: hidden; }",
+                       ".shiny-output-error:before { visibility: hidden; }"),
+            fluidRow(
+              column(12,
+                     highchartOutput("aus_map", height = 505),
+                     absolutePanel(
+                       dateRangeInput("dateRange",
+                                      tags$p(fa("filter", fill = "forestgreen"),
+                                             "Select date range:"),
+                                      start = "2022-02-10",
+                                      end = "2022-08-10",
+                                      min = "2022-02-10",
+                                      max = "2022-08-10"),
+                       pickerInput("map_state",
+                                   tags$p(fa("filter", fill = "forestgreen"),
+                                          "State filter for visualisation"),
+                                   ruralcity_choiceVec, selected = ruralcity_choiceVec,
+                                   multiple = TRUE, options = list(`actions-box` = TRUE)),
+                       style = "position: absolute; top: 60px; right: 10px; padding: 10px; border-radius: 5px;"
+                     )
               )
             ),
             hr(),
@@ -88,15 +90,18 @@ body <- dashboardBody(
               column(6, highchartOutput("unholy"))
             ),
             hr(),
+            h5('Data Source: ', 
+               a("The Washington Post", 
+                 href="https://github.com/washingtonpost/data-school-shootings")),
             h5('Charts and map are created using ', 
                a("Highcharter", 
                  href="https://jkunst.com/highcharter/"), 
                '(a R wrapper for Highcharts)')
     ),
     
-    tabItem("religion",
+    tabItem("timeline",
             fluidPage(
-              titlePanel(strong("Religion Scenario ")),
+              titlePanel(strong("An Alarming Timeline")),
               hr(),
               # Define highcharter output
               highchartOutput("year_casualty", height = 485),
@@ -119,9 +124,9 @@ body <- dashboardBody(
             )
     ),
     
-    tabItem("depression",
+    tabItem("shooter",
             fluidPage(
-              titlePanel(strong("Depression Scenario")),
+              titlePanel(strong("Shooter And Intention")),
               hr(),
               
               # Use fluid row layout to put two plots side by side
@@ -153,9 +158,9 @@ body <- dashboardBody(
                  '(a R wrapper for Highcharts)')
             )
     ),
-    tabItem("war",
+    tabItem("school",
             fluidPage(
-              titlePanel(strong("Russo-Ukrainian War")),
+              titlePanel(strong("School")),
               hr(),
               fluidRow(
                 column(5, highchartOutput("public_private")),
