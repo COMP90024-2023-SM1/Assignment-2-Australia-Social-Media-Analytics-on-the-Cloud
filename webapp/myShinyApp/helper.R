@@ -25,23 +25,23 @@ location_mapping <- c("1GSYD" = "Sydney", "2GMEL" = "Melbourne", "3GBRI" = "Bris
                       "7RNTE" = "Rural NT")
 generalTweet_info$key <- location_mapping[generalTweet_info$key]
 
-home_wordcloud <- fromJSON("../SUDO_data/count-token.json")$rows
+home_wordcloud <- fromJSON("./SUDO_data/count-token.json")$rows
 home_wordcloud <- subset(home_wordcloud, value >= 200)
 stopwords_list <- c(stopwords("english"), "about", "are", "and", "the", "can")
 home_wordcloud <- home_wordcloud[!(tolower(home_wordcloud$key) %in% stopwords_list),]
 home_wordcloud <- home_wordcloud[1:20, ]
 
 # read SUDO data
-population_sudo <- read.csv("../SUDO_data/population_religion_languages.csv", header = T)
-education_sudo <- read.csv("../SUDO_data/education.csv", header=T)
-income_sudo <- read.csv("../SUDO_data/investment_income.csv", header=T)
+population_sudo <- read.csv("./SUDO_data/population_religion_languages.csv", header = T)
+education_sudo <- read.csv("./SUDO_data/education.csv", header=T)
+income_sudo <- read.csv("./SUDO_data/investment_income.csv", header=T)
 merged_data1 <- merge(population_sudo, education_sudo, by = c("gccsa_code", "gccsa_name"))
 sudo_data <- merge(merged_data1, income_sudo, by = c("gccsa_code", "gccsa_name"))
 sudo_data$key <-  location_mapping[sudo_data$gccsa_code]
 
 # load spatial data
 gcc_shapefile <- readOGR( 
-  dsn = "../SUDO_data", 
+  dsn = "./SUDO_data", 
   layer = "GCCSA_2021_AUST_GDA2020",
   verbose = FALSE
 )
