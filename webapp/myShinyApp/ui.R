@@ -30,14 +30,14 @@ sidebar <- dashboardSidebar(
              selected = T,
              icon = fa_i('fas fa-house')),
     menuItem("Religion",
-             tabName = "timeline",
+             tabName = "religion",
              icon = fa_i("church")),
     menuItem("Depression",
-             tabName = "shooter",
+             tabName = "depression",
              icon = fa_i("heart-crack")),
-    menuItem("School",
-             tabName = "school",
-             icon = fa_i("fas fa-school"))
+    menuItem("War",
+             tabName = "war",
+             icon = fa_i("jet-fighter"))
   )
 )
 
@@ -96,7 +96,7 @@ body <- dashboardBody(
                '(a R wrapper for Highcharts)')
     ),
     
-    tabItem("timeline",
+    tabItem("religion",
             fluidPage(
 
               titlePanel(strong("Religion Scenario ")),
@@ -121,9 +121,9 @@ body <- dashboardBody(
             )
     ),
     
-    tabItem("shooter",
+    tabItem("depression",
             fluidPage(
-              titlePanel(strong("Shooter And Intention")),
+              titlePanel(strong("Depression Scenario")),
               hr(),
               
               # Use fluid row layout to put two plots side by side
@@ -152,9 +152,9 @@ body <- dashboardBody(
                  '(a R wrapper for Highcharts)')
             )
     ),
-    tabItem("school",
+    tabItem("war",
             fluidPage(
-              titlePanel(strong("School")),
+              titlePanel(strong("War Scenario")),
               hr(),
               fluidRow(
                 column(5, highchartOutput("public_private")),
