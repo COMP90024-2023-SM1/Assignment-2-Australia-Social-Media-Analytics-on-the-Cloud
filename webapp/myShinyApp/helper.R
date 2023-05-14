@@ -8,7 +8,7 @@ library(tidyr)
 total_tweet <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false")
 total_tweet <- content(total_tweet, "parsed")
 
-generalTweet_info <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-gcc?reduce=true&group=true")
+generalTweet_info <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-gcc?reduce=true&group=true&update=false")
 generalTweet_info <- as.data.frame(fromJSON(content(generalTweet_info, "text", encoding = "UTF-8"))$rows)
 generalTweet_info <- generalTweet_info[generalTweet_info$key != "9OTER", ]
 location_mapping <- c("1GSYD" = "Sydney", "2GMEL" = "Melbourne", "3GBRI" = "Brisbane", 
@@ -18,6 +18,11 @@ location_mapping <- c("1GSYD" = "Sydney", "2GMEL" = "Melbourne", "3GBRI" = "Bris
                       "4RSAU" = "Rural SA", "5RWAU" = "Rural WA", "6RTAS" = "Rural TAS",
                       "7RNTE" = "Rural NT")
 generalTweet_info$key <- location_mapping[generalTweet_info$key]
+
+# read SUDO data
+population_sudo <- read.csv("../SUDO_data/GCC/ABS_Population_2016.json/population_religion_languages.csv", header = T)
+education_sudo <- read.csv("../SUDO_data/GCC/ABS_Education_Employment_2016.json/education.csv", header=T)
+income_sudo <- read.csv("../SUDO_data/GCC/ABS_Personal_Income_2016.json/investment_income.csv", header=T)
 
 capital_cities <- data.frame(
   key = c("Canberra", "Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Darwin", "Hobart",
