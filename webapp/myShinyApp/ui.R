@@ -56,20 +56,36 @@ body <- dashboardBody(
               # Value box
               fluidRow(
                 column(3, valueBoxOutput("total_tweet", width = 14)),
-                column(3, valueBoxOutput("student_1", width = 14)),
+                column(3, valueBoxOutput("total_mastodon", width = 14)),
                 column(3, valueBoxOutput("kill_1", width = 14)),
                 column(3, valueBoxOutput("injury_1", width = 14))
               )
             ),
             hr(),
-            
             # Adapt sidebar layout for the map visualization
             sidebarLayout(
               sidebarPanel(
+                dateRangeInput("dateRange",
+                               tags$p(fa("filter", fill = "forestgreen"),
+                               "Select date range:"),
+                               start = "2022-02-10",
+                               end = "2022-08-10",
+                               min = "2022-02-10",
+                               max = "2022-08-10"),
+                pickerInput("map_state", 
+                            tags$p(fa("filter", fill = "forestgreen"), 
+                                   "State filter for visualisation"),
+                            ruralcity_choiceVec, selected = ruralcity_choiceVec, 
+                            multiple = TRUE, options = list(`actions-box` = TRUE))
               ),
               mainPanel(
                 highchartOutput("aus_map", height = 505)
               )
+            ),
+            hr(),
+            fluidRow(
+              column(6, highchartOutput("tweet_timeline")),
+              column(6, highchartOutput("unholy"))
             ),
             hr(),
             h5('Data Source: ', 

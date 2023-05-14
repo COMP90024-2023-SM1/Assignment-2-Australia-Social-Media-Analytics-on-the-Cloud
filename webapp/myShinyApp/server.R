@@ -8,6 +8,7 @@ library(shinythemes)
 library(fontawesome)
 library(shinydashboard)
 library(igraph)
+library(lubridate)
 library(highcharter)
 library(dplyr)
 library(tidyr)
@@ -19,40 +20,68 @@ options(highcharter.theme = hc_theme_hcrt())
 
 server <- shinyServer(function(input, output) {
   
+  auto_refresh <- reactiveTimer(100000)
+  
+  get_api_data <- reactive({
+    auto_refresh()
+    
+    tweet_month <- GET('http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-month?reduce=true&group=true&update=false')
+    tweet_month <- fromJSON(content(tweet_month, "text", encoding = "UTF-8"))$rows
+    tweet_month <- tweet_month %>%
+      mutate(key = sapply(key, function(x) paste(unlist(x), collapse = ", ")))
+    tweet_month <- tweet_month %>%
+      separate(key, into = c("year", "month"), sep = ", ") %>%
+      mutate(
+        date = paste(year, month, "01", sep = "-"),
+        date = ymd(date),
+        month_label = month(date, label = TRUE),
+        YearMonth = paste(month_label, year, sep = " ")
+      ) %>%
+      select(-date, -month_label)
+    
+    return(tweet_month)
+  })
+  
   # Value box for incident count
   output$total_tweet <- renderValueBox({
+    print(input$dateRange)
     valueBox(
       value = total_tweet$rows[[1]]$value, subtitle = "Total Tweets",
       icon = fa_i("twitter"), color = "light-blue"
     )
   })
-  
-  capital_cities <- data.frame(
-    city = c("Canberra", "Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Darwin", "Hobart"),
-    lat = c(-35.2809, -33.8688, -37.8136, -27.4698, -31.9505, -34.9285, -12.4634, -42.8821),
-    lon = c(149.1300, 151.2093, 144.9631, 153.0251, 115.8605, 138.6007, 130.8456, 147.3272)
-  )
+
   
   output$aus_map <- renderHighchart({
-    hcmap("countries/au/au-all") %>%
-      hc_add_series(
-        type = "mappoint",
-        data = capital_cities,
-        hcaes(x = lon, y = lat, name = city),
-        color = "red",
-        marker = list(radius = 5)
-      )
-  })
-  
-  output$year_casualty <- renderHighchart({
-    tweet_month$key <- as.character(tweet_month$key)
-    tweet_month$formatted_time <- format(as.Date(paste0(tweet_month$key, ", 01"), "%Y, %m, %d"), "%b, %Y")
+    if (length(input$map_state) == 2) {
+      data <- generalTweet_info
+    } else if (input$map_state == 'Greater Capital City') {
+      data <- subset(generalTweet_info, !grepl("^Rural", key))
+    } else {
+      data <- subset(generalTweet_info, grepl("^Rural", key))
+    }
+    colnames(data) <- c('key', 'z', 'lat', 'lon')
     
-    hchart(tweet_month, "spline", hcaes(x = formatted_time, y = value)) %>%
-      hc_xAxis(type = "datetime", labels = list(format = "{value:%b %Y}"))
+    hcmap("countries/au/au-all", borderColor = "#808080", borderWidth = 0.1, showInLegend = FALSE) %>%
+      hc_exporting(enabled = TRUE) %>%
+      hc_chart(backgroundColor = "#D8F9FF") %>%
+      hc_add_series(name = "Cities/Areas", type = "mapbubble", data = data, maxSize = "15%") %>%
+      #hc_add_series(name = "Cities/Areas",
+      #  type = "mappoint", data = data, hcaes(x = lon, y = lat, name = key), color = "red",
+      #  marker = list(radius = 5)) %>%
+      hc_title(text = "General Tweet Statistics of Australia in 2022 <small>(Hover for more detail)</small>", 
+               useHTML = T) %>%
+      hc_tooltip(pointFormat = '<b>{point.key}</b>
+                 <br/><b>Number of tweets:</b> {point.z}')
   })
   
-  
-  
-  
+  output$tweet_timeline <- renderHighchart({
+    tweet_month <- get_api_data()
+    hchart(tweet_month, "spline", hcaes(x = YearMonth, y = value),
+           tooltip = list(pointFormat = "Number of Tweets Made: <b>{point.value}</b>")) %>%
+      hc_title(text = "Number of Tweets Made in 2022") %>%
+      hc_yAxis(title = list(text = "Number of Tweets")) %>%
+      hc_xAxis(title = list(text = "Month"))
+  })
+
 })

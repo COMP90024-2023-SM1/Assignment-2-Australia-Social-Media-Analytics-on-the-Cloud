@@ -3,12 +3,32 @@ library(jsonlite)
 library(lubridate)
 library(dplyr)
 library(tidyr)
+
 # Helper functions
-total_tweet <- GET("http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false")
+total_tweet <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false")
 total_tweet <- content(total_tweet, "parsed")
 
-tweet_month <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-month?reduce=true&group=true&update=false')
-tweet_month <- fromJSON(content(tweet_month, "text"))$rows
+generalTweet_info <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-gcc?reduce=true&group=true")
+generalTweet_info <- as.data.frame(fromJSON(content(generalTweet_info, "text", encoding = "UTF-8"))$rows)
+generalTweet_info <- generalTweet_info[generalTweet_info$key != "9OTER", ]
+location_mapping <- c("1GSYD" = "Sydney", "2GMEL" = "Melbourne", "3GBRI" = "Brisbane", 
+                      "4GADE" = "Adelaide", "5GPER" = "Perth", "6GHOB" = "Hobart", 
+                      "7GDAR" = "Darwin", "8ACTE" = "Canberra", "9OTER" = "Other", 
+                      "1RNSW" = "Rural NSW", "2RVIC" = "Rural VIC", "3RQLD" = "Rural QLD",
+                      "4RSAU" = "Rural SA", "5RWAU" = "Rural WA", "6RTAS" = "Rural TAS",
+                      "7RNTE" = "Rural NT")
+generalTweet_info$key <- location_mapping[generalTweet_info$key]
+
+capital_cities <- data.frame(
+  key = c("Canberra", "Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Darwin", "Hobart",
+           "Rural VIC", "Rural SA", "Rural NSW", "Rural QLD", "Rural NT", "Rural WA", "Rural TAS"),
+  lat = c(-35.2809, -33.8688, -37.8136, -27.4698, -31.9505, -34.9285, -12.4634, -42.8821, 
+          -36.546835, -30.461157, -31.000383, -22.395562, -20.932729, -25.382024, -41.276145),
+  lon = c(149.1300, 151.2093, 144.9631, 153.0251, 115.8605, 138.6007, 130.8456, 147.3272, 
+          143.049673, 134.602050, 145.057544, 144.241518, 133.261762, 121.899317, 145.029348)
+)
+
+generalTweet_info <- merge(generalTweet_info, capital_cities, by = "key")
 
 # Theme for dashboard
 customTheme <- shinyDashboardThemeDIY(
@@ -111,3 +131,5 @@ customTheme <- shinyDashboardThemeDIY(
   ,tableBorderTopSize = "5"
   ,tableBorderRowSize = "4"
 )
+
+ruralcity_choiceVec <- c('Greater Capital City', 'Rural')
