@@ -57,7 +57,7 @@ class DataStore():
                             'langit', 'relihiyon', 'relihiyoso', 'भगवान', 'ईसा', 'पवित्र आत्मा', 'बाइबल', 'प्रार्थना', 'प्रार्थना करना', 'विश्वास', 
                             'आराधना', 'चर्च', 'मिसा', 'संस्कार', 'यूकरिस्ट', 'संयोग', 'बप्तिस्मा', 'बप्तिस्मा', 'बप्तिस्मा', 'विश्वासघात', 'आमेन', 
                             'आशीर्वाद', 'हैलीलूया', 'कैथोलिक', 'ईसाई', 'ईसाई धर्म', 'मोक्ष', 'स्वर्ग', 'धर्म', 'धार्मिक', 'dios', 'jesús', 
-                            'espíritu santo', 'biblia', 'oración', 'rezar', 'fe', 'adoración', 'iglesia', 'misa', 'sacramento', 
+                            'espíritu santo', 'biblia', 'oración', 'rezar', 'adoración', 'iglesia', 'misa', 'sacramento', 
                             'eucaristía', 'comunión', 'bautismo', 'bautizar', 'bautizar', 'confesión', 'amén', 
                             'bendecir', 'aleluya', 'católico', 'cristiano', 'cristianismo', 'salvación', 'cielo', 'religión',
                             'religioso', '하나님', '예수', '성령', '성경', '기도', '기도하다', '믿음', '예배', '교회', '미사', '성사', '성체', 
@@ -109,7 +109,7 @@ class DataStore():
         # Ukraine vs. Russia
         # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
         keyword_RU = ['russia', 'ukraine', 'putin', 'zelenskyy', 'kyjv', '俄罗斯', '乌克兰', '普京', '泽连斯基', '基辅', 'روسيا', 'أوكرانيا', 'بوتين', 'زيلينسكي', 
-                      'كييف', 'nga', 'ukraine', 'putin', 'zelenskyy', 'ਰੂਸ', 'ਯੂਕਰੇਨ', 'ਪੁੱਤਿਨ', 'ਜ਼ੈਲੇਨਸਕੀ', 'ਕੀਵ', 'ρωσία', 'ουκρανία', 'πούτιν', 'ζελένσκι', 'κίεβο',
+                      'كييف', 'ukraine', 'putin', 'zelenskyy', 'ਰੂਸ', 'ਯੂਕਰੇਨ', 'ਪੁੱਤਿਨ', 'ਜ਼ੈਲੇਨਸਕੀ', 'ਕੀਵ', 'ρωσία', 'ουκρανία', 'πούτιν', 'ζελένσκι', 'κίεβο',
                       'russia', 'ucraina', 'putin', 'zelenskyy', 'kiev', 'rusya', 'ukrayna', 'रूस', 'यूक्रेन', 'पुतिन', 'ज़ेलेंस्की', 'कीव', 'rusia', 'ucrania', 'ロシア', 
                       'ウクライナ', 'プーチン', 'ゼレンスキー', 'キエフ', '러시아', '우크라이나', '푸틴', '젤렌스키', '키예프']
 
