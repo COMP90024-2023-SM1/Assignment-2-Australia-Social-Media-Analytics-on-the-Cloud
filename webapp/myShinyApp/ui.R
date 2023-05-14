@@ -90,9 +90,6 @@ body <- dashboardBody(
               column(6, highchartOutput("unholy"))
             ),
             hr(),
-            h5('Data Source: ', 
-               a("The Washington Post", 
-                 href="https://github.com/washingtonpost/data-school-shootings")),
             h5('Charts and map are created using ', 
                a("Highcharter", 
                  href="https://jkunst.com/highcharter/"), 
@@ -101,10 +98,13 @@ body <- dashboardBody(
     
     tabItem("timeline",
             fluidPage(
-              titlePanel(strong("An Alarming Timeline")),
+
+              titlePanel(strong("Religion Scenario ")),
+              h5("This scenario aims to study the belief in Christianity across various regions and different demographic categories, using supplementary SUDO data to explore the situation of its development and distribution. "),
               hr(),
               # Define highcharter output
-              highchartOutput("year_casualty", height = 485),
+              # highchartOutput("year_casualty", height = 485),
+              highchartOutput("education_religion", height = 485),
               hr(),
               h4("School shooting have been happening every year since the 1999 Columbine massacre. 
                  And the number of casualties has top the chart in 2018 with a horrifying record of 
@@ -114,9 +114,6 @@ body <- dashboardBody(
                  incidents happening last year.",
                  style = "color: #808080;font-size:15px;"),
               hr(),
-              h5('Data Source: ', 
-                 a("The Washington Post",
-                   href="https://github.com/washingtonpost/data-school-shootings")),
               h5('Charts and map are created using ', 
                  a("Highcharter", 
                    href="https://jkunst.com/highcharter/"), 
@@ -149,9 +146,6 @@ body <- dashboardBody(
                 column(12, highchartOutput("shooter_intention"))
               ),
               hr(),
-              h5('Data Source: ', 
-                 a("The Washington Post",
-                   href="https://github.com/washingtonpost/data-school-shootings")),
               h5('Charts and map are created using ', 
                  a("Highcharter", 
                    href="https://jkunst.com/highcharter/"), 
@@ -175,9 +169,6 @@ body <- dashboardBody(
                  school should take more effective actions to reduce the risk of school shootings.", 
                  style = "color: #808080;font-size:15px;"),
               hr(),
-              h5('Data Source: ', 
-                 a("The Washington Post",
-                   href="https://github.com/washingtonpost/data-school-shootings")),
               h5('Charts and map are created using ', 
                  a("Highcharter", 
                    href="https://jkunst.com/highcharter/"), 
