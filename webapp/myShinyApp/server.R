@@ -70,10 +70,16 @@ server <- shinyServer(function(input, output) {
       }
       colnames(data) <- c('key', 'z', 'lat', 'lon')
       
+      # Add the bubble color column based on the condition
+      colorGCC = "#67bd7e"
+      colorRural = "#6795bd"
+      data <- data %>%
+        mutate(color = ifelse(grepl("Rural", key), colorRural, colorGCC))
+      
       hcmap("countries/au/au-all", borderColor = "#808080", borderWidth = 0.1, showInLegend = FALSE) %>%
         hc_exporting(enabled = TRUE) %>%
         hc_chart(backgroundColor = "#D8F9FF") %>%
-        hc_add_series(name = "Cities/Areas", type = "mapbubble", data = data, maxSize = "15%") %>%
+        hc_add_series(name = "Cities/Areas", type = "mapbubble", data = data, maxSize = "15%", color=data$color) %>%
         #hc_add_series(name = "Cities/Areas",
         #  type = "mappoint", data = data, hcaes(x = lon, y = lat, name = key), color = "red",
         #  marker = list(radius = 5)) %>%
