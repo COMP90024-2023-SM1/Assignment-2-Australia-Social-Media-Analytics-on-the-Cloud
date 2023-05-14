@@ -100,7 +100,7 @@ body <- dashboardBody(
             fluidPage(
 
               titlePanel(strong("Religion Scenario ")),
-              h5("This scenario aims to study the belief in Christianity across various regions and different demographic categories, using supplementary SUDO data to explore the situation of its development and distribution. "),
+              h5("This scenario aims to study the religion across various areas and different demographic categories, using supplementary SUDO data to explore the situation of its development and distribution. "),
               hr(),
               # Define highcharter output
               # highchartOutput("year_casualty", height = 485),
@@ -154,7 +154,7 @@ body <- dashboardBody(
     ),
     tabItem("war",
             fluidPage(
-              titlePanel(strong("War Scenario")),
+              titlePanel(strong("Russo-Ukrainian War")),
               hr(),
               fluidRow(
                 column(5, highchartOutput("public_private")),
