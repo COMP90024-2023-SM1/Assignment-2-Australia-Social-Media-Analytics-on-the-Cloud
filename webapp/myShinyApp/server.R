@@ -65,8 +65,9 @@ server <- shinyServer(function(input, output) {
         data <- generalTweet_info
       } else if (input$map_state == 'Greater Capital City') {
         data <- subset(generalTweet_info, !grepl("^Rural", key))
-      } else {
+      } else if (input$map_state == 'Rural') {
         data <- subset(generalTweet_info, grepl("^Rural", key))
+        
       }
       
       data <- data %>%
@@ -78,20 +79,24 @@ server <- shinyServer(function(input, output) {
       # Add the bubble color column based on the condition
       colorGCC = "#67bd7e"
       colorRural = "#6795bd"
+      
       data <- data %>%
-        mutate(color = ifelse(grepl("Rural", key), colorRural, colorGCC))
+        mutate(color = ifelse(grepl("Rural", key), colorRural, colorGCC)) %>%
+        mutate(area = ifelse(grepl("Rural", key), "Rural", "Greater Capital City"))
+      
+      data <- data %>%
+        filter(area %in% input$map_state)
       
       hcmap("countries/au/au-all", borderColor = "#808080", borderWidth = 0.1, showInLegend = FALSE) %>%
         hc_exporting(enabled = TRUE) %>%
         hc_chart(backgroundColor = "#D8F9FF") %>%
-        hc_add_series(name = "Cities/Areas", type = "mapbubble", data = data, maxSize = "15%", color=data$color) %>%
-        #hc_add_series(name = "Cities/Areas",
-        #  type = "mappoint", data = data, hcaes(x = lon, y = lat, name = key), color = "red",
-        #  marker = list(radius = 5)) %>%
+        hc_add_series(type = "mapbubble", data = data, maxSize = "15%", showInLegend = TRUE, name = "Greater Capital City", color = colorGCC) %>%
+        hc_add_series(type = "mapbubble", data = data, maxSize = "15%", showInLegend = TRUE, name = "Rural", color = colorRural) %>%
         hc_title(text = "General Tweet Statistics of Australia in 2022 <small>(Hover for more detail)</small>", 
                  useHTML = T) %>%
         hc_tooltip(pointFormat = '<b>{point.key}</b>
-                   <br/><b>Number of tweets:</b> {point.z}')
+                   <br/><b>Number of tweets:</b> {point.z}') %>%
+        hc_legend(enabled = TRUE)
     }
   })
   
