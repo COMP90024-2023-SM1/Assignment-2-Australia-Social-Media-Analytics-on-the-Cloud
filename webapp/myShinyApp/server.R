@@ -13,6 +13,7 @@ library(highcharter)
 library(dplyr)
 library(tidyr)
 library(dashboardthemes)
+library(rgdal)
 source('helper.R')
 
 # Set a global theme highcharter plot

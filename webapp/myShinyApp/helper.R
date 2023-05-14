@@ -31,6 +31,12 @@ merged_data1 <- merge(population_sudo, education_sudo, by = c("gccsa_code", "gcc
 sudo_data <- merge(merged_data1, income_sudo, by = c("gccsa_code", "gccsa_name"))
 sudo_data$key <-  location_mapping[sudo_data$gccsa_code]
 
+# load spatial data
+gcc_shapefile <- readOGR( 
+  dsn = "../SUDO_data", 
+  layer = "GCCSA_2021_AUST_GDA2020",
+  verbose = FALSE
+)
 
 capital_cities <- data.frame(
   key = c("Canberra", "Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Darwin", "Hobart",
