@@ -24,19 +24,19 @@ class MastodonData():
         Insert mastodon data to couchDB in batches
         '''
 
-        self.db.update(record_batch)
+        self.db.save(record_batch)
 
     # retrieves a predetermined number of toots within a certain date range
-    # set limit to 2,500,000 toots
-    def mastodon_processor(self, start_date, end_date, limit=40, total_limit=2500000):        
+    # set limit to 1,500,000 toots
+    def mastodon_processor(self, start_date, end_date, limit=40, total_limit=1500000):        
         # date range for mastodon data extraction
-        url = "https://mastodon.social/api/v1/timelines/public"
+        url = "https://mastodon.world/api/v1/timelines/public"
         headers = {
-            "Authorization": "Bearer D5u3t_naCNonkImCD19nuM-CW5O2yX8cdtwmuejr-ss"
+            "Authorization": "Bearer ejM7XC0yUcYazPJvNYt4EjBroHoW0GQ3V_f_ZTjBvsA"
         }
 
         fetched_count = 0
-        docs_to_insert = []
+        # docs_to_insert = []
         max_id = None
         
         while total_limit is None or fetched_count < total_limit:
@@ -72,20 +72,15 @@ class MastodonData():
                 if start_date <= created_at <= end_date:
                     # preprocess toot and append to list to save
                     status = extract_toot_info(status)
-                    docs_to_insert.append(status)
-                    fetched_count += 1  # Increment the toot counter
+                    self.save_record(status)
+                    # docs_to_insert.append(status)
+                    # fetched_count += 1  # Increment the toot counter
                 elif created_at < start_date:
                     break
 
             max_id = statuses[-1]["id"]
 
-            # Inserting toots by batch to speed up the process
-            if len(docs_to_insert) == 1000:
-                    self.save_record(docs_to_insert)
-                    docs_to_insert = []
-
-        # Insert the remaining toots
-        if len(docs_to_insert) != 0:
-            self.save_record(docs_to_insert)
+            # self.save_record(docs_to_insert)
+            # docs_to_insert = []
 
     

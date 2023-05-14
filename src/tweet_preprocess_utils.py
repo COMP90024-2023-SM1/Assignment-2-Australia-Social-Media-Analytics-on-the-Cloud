@@ -116,6 +116,8 @@ def load_data():
         
     return suburbs_by_gcc
 
+suburbs_by_gcc = load_data()
+
 def extract_tweet_info_gcc(one_tweet):
     """
     Extract necessary information of a tweet and returns in
@@ -124,12 +126,12 @@ def extract_tweet_info_gcc(one_tweet):
     Arguments:
     one_tweet --- one tweet JSON object
     """
-    suburbs_by_gcc = load_data()
     
     # Parse date format into YYYY-MM-DD HH:MM:SS
     tweet_time = datetime.strptime(one_tweet['doc']['data']['created_at'],
                                    DATE_FORMAT)
-    tweet_time = tweet_time.strftime('%Y:%m:%d %H:%M:%S')
+    tweet_time = tweet_time.strftime('%Y-%m-%d %H:%M:%S')
+    tweet_gcc = ''
     try:
         location = one_tweet['doc']['includes']['places']
         try:
@@ -173,6 +175,7 @@ def extract_tweet_info_gcc(one_tweet):
 
     except (KeyError, TypeError):
         location = {}
+        # tweet_gcc = {}
     tokens = one_tweet['value']['tokens'].split('|')
     tokens = [word.lower() for word in tokens]
     simplified_tweet = {

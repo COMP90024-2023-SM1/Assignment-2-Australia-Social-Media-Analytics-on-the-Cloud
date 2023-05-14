@@ -1,42 +1,46 @@
-import couchdb
 import json
+from datetime import datetime
+import nltk
+from bs4 import BeautifulSoup
+# from transformers import pipeline
+# from nltk.tokenize import word_tokenize
+# from nltk.corpus import stopwords
+# import string
 
-from tweet_preprocess_utils import *
+# model_path = "cardiffnlp/twitter-xlm-roberta-base-sentiment"
+# sentiment_task = pipeline("sentiment-analysis", model=model_path, tokenizer=model_path)
 
-MASTER_NODE = '172.26.128.113'
-ADMIN = 'admin'
-PASSWORD = 'admin'
+# def tokenize_toot_content(content, min_word_length = 2):
+#     soup = BeautifulSoup(content, 'html.parser')
+#     text = soup.get_text()
+    
+#     words = word_tokenize(text)
+    
+#     # Remove punctuation and convert to lowercase
+#     words = [word.lower() for word in words if word.isalnum()]
+    
+#     # Remove stopwords
+#     stop_words = set(stopwords.words('english'))
+#     words = [word for word in words if word not in stop_words]
+    
+#     # Filter out short words
+#     words = [word for word in words if len(word) >= min_word_length]
+    
+#     return words
+        
 
-class DataStore():
+def extract_toot_info(one_toot):
+    """
+    Extract necessary information of a toot and returns in
+    JSON format
 
-    def __init__(self, db_name, url=f'http://{ADMIN}:{PASSWORD}@{MASTER_NODE}:5984/'):
-        try:
-            self.server = couchdb.Server(url=url)
-            self.db = self.server.create(db_name)
-            # self._create_views()
-        except couchdb.http.PreconditionFailed:
-            self.db = self.server[db_name]
+    Arguments:
+    one_toot --- one toot JSON object
+    """
 
-    def save_record(self, record_batch):
-        self.db.update(record_batch)
-
-    # def _create_views(self):
-    #     count_map = 'function(doc) { emit(doc.id, 1); }'
-    #     count_reduce = 'function(keys, values) { return sum(values); }'
-    #     view = couchdb.design.ViewDefinition('twitter', 
-    #                                          'count_tweets', 
-    #                                          count_map, 
-    #                                          reduce_fun=count_reduce)
-    #     view.sync(self.db)
-
-    # def count_tweets(self):
-    #     for doc in self.db.view('twitter/count_tweets'):
-    #         return doc.value
-
-    def tweet_processor(self, tweet_path, block_start, block_end):
-        # religion - christian
-        # english, simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
-        keyword_religion = ['god', 'jesus', 'holy spirit', 'bible', 'prayer', 'pray', 'faith', 'worship', 'church', 'mass',
+    # religion - catholic & christian
+    # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
+    keyword_religion = ['god', 'jesus', 'holy spirit', 'bible', 'prayer', 'pray', 'faith', 'worship', 'church', 'mass',
                             'sacrament', 'eucharist', 'communion', 'baptism', 'baptise', 'baptize', 'confession', 'amen',
                             'bless', 'hallelujah', 'catholic', 'christian', 'christianity', 'salvation', 'heaven', 'religion',
                             'religious', 'الله', 'يسوع', 'الروح القدس', 'الكتاب المقدس', 'صلاة', 'صلّ', 'إيمان', 'عبادة', 
@@ -57,7 +61,7 @@ class DataStore():
                             'langit', 'relihiyon', 'relihiyoso', 'भगवान', 'ईसा', 'पवित्र आत्मा', 'बाइबल', 'प्रार्थना', 'प्रार्थना करना', 'विश्वास', 
                             'आराधना', 'चर्च', 'मिसा', 'संस्कार', 'यूकरिस्ट', 'संयोग', 'बप्तिस्मा', 'बप्तिस्मा', 'बप्तिस्मा', 'विश्वासघात', 'आमेन', 
                             'आशीर्वाद', 'हैलीलूया', 'कैथोलिक', 'ईसाई', 'ईसाई धर्म', 'मोक्ष', 'स्वर्ग', 'धर्म', 'धार्मिक', 'dios', 'jesús', 
-                            'espíritu santo', 'biblia', 'oración', 'rezar', 'adoración', 'iglesia', 'misa', 'sacramento', 
+                            'espíritu santo', 'biblia', 'oración', 'rezar', 'fe', 'adoración', 'iglesia', 'misa', 'sacramento', 
                             'eucaristía', 'comunión', 'bautismo', 'bautizar', 'bautizar', 'confesión', 'amén', 
                             'bendecir', 'aleluya', 'católico', 'cristiano', 'cristianismo', 'salvación', 'cielo', 'religión',
                             'religioso', '하나님', '예수', '성령', '성경', '기도', '기도하다', '믿음', '예배', '교회', '미사', '성사', '성체', 
@@ -69,10 +73,9 @@ class DataStore():
                             '弥撒', '圣事', '圣餐', '圣餐', '洗礼', '施洗', '施洗', '忏悔', '阿门', '哈利路亚', '天主教', '基督', '保佑', 
                             '救赎', '天堂', '宗教']
 
-
-        # mental health - depression
-        # english, simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
-        keyword_depression = ['sad', 'lonely', 'isolated', 'hopeless', 'helpless', 'tired', 'exhausted', 'miserable', 'anxious', 'stressed', 'overwhelmed',
+    # mental health - depression
+    # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
+    keyword_depression = ['sad', 'lonely', 'isolated', 'hopeless', 'helpless', 'tired', 'exhausted', 'miserable', 'anxious', 'stressed', 'overwhelmed',
                               'worthless', 'guilty', 'suicidal', 'suicide', 'numb', 'desperate', 'broken', 'lost', 'hopeless', '伤心', '孤独', '孤立', '绝望', 
                               '无助', '疲倦', '筋疲力尽', '痛苦', '焦虑', '紧张', '不堪重负', '一文不值', '内疚', '自杀', '麻木', '迷失', 'حزين', 'وحيد', 'معزول', 'يائس', 
                               'عاجز', 'تعب', 'منهك', 'بائس', 'قلق', 'مضغوط', 'غير قادر على تحمل', 'لا قيمة له', 'مذنب', 'انتحاري', 'انتحار', 'خامل', 'يائس', 
@@ -91,78 +94,64 @@ class DataStore():
                               'perdido', '悲しい', '孤独', '孤立', '絶望的', '無力', '疲れた', '疲れ果てた', '惨めな', '不安', 'ストレス', '圧倒された', '無価値', '罪悪感', '自殺', 
                               '無感覚', '必死', '壊れた', '失われた', '슬프다', '외로운', '고립된', '절망적인', '무력한', '피곤한', '지친', '비참한', '불안한', '스트레스 받는', '이기적인', 
                               '가치 없는', '죄책감', '자살적인', '자살', '마비된', '절망적인', '부서진', '잃어버린']
-        
+    
+    # Ukraine vs. Russia
+    # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
+    keyword_RU = ['russia', 'ukraine', 'putin', 'zelenskyy', 'kyjv', '俄罗斯', '乌克兰', '普京', '泽连斯基', '基辅', 'روسيا', 'أوكرانيا', 'بوتين', 'زيلينسكي', 
+                    'كييف', 'nga', 'ukraine', 'putin', 'zelenskyy', 'ਰੂਸ', 'ਯੂਕਰੇਨ', 'ਪੁੱਤਿਨ', 'ਜ਼ੈਲੇਨਸਕੀ', 'ਕੀਵ', 'ρωσία', 'ουκρανία', 'πούτιν', 'ζελένσκι', 'κίεβο',
+                    'russia', 'ucraina', 'putin', 'zelenskyy', 'kiev', 'rusya', 'ukrayna', 'रूस', 'यूक्रेन', 'पुतिन', 'ज़ेलेंस्की', 'कीव', 'rusia', 'ucrania', 'ロシア', 
+                    'ウクライナ', 'プーチン', 'ゼレンスキー', 'キエフ', '러시아', '우크라이나', '푸틴', '젤렌스키', '키예프']
 
-        # crime
-        # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
-        keyword_crime = ['robbery', 'police', 'murder', 'kill', 'suicide', 'corpse', 'violence', 'theft', 'assault', 'felony', 'terrorism', '抢劫', 
-                        '警察', '谋杀', '自杀', '尸体', '暴力', '盗窃', '袭击', '重罪', '恐怖主义', '犯罪', 'سرقة', 'شرطة', 'قتل', 'يقتل', 'انتحار', 
-                        'جثة', 'عنف', 'سرقة', 'اعتداء', 'جناية', 'إرهاب', 'cướp bóc', 'cảnh sát', 'giết người', 'giết', 'tự tử', 'xác chết', 'bạo lực', 
-                        'trộm cắp', 'tấn công', 'tội ác', 'khủng bố', 'ਡਾਕਾ', 'ਪੁਲਿਸ', 'ਕਤਲ', 'ਮਾਰਨਾ', 'ਆਤਮਘਾਤੀ', 'ਲਾਸ਼', 'ਹਿੰਸਾ', 'ਚੋਰੀ', 'ਹਮਲਾ', 'ਗੰਭੀਰ ਅਪਰਾਧ', 
-                        'ਆਤੰਕਵਾਦ', 'ληστεία', 'αστυνομία', 'δολοφονία', 'σκοτώνω', 'αυτοκτονία', 'πτώμα', 'βία', 'κλοπή', 'επίθεση', 'κακούργημα', 
-                        'τρομοκρατία', 'rapina', 'polizia', 'omicidio', 'uccidere', 'suicidio', 'cadavere', 'violenza', 'furto', 'aggressione', 
-                        'crimine', 'terrorismo', 'pagnanakaw', 'pulis', 'pagpatay', 'pumatay', 'pagpapakamatay', 'bangkay', 'karahasan', 'pagnanakaw', 
-                        'pagsalakay', 'kasalanang mabigat', 'terorismo', 'डकैती', 'पुलिस', 'हत्या', 'मारना', 'आत्महत्या', 'लाश', 'हिंसा', 'चोरी', 'हमला', 'अपराध', 
-                        'आतंकवाद', 'policía', 'asesinato', 'matar', 'suicidio', 'cadáver', 'violencia', 'robo', 'asalto', 'delito', 'terrorismo',
-                        '強盗', '殺人', '自殺', '死体', '窃盗', '暴行', 'テロ', '강도', '경찰', '살인', '죽이다', '자살', '시체', '폭력', '절도', '폭행', '중범죄', '테러']
-        
-        # Ukraine vs. Russia
-        # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
-        keyword_RU = ['russia', 'ukraine', 'putin', 'zelenskyy', 'kyjv', '俄罗斯', '乌克兰', '普京', '泽连斯基', '基辅', 'روسيا', 'أوكرانيا', 'بوتين', 'زيلينسكي', 
-                      'كييف', 'ukraine', 'putin', 'zelenskyy', 'ਰੂਸ', 'ਯੂਕਰੇਨ', 'ਪੁੱਤਿਨ', 'ਜ਼ੈਲੇਨਸਕੀ', 'ਕੀਵ', 'ρωσία', 'ουκρανία', 'πούτιν', 'ζελένσκι', 'κίεβο',
-                      'russia', 'ucraina', 'putin', 'zelenskyy', 'kiev', 'rusya', 'ukrayna', 'रूस', 'यूक्रेन', 'पुतिन', 'ज़ेलेंस्की', 'कीव', 'rusia', 'ucrania', 'ロシア', 
-                      'ウクライナ', 'プーチン', 'ゼレンスキー', 'キエフ', '러시아', '우크라이나', '푸틴', '젤렌스키', '키예프']
+    # crime
+    # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
+    keyword_crime = ['robbery', 'police', 'murder', 'kill', 'suicide', 'corpse', 'violence', 'theft', 'assault', 'felony', 'terrorism', '抢劫', 
+                    '警察', '谋杀', '自杀', '尸体', '暴力', '盗窃', '袭击', '重罪', '恐怖主义', '犯罪', 'سرقة', 'شرطة', 'قتل', 'يقتل', 'انتحار', 
+                    'جثة', 'عنف', 'سرقة', 'اعتداء', 'جناية', 'إرهاب', 'cướp bóc', 'cảnh sát', 'giết người', 'giết', 'tự tử', 'xác chết', 'bạo lực', 
+                    'trộm cắp', 'tấn công', 'tội ác', 'khủng bố', 'ਡਾਕਾ', 'ਪੁਲਿਸ', 'ਕਤਲ', 'ਮਾਰਨਾ', 'ਆਤਮਘਾਤੀ', 'ਲਾਸ਼', 'ਹਿੰਸਾ', 'ਚੋਰੀ', 'ਹਮਲਾ', 'ਗੰਭੀਰ ਅਪਰਾਧ', 
+                    'ਆਤੰਕਵਾਦ', 'ληστεία', 'αστυνομία', 'δολοφονία', 'σκοτώνω', 'αυτοκτονία', 'πτώμα', 'βία', 'κλοπή', 'επίθεση', 'κακούργημα', 
+                    'τρομοκρατία', 'rapina', 'polizia', 'omicidio', 'uccidere', 'suicidio', 'cadavere', 'violenza', 'furto', 'aggressione', 
+                    'crimine', 'terrorismo', 'pagnanakaw', 'pulis', 'pagpatay', 'pumatay', 'pagpapakamatay', 'bangkay', 'karahasan', 'pagnanakaw', 
+                    'pagsalakay', 'kasalanang mabigat', 'terorismo', 'डकैती', 'पुलिस', 'हत्या', 'मारना', 'आत्महत्या', 'लाश', 'हिंसा', 'चोरी', 'हमला', 'अपराध', 
+                    'आतंकवाद', 'policía', 'asesinato', 'matar', 'suicidio', 'cadáver', 'violencia', 'robo', 'asalto', 'delito', 'terrorismo',
+                    '強盗', '殺人', '自殺', '死体', '窃盗', '暴行', 'テロ', '강도', '경찰', '살인', '죽이다', '자살', '시체', '폭력', '절도', '폭행', '중범죄', '테러']
 
-        docs_to_insert = []
-        with open(tweet_path, 'rb') as file:
-            file.seek(block_start)
-            while file.tell() != block_end:
-                line = file.readline().splitlines()[0].decode('utf-8')
-                if line[-1] == ',': # Check if current line has trailing comma
-                    line = line[:-1] # Remove trailing comma
 
-                try:
-                    tweet = json.loads(line)
-                    if tweet['doc']['data']['geo'] != {} and tweet['doc']['data']['lang'] != 'und':
-                        if is_within_australia([tweet['doc']['includes']['places'][0]['geo']['bbox'][1], tweet['doc']['includes']['places'][0]['geo']['bbox'][0]]):
-                            tweet = extract_tweet_info_gcc(tweet)
-                            
-                            # if any(kw in tweet['tweet_text']for kw in keyword_religion):
-                            #     tweet['category'] = 'religion'
-                            # elif any(kw in tweet['tweet_text']for kw in keyword_depression):
-                            #     tweet['category'] = 'depression'
-                            # elif any(kw in tweet['tweet_text']for kw in keyword_crime):
-                            #     tweet['category'] = 'crime'
-                            # elif any(kw in tweet['tweet_text']for kw in keyword_RU):
-                            #     tweet['category'] = 'RU'
-                            # else:
-                            #     tweet['category'] = ''
+    # Parse date format into YYYY-MM-DD HH:MM:SS
+    DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%fZ'
 
-                            categories = []
+    # note - toots do not contain location information
+    toot_id = one_toot['id']
+    # toot_time = datetime.strptime(one_toot['created_at'], DATE_FORMAT)
+    toot_time = one_toot['created_at']
+    toot_time = toot_time.strftime('%Y-%m-%d %H:%M:%S')
+    content_string = one_toot['content'].lower()
+    soup = BeautifulSoup(content_string, 'html.parser')
+    toot_content = soup.get_text()
+    tags_list = one_toot['tags']
+    toot_tags = [tag["name"] for tag in tags_list]
+    toot_language = one_toot['language']
+    # toot_sentiment = sentiment_task(toot_content)
 
-                            if any(kw in tweet['tweet_text'] for kw in keyword_religion):
-                                categories.append('religion')
-                            if any(kw in tweet['tweet_text'] for kw in keyword_depression):
-                                categories.append('depression')
-                            if any(kw in tweet['tweet_text'] for kw in keyword_crime):
-                                categories.append('crime')
-                            if any(kw in tweet['tweet_text'] for kw in keyword_RU):
-                                categories.append('RU')
+    # classify toots into categories
+    toot_category = []
+    if any(kw in toot_content for kw in keyword_religion):
+        toot_category.append('religion')
+    if any(kw in toot_content for kw in keyword_depression):
+        toot_category.append('depression')
+    if any(kw in toot_content for kw in keyword_RU):
+        toot_category.append('RU')
+    if any(kw in toot_content for kw in keyword_crime):
+        toot_category.append('crime')
+    
 
-                            tweet['category'] = categories
+    simplified_toot = {
+        'toot_id': toot_id,
+        'toot_time': toot_time,
+        'toot_language': toot_language,
+        'toot_content': toot_content,
+        'toot_tags': toot_tags,
+        'toot_category': toot_category
+        # 'toot_sentiment': toot_sentiment
+    }
 
-                            tweet = json.dumps(tweet)
-                            tweet = json.loads(tweet)
-                            docs_to_insert.append(tweet)
-
-                except (KeyError, ValueError, TypeError) as e:
-                    pass
-
-                # Inserting tweets by batch to speed up the process
-                if len(docs_to_insert) == 1000:
-                    self.save_record(docs_to_insert)
-                    docs_to_insert = []
-
-            # Insert the remaining tweets
-            if len(docs_to_insert) != 0:
-                self.save_record(docs_to_insert)
+    return simplified_toot
