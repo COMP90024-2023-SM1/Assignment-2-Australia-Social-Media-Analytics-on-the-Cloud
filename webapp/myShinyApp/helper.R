@@ -27,9 +27,11 @@ generalTweet_info$key <- location_mapping[generalTweet_info$key]
 
 home_wordcloud <- fromJSON("./SUDO_data/count-token.json")$rows
 home_wordcloud <- subset(home_wordcloud, value >= 200)
-stopwords_list <- c(stopwords("english"), "about", "are", "and", "the", "can")
+stopwords_list <- c(stopwords("english"), "about", "are", "and", "the", "can", "just", "will")
 home_wordcloud <- home_wordcloud[!(tolower(home_wordcloud$key) %in% stopwords_list),]
-home_wordcloud <- home_wordcloud[1:20, ]
+home_wordcloud = home_wordcloud[order(home_wordcloud$value, decreasing = TRUE), ]
+home_wordcloud <- home_wordcloud[1:100, ]
+print(home_wordcloud)
 
 # read SUDO data
 population_sudo <- read.csv("./SUDO_data/population_religion_languages.csv", header = T)

@@ -104,8 +104,9 @@ serverHome = function(input, output){
   })
   
   output$home_wordcloud <- renderHighchart({
-    highchart() %>%
-      hc_add_series(home_wordcloud, "wordcloud", hcaes(x = key, y = value, group = key, name = key))
+    hc <- hchart(home_wordcloud, "wordcloud", hcaes(name = key, weight = value)) %>%
+      hc_tooltip(pointFormat = '<b>Count</b>: {point.weight}')
+    hc
   })
 
 }
