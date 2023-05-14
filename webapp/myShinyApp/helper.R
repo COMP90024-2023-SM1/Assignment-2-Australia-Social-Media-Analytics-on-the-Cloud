@@ -8,8 +8,12 @@ library(tidyr)
 total_tweet <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false")
 total_tweet <- content(total_tweet, "parsed")
 
-generalTweet_info <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-gcc?reduce=true&group=true&update=false")
+generalTweet_info <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-gcc-date?reduce=true&group=true&update=false')
 generalTweet_info <- as.data.frame(fromJSON(content(generalTweet_info, "text", encoding = "UTF-8"))$rows)
+generalTweet_info$key <- sapply(generalTweet_info$key, paste, collapse = ", ")
+generalTweet_info <- generalTweet_info %>%
+  separate(key, c("key", "date"), sep = ", ")
+generalTweet_info$date <- as.Date(generalTweet_info$date)
 generalTweet_info <- generalTweet_info[generalTweet_info$key != "9OTER", ]
 location_mapping <- c("1GSYD" = "Sydney", "2GMEL" = "Melbourne", "3GBRI" = "Brisbane", 
                       "4GADE" = "Adelaide", "5GPER" = "Perth", "6GHOB" = "Hobart", 
@@ -36,8 +40,6 @@ capital_cities <- data.frame(
   lon = c(149.1300, 151.2093, 144.9631, 153.0251, 115.8605, 138.6007, 130.8456, 147.3272, 
           143.049673, 134.602050, 145.057544, 144.241518, 133.261762, 121.899317, 145.029348)
 )
-
-generalTweet_info <- merge(generalTweet_info, capital_cities, by = "key")
 
 # Theme for dashboard
 customTheme <- shinyDashboardThemeDIY(

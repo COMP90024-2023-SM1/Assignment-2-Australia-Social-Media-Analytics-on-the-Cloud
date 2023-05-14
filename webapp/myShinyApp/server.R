@@ -68,6 +68,11 @@ server <- shinyServer(function(input, output) {
       } else {
         data <- subset(generalTweet_info, grepl("^Rural", key))
       }
+      
+      data <- data %>%
+        filter(date >= input$dateRange[1] & date <= input$dateRange[2]) %>%
+        group_by(key) %>% summarise(value = sum(value))
+      data <- merge(data, capital_cities, by = "key")
       colnames(data) <- c('key', 'z', 'lat', 'lon')
       
       # Add the bubble color column based on the condition
