@@ -27,7 +27,7 @@ server <- shinyServer(function(input, output) {
     auto_refresh()
     
     tweet_month <- GET('http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-month?reduce=true&group=true&update=false')
-    tweet_month <- fromJSON(content(tweet_month, "text", encoding = "UTF-8"))$rows
+    tweet_month <- fromJSON(httr::content(tweet_month, "text", encoding = "UTF-8"))$rows
     tweet_month <- tweet_month %>%
       mutate(key = sapply(key, function(x) paste(unlist(x), collapse = ", ")))
     tweet_month <- tweet_month %>%
@@ -108,6 +108,11 @@ server <- shinyServer(function(input, output) {
       hc_title(text = "Number of Tweets Made in 2022") %>%
       hc_yAxis(title = list(text = "Number of Tweets")) %>%
       hc_xAxis(title = list(text = "Month"))
+  })
+  
+  output$home_wordcloud <- renderHighchart({
+    highchart() %>%
+      hc_add_series(home_wordcloud, "wordcloud", hcaes(x = key, y = value, group = key, name = key))
   })
   
   output$education_religion <- renderHighchart({
