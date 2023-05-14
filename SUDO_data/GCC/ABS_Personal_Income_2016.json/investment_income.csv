@@ -1,4 +1,4 @@
-mean_aud, gccsa_code, sum_aud, earners_persons, gccsa_name
+mean_aud,gccsa_code,sum_aud,earners_persons,gccsa_name
 7127,1RNSW,7002728991,982582,Rest of NSW
 9856,1GSYD,20260663742,2055651,Greater Sydney
 8001,2RVIC,4436966525,554551,Rest of Vic.
@@ -14,3 +14,4 @@ mean_aud, gccsa_code, sum_aud, earners_persons, gccsa_name
 3106,7RNTE,59181446,19055,Rest of NT
 3879,7GDAR,218257553,56273,Greater Darwin
 5486,8ACTE,1046969747,190832,Australian Capital Territory
+110352,ALL,82288582414,9358481,ALL
