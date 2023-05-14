@@ -4,3 +4,5 @@
 *.Rhistory
 *.Rproj.user
 *.Rproj
+*.Rhistory
+webapp/myShinyApp/.Rhistory
