@@ -19,6 +19,11 @@ location_mapping <- c("1GSYD" = "Sydney", "2GMEL" = "Melbourne", "3GBRI" = "Bris
                       "7RNTE" = "Rural NT")
 generalTweet_info$key <- location_mapping[generalTweet_info$key]
 
+# read SUDO data
+population_sudo <- read.csv("../SUDO_data/GCC/ABS_Population_2016.json/population_religion_languages.csv", header = T)
+education_sudo <- read.csv("../SUDO_data/GCC/ABS_Education_Employment_2016.json/education.csv", header=T)
+income_sudo <- read.csv("../SUDO_data/GCC/ABS_Personal_Income_2016.json/investment_income.csv", header=T)
+
 capital_cities <- data.frame(
   key = c("Canberra", "Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Darwin", "Hobart",
            "Rural VIC", "Rural SA", "Rural NSW", "Rural QLD", "Rural NT", "Rural WA", "Rural TAS"),
