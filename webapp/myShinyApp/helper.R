@@ -3,6 +3,7 @@ library(jsonlite)
 library(lubridate)
 library(dplyr)
 library(tidyr)
+library(rgdal)
 
 # Helper functions
 total_tweet <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false")
