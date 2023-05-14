@@ -2,3 +2,5 @@
 /data/twitter-huge.json
 *.pyc
 *.Rhistory
+*.Rproj.user
+*.Rproj
