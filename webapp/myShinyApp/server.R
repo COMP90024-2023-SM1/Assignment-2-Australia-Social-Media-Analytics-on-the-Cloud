@@ -53,26 +53,35 @@ server <- shinyServer(function(input, output) {
 
   
   output$aus_map <- renderHighchart({
-    if (length(input$map_state) == 2) {
-      data <- generalTweet_info
-    } else if (input$map_state == 'Greater Capital City') {
-      data <- subset(generalTweet_info, !grepl("^Rural", key))
-    } else {
-      data <- subset(generalTweet_info, grepl("^Rural", key))
-    }
-    colnames(data) <- c('key', 'z', 'lat', 'lon')
-    
-    hcmap("countries/au/au-all", borderColor = "#808080", borderWidth = 0.1, showInLegend = FALSE) %>%
+    if (length(input$map_state) == 0) {
+      hcmap("countries/au/au-all", borderColor = "#808080", borderWidth = 0.1, showInLegend = FALSE) %>%
       hc_exporting(enabled = TRUE) %>%
       hc_chart(backgroundColor = "#D8F9FF") %>%
-      hc_add_series(name = "Cities/Areas", type = "mapbubble", data = data, maxSize = "15%") %>%
-      #hc_add_series(name = "Cities/Areas",
-      #  type = "mappoint", data = data, hcaes(x = lon, y = lat, name = key), color = "red",
-      #  marker = list(radius = 5)) %>%
       hc_title(text = "General Tweet Statistics of Australia in 2022 <small>(Hover for more detail)</small>", 
-               useHTML = T) %>%
-      hc_tooltip(pointFormat = '<b>{point.key}</b>
-                 <br/><b>Number of tweets:</b> {point.z}')
+               useHTML = T)
+    }
+    else{
+      if (length(input$map_state) == 2) {
+        data <- generalTweet_info
+      } else if (input$map_state == 'Greater Capital City') {
+        data <- subset(generalTweet_info, !grepl("^Rural", key))
+      } else {
+        data <- subset(generalTweet_info, grepl("^Rural", key))
+      }
+      colnames(data) <- c('key', 'z', 'lat', 'lon')
+      
+      hcmap("countries/au/au-all", borderColor = "#808080", borderWidth = 0.1, showInLegend = FALSE) %>%
+        hc_exporting(enabled = TRUE) %>%
+        hc_chart(backgroundColor = "#D8F9FF") %>%
+        hc_add_series(name = "Cities/Areas", type = "mapbubble", data = data, maxSize = "15%") %>%
+        #hc_add_series(name = "Cities/Areas",
+        #  type = "mappoint", data = data, hcaes(x = lon, y = lat, name = key), color = "red",
+        #  marker = list(radius = 5)) %>%
+        hc_title(text = "General Tweet Statistics of Australia in 2022 <small>(Hover for more detail)</small>", 
+                 useHTML = T) %>%
+        hc_tooltip(pointFormat = '<b>{point.key}</b>
+                   <br/><b>Number of tweets:</b> {point.z}')
+    }
   })
   
   output$tweet_timeline <- renderHighchart({
