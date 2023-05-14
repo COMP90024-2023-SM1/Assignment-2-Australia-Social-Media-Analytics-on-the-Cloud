@@ -1,3 +1,4 @@
 .DS_Store
 /data/twitter-huge.json
 *.pyc
+./webapp/myShinyApp/.Rhistory
