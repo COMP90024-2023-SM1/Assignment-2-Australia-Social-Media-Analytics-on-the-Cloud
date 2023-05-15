@@ -25,6 +25,20 @@ location_mapping <- c("1GSYD" = "Sydney", "2GMEL" = "Melbourne", "3GBRI" = "Bris
                       "7RNTE" = "Rural NT")
 generalTweet_info$key <- location_mapping[generalTweet_info$key]
 
+tweet_month <- GET('http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-month?reduce=true&group=true&update=false')
+tweet_month <- fromJSON(httr::content(tweet_month, "text", encoding = "UTF-8"))$rows
+tweet_month <- tweet_month %>%
+  mutate(key = sapply(key, function(x) paste(unlist(x), collapse = ", ")))
+tweet_month <- tweet_month %>%
+  separate(key, into = c("year", "month"), sep = ", ") %>%
+  mutate(
+    date = paste(year, month, "01", sep = "-"),
+    date = ymd(date),
+    month_label = month(date, label = TRUE),
+    YearMonth = paste(month_label, year, sep = " ")
+  ) %>%
+  select(-date, -month_label)
+
 home_wordcloud <- fromJSON("./SUDO_data/count-token.json")$rows
 home_wordcloud <- subset(home_wordcloud, value >= 200)
 stopwords_list <- c(stopwords("english"), "about", "are", "and", "the", "can", "just", "will")

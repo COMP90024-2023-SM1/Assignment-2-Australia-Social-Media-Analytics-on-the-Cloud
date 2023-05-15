@@ -18,24 +18,6 @@ source('helper.R')
   
 serverHome = function(input, output){
   auto_refresh <- reactiveTimer(20000)
-  get_tweet_month <- reactive({
-    auto_refresh()
-    tweet_month <- GET('http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-month?reduce=true&group=true&update=false')
-    tweet_month <- fromJSON(httr::content(tweet_month, "text", encoding = "UTF-8"))$rows
-    tweet_month <- tweet_month %>%
-      mutate(key = sapply(key, function(x) paste(unlist(x), collapse = ", ")))
-    tweet_month <- tweet_month %>%
-      separate(key, into = c("year", "month"), sep = ", ") %>%
-      mutate(
-        date = paste(year, month, "01", sep = "-"),
-        date = ymd(date),
-        month_label = month(date, label = TRUE),
-        YearMonth = paste(month_label, year, sep = " ")
-      ) %>%
-      select(-date, -month_label)
-    
-    return(tweet_month)
-  })
   
   get_mastodon_count <- reactive({
     auto_refresh()
@@ -116,7 +98,6 @@ serverHome = function(input, output){
   })
   
   output$tweet_timeline <- renderHighchart({
-    tweet_month <- get_tweet_month()
     hchart(tweet_month, "spline", hcaes(x = YearMonth, y = value),
            tooltip = list(pointFormat = "Number of Tweets Made: <b>{point.value}</b>")) %>%
       hc_title(text = "Number of Tweets Made in 2022") %>%
