@@ -17,7 +17,7 @@ library(rgdal)
 source('helper.R')
   
 serverHome = function(input, output){
-  auto_refresh <- reactiveTimer(20000)
+  auto_refresh <- reactiveTimer(5000)
   
   get_mastodon_count <- reactive({
     auto_refresh()

@@ -31,10 +31,10 @@ tabItemHome <- function(){
             
             # Value box
             fluidRow(
-              column(3, valueBoxOutput("total_tweet", width = 14)),
-              column(3, valueBoxOutput("total_mastodon", width = 14)),
-              column(3, valueBoxOutput("kill_1", width = 14)),
-              column(3, valueBoxOutput("injury_1", width = 14))
+              column(6, valueBoxOutput("total_tweet", width = 14)),
+              column(6, valueBoxOutput("total_mastodon", width = 14))
+              #column(3, valueBoxOutput("kill_1", width = 14)),
+              #column(3, valueBoxOutput("injury_1", width = 14))
             )
           ),
           hr(),
