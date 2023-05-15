@@ -45,7 +45,6 @@ stopwords_list <- c(stopwords("english"), "about", "are", "and", "the", "can", "
 home_wordcloud <- home_wordcloud[!(tolower(home_wordcloud$key) %in% stopwords_list),]
 home_wordcloud = home_wordcloud[order(home_wordcloud$value, decreasing = TRUE), ]
 home_wordcloud <- home_wordcloud[1:100, ]
-print(home_wordcloud)
 
 # read SUDO data
 population_sudo <- read.csv("./SUDO_data/population_religion_languages.csv", header = T)
@@ -56,11 +55,11 @@ sudo_data <- merge(merged_data1, income_sudo, by = c("gccsa_code", "gccsa_name")
 sudo_data$key <-  location_mapping[sudo_data$gccsa_code]
 
 # load spatial data
-gcc_shapefile <- readOGR( 
-  dsn = "./SUDO_data", 
-  layer = "GCCSA_2021_AUST_GDA2020",
-  verbose = FALSE
-)
+#gcc_shapefile <- readOGR( 
+#  dsn = "./SUDO_data", 
+#  layer = "GCCSA_2021_AUST_GDA2020",
+#  verbose = FALSE
+#)
 
 capital_cities <- data.frame(
   key = c("Canberra", "Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Darwin", "Hobart",
