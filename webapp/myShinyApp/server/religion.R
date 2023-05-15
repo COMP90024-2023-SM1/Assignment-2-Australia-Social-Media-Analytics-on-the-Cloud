@@ -24,7 +24,8 @@ serverReligion = function(input, output){
       hc_title(text = "Year 12 or Above by GCCSA") %>%
       hc_xAxis(categories = sudo_data$key) %>%
       hc_yAxis(title = list(text = "Year 12 or Above")) %>%
-      hc_add_series(name = "Year 12 or Above", data = sudo_data$year_12_or_above)
+      hc_add_series(name = "Year 12 or Above", data = sudo_data$year_12_or_above) %>%
+      hc_plotOptions(series = list(borderRadius = 4, animation = list(duration = 3000)))
     
   })
   
