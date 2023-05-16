@@ -38,6 +38,7 @@ def extract_toot_info(one_toot):
     one_toot --- one toot JSON object
     """
 
+
     # religion - catholic & christian
     # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
     keyword_religion = ['god', 'jesus', 'holy spirit', 'bible', 'prayer', 'pray', 'faith', 'worship', 'church', 'mass',
@@ -52,7 +53,7 @@ def extract_toot_info(one_toot):
                             'thiên đàng', 'tôn giáo', 'tôn giáo', 'ਪਰਮੇਸ਼ੁਰ', 'ਯਿਸੂ', 'ਪਵਿੱਤਰ ਆਤਮਾ', 'ਬਾਇਬਲ', 'ਅਰਦਾਸ', 'ਪ੍ਰਾਰਥਨਾ', 'ਧਰਮ', 
                             'ਪੂਜਾ', 'ਚਰਚ', 'ਮਿਸਾ','ਸਕਰਾਮੈਂਟ', 'ਯੂਕਰਿਸਟ', 'ਸੰਗਤ', 'ਬੈਪਤਿਸਮਾ', 'ਬੈਪਤਿਸਾ', 'ਬੈਪਤਿਸਾ', 'ਇਤਿਫਾਕ', 'ਏਮੇਨ','ਅਸੀਸ', 'ਹੈਲੇਲੂਯਾਹ', 
                             'ਕੈਥੋਲਿਕ', 'ਈਸਾਈ', 'ਈਸਾਈ ਧਰਮ', 'ਮੁਕਤੀ', 'ਸਵਰਗ', 'ਧਰਮ','ਧਾਰਮਿਕ', 'gesù', 'spirito santo', 'bibbia', 
-                            'preghiera', 'pregare', 'fede', 'adorazione', 'chiesa', 'messa', 'sacramento', 'eucaristia', 'comunione', 
+                            'preghiera', 'pregare', 'adorazione', 'chiesa', 'messa', 'sacramento', 'eucaristia', 'comunione', 
                             'battesimo', 'battezzare', 'battezzare', 'confessione', 'amen', 'benedire', 'alleluia', 'cattolico', 
                             'cristiano', 'cristianesimo', 'salvezza', 'paradiso', 'religione', 'religioso', 'diyos', 'hesus', 
                             'banal na espiritu', 'banal na kasulatan', 'dasal', 'manalangin', 'pananampalataya', 'pagsamba', 
@@ -60,8 +61,8 @@ def extract_toot_info(one_toot):
                             'pagpapahayag', 'amen', 'basbasan', 'aleluya', 'katoliko', 'kristiyano', 'kristiyanismo', 'kaligtasan', 
                             'langit', 'relihiyon', 'relihiyoso', 'भगवान', 'ईसा', 'पवित्र आत्मा', 'बाइबल', 'प्रार्थना', 'प्रार्थना करना', 'विश्वास', 
                             'आराधना', 'चर्च', 'मिसा', 'संस्कार', 'यूकरिस्ट', 'संयोग', 'बप्तिस्मा', 'बप्तिस्मा', 'बप्तिस्मा', 'विश्वासघात', 'आमेन', 
-                            'आशीर्वाद', 'हैलीलूया', 'कैथोलिक', 'ईसाई', 'ईसाई धर्म', 'मोक्ष', 'स्वर्ग', 'धर्म', 'धार्मिक', 'dios', 'jesús', 
-                            'espíritu santo', 'biblia', 'oración', 'rezar', 'fe', 'adoración', 'iglesia', 'misa', 'sacramento', 
+                            'आशीर्वाद', 'हैलीलूया', 'कैथोलिक', 'ईसाई', 'ईसाई धर्म', 'मोक्ष', 'स्वर्ग', 'धर्म', 'धार्मिक', 'jesús', 
+                            'espíritu santo', 'biblia', 'oración', 'rezar', 'adoración', 'iglesia', 'misa', 'sacramento', 
                             'eucaristía', 'comunión', 'bautismo', 'bautizar', 'bautizar', 'confesión', 'amén', 
                             'bendecir', 'aleluya', 'católico', 'cristiano', 'cristianismo', 'salvación', 'cielo', 'religión',
                             'religioso', '하나님', '예수', '성령', '성경', '기도', '기도하다', '믿음', '예배', '교회', '미사', '성사', '성체', 
@@ -69,15 +70,15 @@ def extract_toot_info(one_toot):
                             '천국', '종교', '종교적', 'θεός', 'ιησούς', 'άγιο πνεύμα', 'βίβλος', 'προσευχή', 'προσεύχομαι', 'πίστη', 
                             'λατρεία', 'εκκλησία', 'μάζα', 'μυστήριο', 'ευχαριστία', 'κοινωνία', 'βάπτιση', 'βαπτίζω', 'βαπτίζω', 
                             'εξομολόγηση', 'αμήν', 'ευλογώ', 'αλληλούια', 'καθολικός', 'χριστιανός', 'χριστιανισμός', 'σωτηρία', 
-                            'παράδεισος', 'θρησκεία', 'θρησκευτικός', '神', '耶稣', '圣灵', '圣经', '祈祷', '祈祷', '信仰', '教堂', 
-                            '弥撒', '圣事', '圣餐', '圣餐', '洗礼', '施洗', '施洗', '忏悔', '阿门', '哈利路亚', '天主教', '基督', '保佑', 
-                            '救赎', '天堂', '宗教']
+                            'παράδεισος', 'θρησκεία', 'θρησκευτικός', '上帝', '耶稣', '圣灵', '圣经', '祈祷', '信仰', '教堂', 
+                            '弥撒', '圣事', '圣餐', '洗礼', '施洗', '忏悔', '阿门', '哈利路亚', '天主教', '基督', '保佑', 
+                            '救赎', '天堂', '宗教', 'イエス', '聖霊', '聖書', 'ミサ', '聖体', 'アーメン', 'キリスト', 'ハレルヤ', '天国', '教徒']
 
     # mental health - depression
     # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
     keyword_depression = ['sad', 'lonely', 'isolated', 'hopeless', 'helpless', 'tired', 'exhausted', 'miserable', 'anxious', 'stressed', 'overwhelmed',
                               'worthless', 'guilty', 'suicidal', 'suicide', 'numb', 'desperate', 'broken', 'lost', 'hopeless', '伤心', '孤独', '孤立', '绝望', 
-                              '无助', '疲倦', '筋疲力尽', '痛苦', '焦虑', '紧张', '不堪重负', '一文不值', '内疚', '自杀', '麻木', '迷失', 'حزين', 'وحيد', 'معزول', 'يائس', 
+                              '无助', '疲倦', '筋疲力尽', '痛苦', '焦虑', '紧张', '不堪重负', '内疚', '自杀', '麻木', '迷失', 'حزين', 'وحيد', 'معزول', 'يائس', 
                               'عاجز', 'تعب', 'منهك', 'بائس', 'قلق', 'مضغوط', 'غير قادر على تحمل', 'لا قيمة له', 'مذنب', 'انتحاري', 'انتحار', 'خامل', 'يائس', 
                               'مكسور', 'ضائع', 'buồn', 'cô đơn', 'tách biệt', 'tuyệt vọng', 'bất lực', 'mệt mỏi', 'kiệt sức', 'khốn khổ', 'lo lắng', 'căng thẳng', 
                               'quá tải', 'vô giá trị', 'cảm thấy có lỗi', 'tự tử', 'tự sát', 'tê liệt', 'tuyệt vọng', 'tan vỡ', 'lạc lối', 'ਦੁੱਖੀ', 'ਇਕੱਲਾ', 'ਅਲੱਗ', 
@@ -98,22 +99,9 @@ def extract_toot_info(one_toot):
     # Ukraine vs. Russia
     # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
     keyword_RU = ['russia', 'ukraine', 'putin', 'zelenskyy', 'kyjv', '俄罗斯', '乌克兰', '普京', '泽连斯基', '基辅', 'روسيا', 'أوكرانيا', 'بوتين', 'زيلينسكي', 
-                    'كييف', 'nga', 'ukraine', 'putin', 'zelenskyy', 'ਰੂਸ', 'ਯੂਕਰੇਨ', 'ਪੁੱਤਿਨ', 'ਜ਼ੈਲੇਨਸਕੀ', 'ਕੀਵ', 'ρωσία', 'ουκρανία', 'πούτιν', 'ζελένσκι', 'κίεβο',
-                    'russia', 'ucraina', 'putin', 'zelenskyy', 'kiev', 'rusya', 'ukrayna', 'रूस', 'यूक्रेन', 'पुतिन', 'ज़ेलेंस्की', 'कीव', 'rusia', 'ucrania', 'ロシア', 
+                    'كييف', 'ਰੂਸ', 'ਯੂਕਰੇਨ', 'ਪੁੱਤਿਨ', 'ਜ਼ੈਲੇਨਸਕੀ', 'ਕੀਵ', 'ρωσία', 'ουκρανία', 'πούτιν', 'ζελένσκι', 'κίεβο',
+                    'ucraina', 'kiev', 'rusya', 'ukrayna', 'रूस', 'यूक्रेन', 'पुतिन', 'ज़ेलेंस्की', 'कीव', 'rusia', 'ucrania', 'ロシア', 
                     'ウクライナ', 'プーチン', 'ゼレンスキー', 'キエフ', '러시아', '우크라이나', '푸틴', '젤렌스키', '키예프']
-
-    # crime
-    # simplified chinese, arabic, vietnamese, punjabi, greek, italian, filipino, hindi, spanish, japanese, korean
-    keyword_crime = ['robbery', 'police', 'murder', 'kill', 'suicide', 'corpse', 'violence', 'theft', 'assault', 'felony', 'terrorism', '抢劫', 
-                    '警察', '谋杀', '自杀', '尸体', '暴力', '盗窃', '袭击', '重罪', '恐怖主义', '犯罪', 'سرقة', 'شرطة', 'قتل', 'يقتل', 'انتحار', 
-                    'جثة', 'عنف', 'سرقة', 'اعتداء', 'جناية', 'إرهاب', 'cướp bóc', 'cảnh sát', 'giết người', 'giết', 'tự tử', 'xác chết', 'bạo lực', 
-                    'trộm cắp', 'tấn công', 'tội ác', 'khủng bố', 'ਡਾਕਾ', 'ਪੁਲਿਸ', 'ਕਤਲ', 'ਮਾਰਨਾ', 'ਆਤਮਘਾਤੀ', 'ਲਾਸ਼', 'ਹਿੰਸਾ', 'ਚੋਰੀ', 'ਹਮਲਾ', 'ਗੰਭੀਰ ਅਪਰਾਧ', 
-                    'ਆਤੰਕਵਾਦ', 'ληστεία', 'αστυνομία', 'δολοφονία', 'σκοτώνω', 'αυτοκτονία', 'πτώμα', 'βία', 'κλοπή', 'επίθεση', 'κακούργημα', 
-                    'τρομοκρατία', 'rapina', 'polizia', 'omicidio', 'uccidere', 'suicidio', 'cadavere', 'violenza', 'furto', 'aggressione', 
-                    'crimine', 'terrorismo', 'pagnanakaw', 'pulis', 'pagpatay', 'pumatay', 'pagpapakamatay', 'bangkay', 'karahasan', 'pagnanakaw', 
-                    'pagsalakay', 'kasalanang mabigat', 'terorismo', 'डकैती', 'पुलिस', 'हत्या', 'मारना', 'आत्महत्या', 'लाश', 'हिंसा', 'चोरी', 'हमला', 'अपराध', 
-                    'आतंकवाद', 'policía', 'asesinato', 'matar', 'suicidio', 'cadáver', 'violencia', 'robo', 'asalto', 'delito', 'terrorismo',
-                    '強盗', '殺人', '自殺', '死体', '窃盗', '暴行', 'テロ', '강도', '경찰', '살인', '죽이다', '자살', '시체', '폭력', '절도', '폭행', '중범죄', '테러']
 
 
     # Parse date format into YYYY-MM-DD HH:MM:SS
@@ -139,8 +127,6 @@ def extract_toot_info(one_toot):
         toot_category.append('depression')
     if any(kw in toot_content for kw in keyword_RU):
         toot_category.append('RU')
-    if any(kw in toot_content for kw in keyword_crime):
-        toot_category.append('crime')
     
 
     simplified_toot = {
