@@ -17,10 +17,10 @@ library(rgdal)
 source('helper.R')
   
 serverDepression = function(input, output){
-  base_url <- "http://172.26.134.229:5984"
-  database_twitter <- "twitter_data"
-  design_doc <- "customDoc"
-  view_name <- "count-depression"
+  #base_url <- "http://172.26.134.229:5984"
+  #database_twitter <- "twitter_data"
+  #design_doc <- "customDoc"
+  #view_name <- "count-depression"
   
   #get_mastodon_depression_count <- reactive({
   #  auto_refresh()
@@ -38,16 +38,16 @@ serverDepression = function(input, output){
   #})
   
   # Build the view URL
-  count_depression_url_twitter <- paste0(base_url, "/", database_twitter, "/_design/", design_doc, "/_view/", view_name, "?reduce=true&update=false")
-  response_twitter <- GET(count_depression_url_twitter)
-  count_depression_twitter <- as.data.frame(fromJSON(httr::content(response_twitter,"text", encoding = "UTF-8"))$rows)
+  #count_depression_url_twitter <- paste0(base_url, "/", database_twitter, "/_design/", design_doc, "/_view/", view_name, "?reduce=true&update=false")
+  #response_twitter <- GET(count_depression_url_twitter)
+  #count_depression_twitter <- as.data.frame(fromJSON(httr::content(response_twitter,"text", encoding = "UTF-8"))$rows)
   
-  output$depression_percentage_twitter <- renderValueBox({
-    valueBox(
-      value = paste0(round(count_depression_twitter$value/total_tweet$value * 100, 2), "%"), subtitle = "Percentage of Depression Mentioned in Twitter 2022",
-      icon = fa_i("twitter"),color="blue"
-    )
-  })
+  #output$depression_percentage_twitter <- renderValueBox({
+  #  valueBox(
+  #    value = paste0(round(count_depression_twitter$value/total_tweet$value * 100, 2), "%"), subtitle = "Percentage of Depression Mentioned in Twitter 2022",
+  #    icon = fa_i("twitter"),color="blue"
+  #  )
+  #})
   
   #output$depression_percentage_mastodon <- renderValueBox({
   #  valueBox(
@@ -56,12 +56,12 @@ serverDepression = function(input, output){
   #  )
   #})
   
-  output$depression_total_twitter <- renderValueBox({
-    valueBox(
-      value = paste0(count_depression_twitter$value), subtitle = "Total Number of Depression Mentioned in Twitter 2022",
-      icon = fa_i("twitter"),color="blue"
-    )
-  })
+  #output$depression_total_twitter <- renderValueBox({
+  #  valueBox(
+  #    value = paste0(count_depression_twitter$value), subtitle = "Total Number of Depression Mentioned in Twitter 2022",
+  #    icon = fa_i("twitter"),color="blue"
+  #  )
+  #})
   
   #output$depression_total_mastodon <- renderValueBox({
   #  valueBox(

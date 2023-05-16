@@ -37,17 +37,17 @@ serverReligion = function(input, output){
   count_religion_url <- paste0(base_url, "/", database, "/_design/", design_doc, "/_view/", view_name, "?reduce=true&update=false")
   response <- GET(count_religion_url)
   count_religion <- as.data.frame(fromJSON(httr::content(response,"text", encoding = "UTF-8"))$rows)
-  output$education_religion <- renderHighchart({
+  #output$education_religion <- renderHighchart({
     # education_data <- education_sudo
-    highchart() %>%
-      hc_chart(type = "column") %>%
-      hc_title(text = "Religion People Number and Year 12 or Above by Area") %>%
-      hc_xAxis(categories = sudo_data$key) %>%
-      hc_yAxis(title = list(text = "Year 12 or Above")) %>%
-      hc_add_series(name = "2016 SUDO", data = sudo_data$year_12_or_above) %>%
-      hc_plotOptions(series = list(borderRadius = 4, animation = list(duration = 3000)))
+  #  highchart() %>%
+  #    hc_chart(type = "column") %>%
+  #    hc_title(text = "Religion People Number and Year 12 or Above by Area") %>%
+  #    hc_xAxis(categories = sudo_data$key) %>%
+  #    hc_yAxis(title = list(text = "Year 12 or Above")) %>%
+  #    hc_add_series(name = "2016 SUDO", data = sudo_data$year_12_or_above) %>%
+  #    hc_plotOptions(series = list(borderRadius = 4, animation = list(duration = 3000)))
     
-  })
+  #})
   
   output$christianity <- renderHighchart({
     # Define color options
