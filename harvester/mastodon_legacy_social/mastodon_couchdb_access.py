@@ -20,7 +20,7 @@ def get_ip_address(interface):
     except IOError:
         assert False, "Unable to retrieve IP Address for " + interface
 
-NODE = get_ip_address('eth0')
+NODE = get_ip_address('eth0') # Please manually set to specific Couchdb address when running on local machine
 ADMIN = 'admin'
 PASSWORD = 'admin'
 
