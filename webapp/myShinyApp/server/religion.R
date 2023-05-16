@@ -84,7 +84,7 @@ serverReligion = function(input, output){
   
   output$christianity_percentage_twitter <- renderValueBox({
     valueBox(
-      value = paste(round(count_religion$value/total_tweet$value * 100, 2), "%"), subtitle = "Christianity Mentioned in Twitter 2022",
+      value = paste0(round(count_religion$value/total_tweet$value * 100, 2), "%"), subtitle = "Christianity Mentioned in Twitter 2022",
       icon = fa_i("twitter"),color="blue"
     )
   })

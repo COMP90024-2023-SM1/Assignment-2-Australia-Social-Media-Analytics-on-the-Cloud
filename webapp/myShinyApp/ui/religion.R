@@ -25,7 +25,7 @@ tabItemReligion <- function() {
           fluidPage(
             
             titlePanel(strong("Religion Scenario ")),
-            h5("This scenario aims to study the religion across various areas and different demographic categories, using supplementary SUDO data to explore the situation of its development and distribution. "),
+            h5("This scenario aims to study the christianity across various areas and different demographic categories, using supplementary SUDO data to explore the situation of its development and distribution. "),
             hr(),
             fluidRow(
               column(6, valueBoxOutput("christianity_percentage_2016", width = 14)),
