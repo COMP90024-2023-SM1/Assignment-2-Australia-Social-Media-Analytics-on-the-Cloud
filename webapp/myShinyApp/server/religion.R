@@ -44,9 +44,9 @@ serverReligion = function(input, output){
       hc_xAxis(
         title = list(text = "Australian Location"),
         categories = sudo_data$key) %>%
-      hc_add_series(sudo_data, name = "Christian Population Percentage", "column", hcaes(x = key, y = christianity_percentage)) %>%
+      hc_add_series(sudo_data, name = "Christian Population Percentage %", "column", hcaes(x = key, y = christianity_percentage)) %>%
       hc_plotOptions(series = list(borderRadius = 4, animation = list(duration = 3000))) %>%
-      hc_add_series(sudo_data, name = "Christian-related Tweet Percentage", "spline", hcaes(x = key, y = percent), yAxis = 1) %>%
+      hc_add_series(sudo_data, name = "Christian-related Tweet Percentage %", "spline", hcaes(x = key, y = percent), yAxis = 1) %>%
       hc_colors(col) %>%
       # Use shared tooltips
       hc_tooltip(crosshairs = TRUE, shared = TRUE)
