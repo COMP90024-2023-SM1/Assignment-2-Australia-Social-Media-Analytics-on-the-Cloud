@@ -35,14 +35,14 @@ serverReligion = function(input, output){
       hc_title(text = "Christianity Percentage Comparison") %>%
       hc_xAxis(categories = sudo_data$key) %>%
       hc_yAxis(title = list(text = "Religion Percentage")) %>%
-      hc_add_series(name = "Religion Percentage", data = sudo_data$christianity_percentage, color="#DF5665") %>%
+      hc_add_series(name = "2016 SUDO", data = sudo_data$christianity_percentage, color="#DF5665") %>%
       hc_plotOptions(series = list(borderRadius = 4, animation = list(duration = 3000)))
   })
   
   output$christianity_percentage_2016 <- renderValueBox({
     valueBox(
-    value = mean(sudo_data$christianity_percentage), subtitle = "Christianity Percentage in 2016",
-    icon = fa_i("mastodon"), color = "blue"
+    value = round(mean(sudo_data$christianity_percentage),3), subtitle = "Christianity Percentage in 2016",
+    icon = fa_i("earth-oceania"), color = "blue"
     )
   })
   

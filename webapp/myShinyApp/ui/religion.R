@@ -32,7 +32,7 @@ tabItemReligion <- function() {
             hr(),
             highchartOutput("christianity", height = 485),
             fluidRow(
-              column(2, valueBoxOutput("christianity_percentage_2016"))
+              column(8, valueBoxOutput("christianity_percentage_2016"))
             ),
             hr(),
             h5('Charts and map are created using ', 
