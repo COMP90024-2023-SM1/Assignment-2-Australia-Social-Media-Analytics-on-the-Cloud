@@ -58,8 +58,8 @@ serverReligion = function(input, output){
       hc_title(text = "Christianity Population and Christian-related Tweet In Each Location") %>%
       hc_chart(zoomType = "x") %>%
       hc_yAxis_multiples(
-        list(title = list(text = "Christian Population Percentage"), showLastLabel = TRUE, opposite = FALSE),
-        list(title = list(text = "Christian-related Tweet Percentage"), opposite = TRUE)
+        list(title = list(text = "Christian Population Percentage %"), showLastLabel = TRUE, opposite = FALSE),
+        list(title = list(text = "Christian-related Tweet Percentage %"), opposite = TRUE)
       ) %>%
       hc_xAxis(
         title = list(text = "Australian Location"),
@@ -76,7 +76,7 @@ serverReligion = function(input, output){
   output$christianity_percentage_2016 <- renderValueBox({
     valueBox(
       value = paste0(round(mean(sudo_data$christianity_percentage), 2), "%"), 
-      subtitle = "Australia Christian Population",
+      subtitle = "Australia Christianity Population (2016)",
       icon = fa_i("earth-oceania"), 
       color = "blue"
     )

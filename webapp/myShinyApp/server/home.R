@@ -38,14 +38,14 @@ serverHome = function(input, output){
   output$total_tweet <- renderValueBox({
     valueBox(
       value = total_tweet$value, subtitle = "Total Tweets",
-      icon = fa_i("twitter"), color = "light-blue"
+      icon = fa_i("twitter"), color = "aqua"
     )
   })
   
   output$total_mastodon <- renderValueBox({
     valueBox(
       value = get_mastodon_count(), subtitle = "Total Toots",
-      icon = fa_i("mastodon"), color = "blue"
+      icon = fa_i("mastodon"), color = "purple"
     )
   })
   
