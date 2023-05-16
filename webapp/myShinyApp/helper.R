@@ -25,6 +25,8 @@ location_mapping <- c("1GSYD" = "Sydney", "2GMEL" = "Melbourne", "3GBRI" = "Bris
                       "7RNTE" = "Rural NT")
 generalTweet_info$key <- location_mapping[generalTweet_info$key]
 
+
+
 tweet_month <- GET('http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-month?reduce=true&group=true&update=false')
 tweet_month <- fromJSON(httr::content(tweet_month, "text", encoding = "UTF-8"))$rows
 tweet_month <- tweet_month %>%
@@ -46,6 +48,18 @@ home_wordcloud <- home_wordcloud[!(tolower(home_wordcloud$key) %in% stopwords_li
 home_wordcloud = home_wordcloud[order(home_wordcloud$value, decreasing = TRUE), ]
 home_wordcloud <- home_wordcloud[1:100, ]
 
+chris_percent_gcc <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/religion-per-gcc?reduce=true&group=true&update=false')
+chris_percent_gcc <- as.data.frame(fromJSON(httr::content(chris_percent_gcc, "text", encoding = "UTF-8"))$rows)
+chris_percent_gcc <- chris_percent_gcc[chris_percent_gcc$key != "9OTER", ]
+chris_percent_gcc$key <- location_mapping[chris_percent_gcc$key]
+colnames(chris_percent_gcc) <- c('key', 'religion_value')
+gcc_total_tweet <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-gcc?reduce=true&group=true&update=false')
+gcc_total_tweet <- as.data.frame(fromJSON(httr::content(gcc_total_tweet, "text", encoding = "UTF-8"))$rows)
+gcc_total_tweet <- gcc_total_tweet[gcc_total_tweet$key != "9OTER", ]
+gcc_total_tweet$key <- location_mapping[gcc_total_tweet$key]
+chris_percent_gcc <- merge(chris_percent_gcc, gcc_total_tweet, by = 'key')
+chris_percent_gcc$percent <- round((chris_percent_gcc$religion_value / chris_percent_gcc$value) * 100, 2)
+
 # read SUDO data
 population_sudo <- read.csv("./SUDO_data/population_religion_languages.csv", header = T)
 education_sudo <- read.csv("./SUDO_data/education.csv", header=T)
@@ -53,6 +67,15 @@ income_sudo <- read.csv("./SUDO_data/investment_income.csv", header=T)
 merged_data1 <- merge(population_sudo, education_sudo, by = c("gccsa_code", "gccsa_name"))
 sudo_data <- merge(merged_data1, income_sudo, by = c("gccsa_code", "gccsa_name"))
 sudo_data$key <-  location_mapping[sudo_data$gccsa_code]
+sudo_data <- merge(sudo_data, chris_percent_gcc, by = 'key')
+
+desired_order <- c("Adelaide", "Rural SA", "Brisbane", "Rural QLD", "Darwin", 
+                   'Rural NT', "Melbourne", 'Rural VIC', "Perth", "Rural WA", 
+                   "Sydney", "Rural NSW", "Hobart", "Rural TAS", "Canberra")
+
+sudo_data <- sudo_data %>%
+  mutate(key = factor(key, levels = desired_order)) %>%
+  arrange(key)
 
 # load spatial data
 #gcc_shapefile <- readOGR( 

@@ -27,13 +27,13 @@ tabItemReligion <- function() {
             titlePanel(strong("Religion Scenario ")),
             h5("This scenario aims to study the religion across various areas and different demographic categories, using supplementary SUDO data to explore the situation of its development and distribution. "),
             hr(),
+            fluidRow(
+              column(6, valueBoxOutput("christianity_percentage_2016", width = 14))
+            ),
             # Define highcharter output
-            highchartOutput("education_religion", height = 485),
+            #highchartOutput("education_religion", height = 485),
             hr(),
             highchartOutput("christianity", height = 485),
-            fluidRow(
-              column(8, valueBoxOutput("christianity_percentage_2016"))
-            ),
             hr(),
             h5('Charts and map are created using ', 
                a("Highcharter", 
