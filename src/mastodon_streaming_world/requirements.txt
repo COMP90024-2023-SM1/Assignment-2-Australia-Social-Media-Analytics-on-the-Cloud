@@ -1,5 +1,0 @@
-couchdb
-nltk
-bs4
-requests
-Mastodon.py
