@@ -35,6 +35,7 @@ sudo chmod 755 /data/couch
 
 sudo docker create \
   --name "${CONTAINER_NAME}" \
+  --restart=always \
   --network host \
   --env COUCHDB_USER=${USERNAME} \
   --env COUCHDB_PASSWORD=${PASSWORD} \
