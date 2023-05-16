@@ -24,7 +24,7 @@ volumes:
 # Security a group
 security_groups:
   - name: group-64-2
-    description: "default"
+    description: "All Egress (IPv6, any)"
     ether_type: IPv6
     protocol: any
     direction: egress
@@ -32,7 +32,7 @@ security_groups:
     port_range_max: 65535
     remote_ip_prefix: ::/0
   - name: group-64-2
-    description: "default"
+    description: "All Egress (IPv4, any)"
     ether_type: IPv4
     protocol: any
     direction: egress
@@ -57,7 +57,7 @@ security_groups:
     port_range_max: 80
     remote_ip_prefix: 0.0.0.0/0
   - name: group-64-2
-    description: "All Engress"
+    description: "All Egress (IPv4, tcp)"
     ether_type: IPv4
     protocol: tcp
     direction: egress
