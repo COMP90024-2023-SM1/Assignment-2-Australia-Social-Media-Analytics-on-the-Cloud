@@ -102,7 +102,8 @@ serverHome = function(input, output){
            tooltip = list(pointFormat = "Number of Tweets Made: <b>{point.value}</b>")) %>%
       hc_title(text = "Number of Tweets Made in 2022") %>%
       hc_yAxis(title = list(text = "Number of Tweets")) %>%
-      hc_xAxis(title = list(text = "Month"))
+      hc_xAxis(title = list(text = "Month")) %>%
+      hc_colors('#FBE106')
   })
   
   output$home_wordcloud <- renderHighchart({

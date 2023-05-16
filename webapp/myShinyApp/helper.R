@@ -25,8 +25,6 @@ location_mapping <- c("1GSYD" = "Sydney", "2GMEL" = "Melbourne", "3GBRI" = "Bris
                       "7RNTE" = "Rural NT")
 generalTweet_info$key <- location_mapping[generalTweet_info$key]
 
-
-
 tweet_month <- GET('http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-month?reduce=true&group=true&update=false')
 tweet_month <- fromJSON(httr::content(tweet_month, "text", encoding = "UTF-8"))$rows
 tweet_month <- tweet_month %>%
