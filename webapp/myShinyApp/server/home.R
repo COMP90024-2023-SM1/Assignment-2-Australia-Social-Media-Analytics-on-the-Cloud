@@ -37,7 +37,7 @@ serverHome = function(input, output){
   # Value box for incident count
   output$total_tweet <- renderValueBox({
     valueBox(
-      value = total_tweet$rows[[1]]$value, subtitle = "Total Tweets",
+      value = total_tweet$value, subtitle = "Total Tweets",
       icon = fa_i("twitter"), color = "light-blue"
     )
   })

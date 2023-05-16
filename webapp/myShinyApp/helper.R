@@ -8,7 +8,7 @@ library(rgdal)
 
 # Helper functions
 total_tweet <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false")
-total_tweet <- httr::content(total_tweet, "parsed")
+total_tweet <- as.data.frame(fromJSON(httr::content(total_tweet, "text", encoding = "UTF-8"))$rows)
 
 generalTweet_info <- GET('http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-gcc-date?reduce=true&group=true&update=false')
 generalTweet_info <- as.data.frame(fromJSON(httr::content(generalTweet_info, "text", encoding = "UTF-8"))$rows)
