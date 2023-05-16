@@ -17,4 +17,57 @@ library(rgdal)
 source('helper.R')
   
 serverDepression = function(input, output){
+  base_url <- "http://172.26.134.229:5984"
+  database_twitter <- "twitter_data"
+  design_doc <- "customDoc"
+  view_name <- "count-depression"
+  
+  #get_mastodon_depression_count <- reactive({
+  #  auto_refresh()
+  #  legacy_social_count <- GET('http://172.26.128.113:5984/legacy_mastodon_social_data/_design/customDoc/_view/count-depression?reduce=true&group=true')
+  #  legacy_social_count <- fromJSON(httr::content(legacy_social_count, "text", encoding = "UTF-8"))$rows$value
+  #  legacy_world_count <- GET('http://172.26.128.113:5984/legacy_mastodon_world_data/_design/customDoc/_view/count-depression?reduce=true&group=true&update=false')
+  #  legacy_world_count <- fromJSON(httr::content(legacy_world_count, "text", encoding = "UTF-8"))$rows$value
+  #  stream_social_count <- GET('http://172.26.128.113:5984/streaming_mastodon_social_data/_design/customDoc/_view/count-depression?reduce=true&group=true&update=false')
+  #  stream_social_count <- fromJSON(httr::content(stream_social_count, "text", encoding = "UTF-8"))$rows$value
+  #  stream_world_count <- GET('http://172.26.128.113:5984/streaming_mastodon_world_data/_design/customDoc/_view/count-depression?reduce=true&group=true&update=false')
+  #  stream_world_count <- fromJSON(httr::content(stream_world_count, "text", encoding = "UTF-8"))$rows$value
+  #  total_count <- legacy_social_count + legacy_world_count + stream_social_count + stream_world_count
+  #  
+  #  return(total_count)
+  #})
+  
+  # Build the view URL
+  count_depression_url_twitter <- paste0(base_url, "/", database_twitter, "/_design/", design_doc, "/_view/", view_name, "?reduce=true&update=false")
+  response_twitter <- GET(count_depression_url_twitter)
+  count_depression_twitter <- as.data.frame(fromJSON(httr::content(response_twitter,"text", encoding = "UTF-8"))$rows)
+  
+  output$depression_percentage_twitter <- renderValueBox({
+    valueBox(
+      value = paste0(round(count_depression_twitter$value/total_tweet$value * 100, 2), "%"), subtitle = "Percentage of Depression Mentioned in Twitter 2022",
+      icon = fa_i("twitter"),color="blue"
+    )
+  })
+  
+  #output$depression_percentage_mastodon <- renderValueBox({
+  #  valueBox(
+  #    value = paste0(round(get_mastodon_depression_count()/total_mastodon$value * 100, 2), "%"), subtitle = "Percentage of Depression Mentioned in Mastodon 2023",
+  #    icon = fa_i("twitter"),color="blue"
+  #  )
+  #})
+  
+  output$depression_total_twitter <- renderValueBox({
+    valueBox(
+      value = paste0(count_depression_twitter$value), subtitle = "Total Number of Depression Mentioned in Twitter 2022",
+      icon = fa_i("twitter"),color="blue"
+    )
+  })
+  
+  #output$depression_total_mastodon <- renderValueBox({
+  #  valueBox(
+  #    value = get_mastodon_depression_count(), subtitle = "Total Number of Depression Mentioned in Mastodon 2023",
+  #    icon = fa_i("mastodon"), color = "purple"
+  #  )
+  #})
+  
 }
