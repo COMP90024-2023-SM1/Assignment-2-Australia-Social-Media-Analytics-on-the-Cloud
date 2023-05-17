@@ -24,16 +24,18 @@ tabItemDepression <- function() {
   tabItem("depression",
           fluidPage(
             titlePanel(strong("Depression Scenario")),
-            h5("This scenario aims to study the depression across various areas and different demographic categories"),
+            h5("The depression dashboard provides an in-depth analysis of depression-related data across various regions. 
+               Here,  delve into the comparison of Twitter and Mastodon data, illuminating differences and similarities 
+               in the conversation surrounding mental health on these different social networks."),
             hr(),
             highchartOutput("depression_weekday_hour", height = 450),
             hr(),
             # Use fluid row layout to put two plots side by side
             fluidRow(
               column(6, valueBoxOutput("depression_percentage_twitter", width = 7)),
-              column(6, valueBoxOutput("depression_total_twitter", width = 7))
-              #column(6, valueBoxOutput("depression_total_mastodon", width = 7)),
-              #column(6, valueBoxOutput("depression_total_mastodon", width = 7))
+              column(6, valueBoxOutput("depression_total_twitter", width = 7)),
+              column(6, valueBoxOutput("depression_total_mastodon", width = 7)),
+              column(6, valueBoxOutput("depression_total_mastodon", width = 7))
             ),
             hr(),
             h5('Charts and map are created using ', 
