@@ -25,7 +25,7 @@ serverDepression = function(input, output){
       arrange(weekday, hour)
     
     hchart(depression_week_hour, "heatmap", hcaes(x = hour, y = weekday, value = value)) %>%
-      hc_title(text = "Weekday-Hourly Depression-related Tweet Frequency (UTC Time)") %>%
+      hc_title(text = "Weekday-Hourly Depression-related Tweet Frequency (AEST)") %>%
       hc_xAxis(title = list(text = "Hour of Day")) %>%
       hc_yAxis(title = list(text = "Weekday")) %>%
       hc_colorAxis(stops = color_stops(n = 10, colors = c("white", "red"))) %>%

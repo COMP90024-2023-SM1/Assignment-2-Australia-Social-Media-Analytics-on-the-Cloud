@@ -58,7 +58,7 @@ gcc_total_tweet$key <- location_mapping[gcc_total_tweet$key]
 chris_percent_gcc <- merge(chris_percent_gcc, gcc_total_tweet, by = 'key')
 chris_percent_gcc$percent <- round((chris_percent_gcc$religion_value / chris_percent_gcc$value) * 100, 2)
 
-depression_week_hour <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/depression-week-hour?reduce=true&group=true&update=false')
+depression_week_hour <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/depression-week-hour-aest?reduce=true&group=true&update=false')
 depression_week_hour <- as.data.frame(fromJSON(httr::content(depression_week_hour, "text", encoding = "UTF-8"))$rows)
 depression_week_hour <- depression_week_hour %>%
   separate(key, into = c("weekday", "hour"), sep = " ")
