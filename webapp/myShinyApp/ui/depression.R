@@ -26,7 +26,8 @@ tabItemDepression <- function() {
             titlePanel(strong("Depression Scenario")),
             h5("This scenario aims to study the depression across various areas and different demographic categories"),
             hr(),
-            
+            highchartOutput("depression_weekday_hour", height = 450),
+            hr(),
             # Use fluid row layout to put two plots side by side
             fluidRow(
               column(6, valueBoxOutput("depression_percentage_twitter", width = 7)),

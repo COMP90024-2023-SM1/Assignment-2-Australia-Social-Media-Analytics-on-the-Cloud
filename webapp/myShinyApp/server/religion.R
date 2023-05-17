@@ -28,14 +28,8 @@ serverReligion = function(input, output){
   #    hc_plotOptions(series = list(borderRadius = 4, animation = list(duration = 3000)))
   #  
   #})
-  base_url <- "http://172.26.134.229:5984"
-  database <- "twitter_data"
-  design_doc <- "customDoc"
-  view_name <- "count-religion"
   
-  # Build the view URL
-  count_religion_url <- paste0(base_url, "/", database, "/_design/", design_doc, "/_view/", view_name, "?reduce=true&update=false")
-  response <- GET(count_religion_url)
+  response <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-religion?reduce=true&group=true&update=false')
   count_religion <- as.data.frame(fromJSON(httr::content(response,"text", encoding = "UTF-8"))$rows)
   #output$education_religion <- renderHighchart({
     # education_data <- education_sudo

@@ -17,6 +17,21 @@ library(rgdal)
 source('helper.R')
   
 serverDepression = function(input, output){
+  
+  output$depression_weekday_hour <- renderHighchart({
+    depression_week_hour$hour <- as.numeric(depression_week_hour$hour)
+    depression_week_hour$weekday <- factor(depression_week_hour$weekday, levels = c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), ordered = TRUE)
+    depression_week_hour <- depression_week_hour %>%
+      arrange(weekday, hour)
+    
+    hchart(depression_week_hour, "heatmap", hcaes(x = hour, y = weekday, value = value)) %>%
+      hc_title(text = "Weekday-Hourly Depression-related Tweet Frequency (UTC Time)") %>%
+      hc_xAxis(title = list(text = "Hour of Day")) %>%
+      hc_yAxis(title = list(text = "Weekday")) %>%
+      hc_colorAxis(stops = color_stops(n = 10, colors = c("white", "red"))) %>%
+      hc_tooltip(pointFormat = '<b>{point.weekday} {point.hour}:00</b>
+                   <br/><b>Number of tweets:</b> {point.value}')
+  })
   #base_url <- "http://172.26.134.229:5984"
   #database_twitter <- "twitter_data"
   #design_doc <- "customDoc"
