@@ -34,7 +34,6 @@ tabItemDepression <- function() {
             fluidRow(
               column(6, valueBoxOutput("depression_percentage_twitter", width = 7)),
               column(6, valueBoxOutput("depression_total_twitter", width = 7)),
-              column(6, valueBoxOutput("depression_total_mastodon", width = 7)),
               column(6, valueBoxOutput("depression_total_mastodon", width = 7))
             ),
             hr(),
