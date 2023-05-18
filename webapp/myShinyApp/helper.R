@@ -10,7 +10,7 @@ library(rgdal)
 total_tweet <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false")
 total_tweet <- as.data.frame(fromJSON(httr::content(total_tweet, "text", encoding = "UTF-8"))$rows)
 
-generalTweet_info <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-gcc-date?reduce=true&group=true&update=false')
+generalTweet_info <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-gcc-date?reduce=true&group=true&update=false")
 generalTweet_info <- as.data.frame(fromJSON(httr::content(generalTweet_info, "text", encoding = "UTF-8"))$rows)
 generalTweet_info$key <- sapply(generalTweet_info$key, paste, collapse = ", ")
 generalTweet_info <- generalTweet_info %>%
@@ -46,19 +46,19 @@ home_wordcloud <- home_wordcloud[!(tolower(home_wordcloud$key) %in% stopwords_li
 home_wordcloud = home_wordcloud[order(home_wordcloud$value, decreasing = TRUE), ]
 home_wordcloud <- home_wordcloud[1:100, ]
 
-chris_percent_gcc <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/religion-per-gcc?reduce=true&group=true&update=false')
+chris_percent_gcc <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/religion-per-gcc?reduce=true&group=true&update=false")
 chris_percent_gcc <- as.data.frame(fromJSON(httr::content(chris_percent_gcc, "text", encoding = "UTF-8"))$rows)
 chris_percent_gcc <- chris_percent_gcc[chris_percent_gcc$key != "9OTER", ]
 chris_percent_gcc$key <- location_mapping[chris_percent_gcc$key]
 colnames(chris_percent_gcc) <- c('key', 'religion_value')
-gcc_total_tweet <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-gcc?reduce=true&group=true&update=false')
+gcc_total_tweet <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-by-gcc?reduce=true&group=true&update=false")
 gcc_total_tweet <- as.data.frame(fromJSON(httr::content(gcc_total_tweet, "text", encoding = "UTF-8"))$rows)
 gcc_total_tweet <- gcc_total_tweet[gcc_total_tweet$key != "9OTER", ]
 gcc_total_tweet$key <- location_mapping[gcc_total_tweet$key]
 chris_percent_gcc <- merge(chris_percent_gcc, gcc_total_tweet, by = 'key')
 chris_percent_gcc$percent <- round((chris_percent_gcc$religion_value / chris_percent_gcc$value) * 100, 2)
 
-depression_week_hour <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/depression-week-hour-aest?reduce=true&group=true&update=false')
+depression_week_hour <- GET("http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/depression-week-hour-aest?reduce=true&group=true&update=false")
 depression_week_hour <- as.data.frame(fromJSON(httr::content(depression_week_hour, "text", encoding = "UTF-8"))$rows)
 depression_week_hour <- depression_week_hour %>%
   separate(key, into = c("weekday", "hour"), sep = " ")

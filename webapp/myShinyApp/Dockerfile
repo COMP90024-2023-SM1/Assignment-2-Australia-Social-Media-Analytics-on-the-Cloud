@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     libglpk40
 
 # Install Shiny and other required packages
-RUN R -e "install.packages(c('shiny', 'httr', 'stringr', 'shinythemes', 'fontawesome', 'shinydashboard', 'igraph', 'highcharter', 'dplyr', 'tidyr', 'dashboardthemes','shinyWidgets','rgdal'))"
+RUN R -e "install.packages(c('shiny', 'httr', 'stringr', 'shinythemes', 'fontawesome', 'shinydashboard', 'igraph', 'highcharter', 'dplyr', 'tidyr', 'dashboardthemes','shinyWidgets','rgdal','tm'))"
 # Copy the app files to the image
 COPY ./server.R /app/server.R
 COPY ./ui.R /app/ui.R

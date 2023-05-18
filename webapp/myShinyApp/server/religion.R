@@ -29,8 +29,12 @@ serverReligion = function(input, output){
   #  
   #})
   
-  response <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-religion?reduce=true&group=true&update=false')
-  count_religion <- as.data.frame(fromJSON(httr::content(response,"text", encoding = "UTF-8"))$rows)
+  count_religion_response <- GET("http://admin:admin@172.26.128.113:5984//twitter_data/_design/customDoc/_view/count-religion?reduce=true&group=true&update=false")
+  count_religion <- as.data.frame(fromJSON(httr::content(count_religion_response,"text", encoding = "UTF-8"))$rows)
+  
+  month_religion_reponse <- GET("http://admin:admin@172.26.128.113:5984//twitter_data/_design/customDoc/_view/count-religion-tweet-month?reduce=true&group=true&update=false")
+  month_religion <- as.data.frame(fromJSON(httr::content(month_religion_reponse,"text", encoding = "UTF-8"))$rows)
+                                  
   #output$education_religion <- renderHighchart({
     # education_data <- education_sudo
   #  highchart() %>%
@@ -66,6 +70,16 @@ serverReligion = function(input, output){
       hc_tooltip(crosshairs = TRUE, shared = TRUE)
 
   })
+  output$christrianity_date_range <- renderHighchart({
+    highchart() %>%
+      hc_chart(type = "line") %>%
+      hc_title(text = "Tweet Counts by Date Range") %>%
+      hc_xAxis(categories = month_religion$key) %>%
+      hc_yAxis(title = list(text = "Tweet Count")) %>%
+      hc_add_series(name = "Tweet Count", data = month_religion$value) %>%
+      hc_exporting(enabled = TRUE)  # Optional: Enable exporting the chart
+  })
+  
   
   output$christianity_percentage_2016 <- renderValueBox({
     valueBox(
