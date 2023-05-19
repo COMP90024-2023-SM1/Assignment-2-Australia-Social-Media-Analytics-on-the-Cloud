@@ -24,13 +24,16 @@ serverDepression = function(input, output){
     depression_week_hour <- depression_week_hour %>%
       arrange(weekday, hour)
     
-    hchart(depression_week_hour, "heatmap", hcaes(x = hour, y = weekday, value = value)) %>%
-      hc_title(text = "Weekday-Hourly Depression-related Tweet Frequency (AEST)") %>%
+    hchart(name = "Tweet Depression", depression_week_hour, "heatmap", hcaes(x = hour, y = weekday, value = value)) %>%
+      hc_title(text = "Twitter - Weekday-Hourly Depression-related Tweet Frequency (AEST)") %>%
       hc_xAxis(title = list(text = "Hour of Day")) %>%
       hc_yAxis(title = list(text = "Weekday")) %>%
       hc_colorAxis(stops = color_stops(n = 10, colors = c("white", "red"))) %>%
       hc_tooltip(pointFormat = '<b>{point.weekday} {point.hour}:00</b>
-                   <br/><b>Number of tweets:</b> {point.value}')
+                   <br/><b>Number of tweets:</b> {point.value}') %>% 
+      hc_legend(align = "right", layout = "vertical",
+                margin = 0, verticalAlign = "top",
+                y = 60, symbolHeight = 250)
   })
   
   output$depression_weekday_hour_m <- renderHighchart({
@@ -39,13 +42,16 @@ serverDepression = function(input, output){
     depression_week_hour_m_total <- depression_week_hour_m_total%>%
       arrange(weekday, hour)
     
-    hchart(depression_week_hour_m_total, "heatmap", hcaes(x = hour, y = weekday, value = value)) %>%
-      hc_title(text = "Weekday-Hourly Depression-related Mastodon Twoot Frequency (AEST)") %>%
+    hchart(name = "Toot Depression", depression_week_hour_m_total, "heatmap", hcaes(x = hour, y = weekday, value = value)) %>%
+      hc_title(text = "Mastodon - Weekday-Hourly Depression-related Toot Frequency (AEST)") %>%
       hc_xAxis(title = list(text = "Hour of Day")) %>%
       hc_yAxis(title = list(text = "Weekday")) %>%
       hc_colorAxis(stops = color_stops(n = 10, colors = c("white", "blue"))) %>%
       hc_tooltip(pointFormat = '<b>{point.weekday} {point.hour}:00</b>
-                   <br/><b>Number of tweets:</b> {point.value}')
+                   <br/><b>Number of tweets:</b> {point.value}') %>% 
+      hc_legend(align = "right", layout = "vertical",
+                margin = 0, verticalAlign = "top",
+                y = 60, symbolHeight = 250)
   })
 
   
@@ -84,7 +90,7 @@ serverDepression = function(input, output){
   output$depression_percentage_twitter <- renderValueBox({
     valueBox(
       value = paste0(round(count_depression_twitter$value/total_tweet$value * 100, 2), "%"), subtitle = "Percentage of Depression Mentioned in Twitter 2022",
-      icon = fa_i("twitter"),color="blue"
+      icon = fa_i("twitter"),color="aqua"
     )
   })
   
@@ -98,7 +104,7 @@ serverDepression = function(input, output){
   output$depression_total_twitter <- renderValueBox({
     valueBox(
       value = paste0(count_depression_twitter$value), subtitle = "Total Number of Depression Mentioned in Twitter 2022",
-      icon = fa_i("twitter"),color="blue"
+      icon = fa_i("twitter"),color="aqua"
     )
   })
   

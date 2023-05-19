@@ -30,15 +30,15 @@ tabItemDepression <- function() {
             hr(),
             # Use fluid row layout to put two plots side by side
             fluidRow(
-              column(3, valueBoxOutput("depression_percentage_twitter", width = 12)),
-              column(3, valueBoxOutput("depression_total_twitter", width = 12)),
-              column(3, valueBoxOutput("depression_percentage_mastodon", width = 12)),
-              column(3, valueBoxOutput("depression_total_mastodon", width = 12))
+              column(3, valueBoxOutput("depression_percentage_twitter", width = 14)),
+              column(3, valueBoxOutput("depression_total_twitter", width = 14)),
+              column(3, valueBoxOutput("depression_percentage_mastodon", width = 14)),
+              column(3, valueBoxOutput("depression_total_mastodon", width = 14))
             ),
             hr(),
-            highchartOutput("depression_weekday_hour", height = 450),
-            highchartOutput("depression_weekday_hour_m", height=450),
-           
+            highchartOutput("depression_weekday_hour", height = 400),
+            hr(),
+            highchartOutput("depression_weekday_hour_m", height = 400),
             hr(),
             h5('Charts and map are created using ', 
                a("Highcharter", 

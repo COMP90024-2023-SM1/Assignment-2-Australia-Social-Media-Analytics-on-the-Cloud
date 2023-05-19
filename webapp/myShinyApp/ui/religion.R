@@ -36,7 +36,7 @@ tabItemReligion <- function() {
             hr(),
             highchartOutput("christianity", height = 486),
             hr(),
-            highchartOutput("christrianity_date_range", height = 486),
+            highchartOutput("christrianity_date_range", height = 250),
 
             hr(),
             h5('Charts and map are created using ', 
