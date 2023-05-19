@@ -85,7 +85,7 @@ serverReligion = function(input, output){
     valueBox(
       value = paste0(round(mean(sudo_data$christianity_percentage), 2), "%"), 
       subtitle = "Australia Christianity Population (2016)",
-      icon = fa_i("earth-oceania"), 
+      icon = icon("earth-oceania", class='fa-spin'), 
       color = "blue"
     )
   })
@@ -94,7 +94,7 @@ serverReligion = function(input, output){
     valueBox(
       value = paste0(round(count_religion$value/total_tweet$value * 100, 2), "%"), 
       subtitle = "Christian-related Tweet Proportion in 2022",
-      icon = fa_i("twitter"), color="aqua"
+      icon = icon("twitter"), color="aqua"
     )
   })
 }
