@@ -32,6 +32,21 @@ serverDepression = function(input, output){
       hc_tooltip(pointFormat = '<b>{point.weekday} {point.hour}:00</b>
                    <br/><b>Number of tweets:</b> {point.value}')
   })
+  
+  output$depression_weekday_hour_m <- renderHighchart({
+    depression_week_hour_m_total$hour <- as.numeric(depression_week_hour_m_total$hour)
+    depression_week_hour_m_total$weekday <- factor(depression_week_hour_m_total$weekday, levels = c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), ordered = TRUE)
+    depression_week_hour_m_total <- depression_week_hour_m_total%>%
+      arrange(weekday, hour)
+    
+    hchart(depression_week_hour_m_total, "heatmap", hcaes(x = hour, y = weekday, value = value)) %>%
+      hc_title(text = "Weekday-Hourly Depression-related Twoot Frequency (AEST)") %>%
+      hc_xAxis(title = list(text = "Hour of Day")) %>%
+      hc_yAxis(title = list(text = "Weekday")) %>%
+      hc_colorAxis(stops = color_stops(n = 10, colors = c("white", "blue"))) %>%
+      hc_tooltip(pointFormat = '<b>{point.weekday} {point.hour}:00</b>
+                   <br/><b>Number of tweets:</b> {point.value}')
+  })
 
   
   #get_mastodon_depression_count <- reactive({

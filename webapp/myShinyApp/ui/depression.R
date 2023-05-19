@@ -29,6 +29,7 @@ tabItemDepression <- function() {
                in the conversation surrounding mental health on these different social networks."),
             hr(),
             highchartOutput("depression_weekday_hour", height = 450),
+            highchartOutput("depression_weekday_hour_m", height=450),
             hr(),
             # Use fluid row layout to put two plots side by side
             fluidRow(
