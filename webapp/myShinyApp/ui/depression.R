@@ -28,16 +28,17 @@ tabItemDepression <- function() {
                Here,  delve into the comparison of Twitter and Mastodon data, illuminating differences and similarities 
                in the conversation surrounding mental health on these different social networks."),
             hr(),
-            highchartOutput("depression_weekday_hour", height = 450),
-            highchartOutput("depression_weekday_hour_m", height=450),
-            hr(),
             # Use fluid row layout to put two plots side by side
             fluidRow(
-              column(3, valueBoxOutput("depression_percentage_twitter", width = 7)),
-              column(3, valueBoxOutput("depression_total_twitter", width = 7)),
-              #column(3, valueBoxOutput("depression_percentage_mastodon", width = 7)),
-              column(3, valueBoxOutput("depression_total_mastodon", width = 7))
+              column(3, valueBoxOutput("depression_percentage_twitter", width = 12)),
+              column(3, valueBoxOutput("depression_total_twitter", width = 12)),
+              column(3, valueBoxOutput("depression_percentage_mastodon", width = 12)),
+              column(3, valueBoxOutput("depression_total_mastodon", width = 12))
             ),
+            hr(),
+            highchartOutput("depression_weekday_hour", height = 450),
+            highchartOutput("depression_weekday_hour_m", height=450),
+           
             hr(),
             h5('Charts and map are created using ', 
                a("Highcharter", 
