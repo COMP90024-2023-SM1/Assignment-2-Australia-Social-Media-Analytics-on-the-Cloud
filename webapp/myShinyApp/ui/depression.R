@@ -36,9 +36,9 @@ tabItemDepression <- function() {
               column(3, valueBoxOutput("depression_total_mastodon", width = 14))
             ),
             hr(),
-            highchartOutput("depression_weekday_hour", height = 400),
+            highchartOutput("depression_weekday_hour", height = 390),
             hr(),
-            highchartOutput("depression_weekday_hour_m", height = 400),
+            highchartOutput("depression_weekday_hour_m", height = 390),
             hr(),
             h5('Charts and map are created using ', 
                a("Highcharter", 
