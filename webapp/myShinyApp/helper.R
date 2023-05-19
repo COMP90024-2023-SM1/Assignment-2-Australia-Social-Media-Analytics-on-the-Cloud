@@ -69,7 +69,12 @@ depression_week_hour_m_world <- as.data.frame(fromJSON(httr::content(depression_
 depression_week_hour_m_social <- GET("http://admin:admin@172.26.128.113:5984/legacy_mastodon_social_data/_design/customDoc/_view/depression-week-hour-aest?reduce=true&group=true&update=false")
 depression_week_hour_m_social <- as.data.frame(fromJSON(httr::content(depression_week_hour_m_social, "text", encoding = "UTF-8"))$rows)
 
-combined_data <- rbind(depression_week_hour_m_world, depression_week_hour_m_social)
+depression_week_hour_s_world <- GET("http://admin:admin@172.26.128.113:5984/streaming_mastodon_world_data/_design/customDoc/_view/depression-week-hour-aest?reduce=true&group=true&update=false")
+depression_week_hour_s_world <- as.data.frame(fromJSON(httr::content(depression_week_hour_s_world, "text", encoding = "UTF-8"))$rows)
+depression_week_hour_s_social <- GET("http://admin:admin@172.26.128.113:5984/streaming_mastodon_social_data/_design/customDoc/_view/depression-week-hour-aest?reduce=true&group=true&update=false")
+depression_week_hour_s_social <- as.data.frame(fromJSON(httr::content(depression_week_hour_s_social, "text", encoding = "UTF-8"))$rows)
+
+combined_data <- rbind(depression_week_hour_m_world, depression_week_hour_m_social,depression_week_hour_s_social,depression_week_hour_s_world)
 depression_week_hour_m_total <- aggregate(value ~ key, data = combined_data, FUN = sum)
 depression_week_hour_m_total <- depression_week_hour_m_total %>%
   separate(key, into = c("weekday", "hour"), sep = " ")
