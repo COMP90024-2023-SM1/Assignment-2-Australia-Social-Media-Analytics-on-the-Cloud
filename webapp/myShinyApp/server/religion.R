@@ -72,12 +72,13 @@ serverReligion = function(input, output){
   })
   output$christrianity_date_range <- renderHighchart({
     highchart() %>%
-      hc_chart(type = "line") %>%
+      hc_chart(type = "spline") %>%
       hc_title(text = "Tweet Counts by Date Range") %>%
       hc_xAxis(categories = month_religion$key) %>%
       hc_yAxis(title = list(text = "Tweet Count")) %>%
       hc_add_series(name = "Tweet Count", data = month_religion$value) %>%
-      hc_exporting(enabled = TRUE)  # Optional: Enable exporting the chart
+      hc_exporting(enabled = TRUE) %>%
+      hc_colors('red')
   })
   
   
