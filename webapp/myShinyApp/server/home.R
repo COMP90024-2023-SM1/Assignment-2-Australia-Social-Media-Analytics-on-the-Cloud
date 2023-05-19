@@ -90,9 +90,14 @@ serverHome = function(input, output){
         hc_add_series(type = "mapbubble", data = data, maxSize = "15%", showInLegend = TRUE, name = "Greater Capital City", color = colorGCC) %>%
         hc_add_series(type = "mapbubble", data = data, maxSize = "15%", showInLegend = TRUE, name = "Rural", color = colorRural) %>%
         hc_title(text = "General Tweet Statistics of Australia in 2022 <small>(Hover for more detail)</small>", 
-                 useHTML = T) %>%
-        hc_tooltip(pointFormat = '<b>{point.key}</b>
-                   <br/><b>Number of tweets:</b> {point.z}') %>%
+                 useHTML = TRUE) %>%
+        hc_tooltip(
+          useHTML = TRUE,
+          formatter = JS("function() {
+            return '<b>' + this.point.key + '</b>' +
+                   '<br/><b>Number of tweets:</b> ' + this.point.z;
+        }")
+        ) %>%
         hc_legend(enabled = TRUE)
     }
   })
