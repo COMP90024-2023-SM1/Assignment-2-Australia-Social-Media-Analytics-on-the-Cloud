@@ -41,7 +41,8 @@ tweet_month <- tweet_month %>%
 
 home_wordcloud <- fromJSON("./SUDO_data/count-token.json")$rows
 home_wordcloud <- subset(home_wordcloud, value >= 200)
-stopwords_list <- c(stopwords("english"), "about", "are", "and", "the", "can", "just", "will")
+stopwords_list <- c(stopwords("english"), "about", "are", "and", "the", "can", "just", "will", "amp", "didn", 
+                    "don", "also", "get", "doesn")
 home_wordcloud <- home_wordcloud[!(tolower(home_wordcloud$key) %in% stopwords_list),]
 home_wordcloud = home_wordcloud[order(home_wordcloud$value, decreasing = TRUE), ]
 home_wordcloud <- home_wordcloud[1:100, ]
