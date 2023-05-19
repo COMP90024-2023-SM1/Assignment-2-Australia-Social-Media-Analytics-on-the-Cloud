@@ -13,7 +13,6 @@ library(highcharter)
 library(dplyr)
 library(tidyr)
 library(dashboardthemes)
-library(rgdal)
 source('helper.R')
   
 serverHome = function(input, output){
