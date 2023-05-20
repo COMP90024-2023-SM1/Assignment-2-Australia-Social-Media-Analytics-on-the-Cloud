@@ -39,12 +39,12 @@ tabItemWar <- function() {
             ),
             hr(),
             fluidRow(
-              highchartOutput("war_trend_tweet")
+              column(6, highchartOutput("twitter_war_lang")),
+              column(6, highchartOutput("mastodon_war_lang"))
             ),
             hr(),
             fluidRow(
-              column(6, highchartOutput("twitter_war_lang")),
-              column(6, highchartOutput("mastodon_war_lang"))
+              highchartOutput("war_trend_tweet")
             ),
             hr(),
             h5('Charts and map are created using ', 
