@@ -16,7 +16,7 @@ library(dashboardthemes)
 source('helper.R')
   
 serverWar = function(input, output){
-  auto_refresh <- reactiveTimer(5000)
+  auto_refresh <- reactiveTimer(50000)
   
   output$war_trend_tweet <- renderHighchart({
     war_month_data <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-war-by-date?reduce=true&group=true&update=false')
@@ -40,6 +40,25 @@ serverWar = function(input, output){
       hc_colors('#FBE106')
   })
   
+  get_mastodon_lang <- reactive({
+    auto_refresh()
+    legacy_social_lang <- GET('http://172.26.128.113:5984/legacy_mastodon_social_data/_design/customDoc/_view/war-language?reduce=true&group=true&update=false')
+    legacy_world_lang <- GET('http://172.26.128.113:5984/legacy_mastodon_world_data/_design/customDoc/_view/war-language?reduce=true&group=true&update=false')
+    streaming_social_lang <- GET('http://172.26.128.113:5984/streaming_mastodon_social_data/_design/customDoc/_view/war-language?reduce=true&group=true&update=false')
+    streaming_world_lang <- GET('http://172.26.128.113:5984/streaming_mastodon_world_data/_design/customDoc/_view/war-language?reduce=true&group=true&update=false')
+    legacy_social_lang <- as.data.frame(fromJSON(httr::content(legacy_social_lang, "text", encoding = "UTF-8"))$rows)
+    legacy_world_lang <- as.data.frame(fromJSON(httr::content(legacy_world_lang, "text", encoding = "UTF-8"))$rows)
+    streaming_social_lang <- as.data.frame(fromJSON(httr::content(streaming_social_lang, "text", encoding = "UTF-8"))$rows)
+    streaming_world_lang <- as.data.frame(fromJSON(httr::content(streaming_world_lang, "text", encoding = "UTF-8"))$rows)
+    
+    combined_df <- bind_rows(streaming_social_lang, streaming_world_lang, legacy_social_lang, legacy_world_lang) %>%
+      group_by(key) %>%
+      summarise(total_value = sum(value))
+    combined_df <- as.data.frame(combined_df)
+    
+    return(combined_df)
+  })
+  
   output$twitter_war_lang <- renderHighchart({
     data <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/war-language?reduce=true&group=true&update=false')
     data <- as.data.frame(fromJSON(httr::content(data, "text", encoding = "UTF-8"))$rows)
@@ -49,14 +68,23 @@ serverWar = function(input, output){
       hchart("pie", innerSize = '60%', hcaes(x = key, y = freq), showInLegend = TRUE, 
              dataLabels = list(enabled = FALSE), allowPointSelect = TRUE) %>%
       hc_exporting(enabled = TRUE) %>%
-      hc_colors(c('#ffb6c1', '#3cdfff')) %>%
+      hc_colors(c('#3cdfff', '#ffb6c1')) %>%
       hc_title(text = "The Linguistic Landscape of Australia in the Russo-Ukraine War") %>%
       hc_tooltip(pointFormat = 'Percentage of Tweets: <b>{point.freq:.2f}%</b>') %>%
       hc_legend(labelFormat = '{name} <span style="opacity: 0.4">{n}</span>')
   })
   
   output$mastodon_war_lang <- renderHighchart({
-    
+    data <- get_mastodon_lang()
+    data %>%
+      mutate(freq = round(total_value/sum(total_value), 2) * 100) %>%
+      hchart("pie", innerSize = '60%', hcaes(x = key, y = freq), showInLegend = TRUE, 
+             dataLabels = list(enabled = FALSE), allowPointSelect = TRUE) %>%
+      hc_exporting(enabled = TRUE) %>%
+      hc_colors(c('#3cdfff', '#ffb6c1')) %>%
+      hc_title(text = "The Linguistic Landscape of Mastodon in the Russo-Ukraine War") %>%
+      hc_tooltip(pointFormat = 'Percentage of Tweets: <b>{point.freq:.2f}%</b>') %>%
+      hc_legend(labelFormat = '{name} <span style="opacity: 0.4">{n}</span>')
   })
   
   get_mastodon_war_count <- reactive({

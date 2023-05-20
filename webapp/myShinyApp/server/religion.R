@@ -109,7 +109,7 @@ serverReligion = function(input, output){
   output$christianity_percentage_mastodon <- renderValueBox({
     valueBox(
       value = paste0(round(get_mastodon_religion_count()/get_mastodon_count() * 100, 2), "%"), 
-      subtitle = "Christian-related Toots Proportion in 2022",
+      subtitle = "Christian-related Toots Proportion",
       icon = fa_i("mastodon"),color="purple"
     )
   })
