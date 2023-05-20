@@ -34,6 +34,11 @@ tabItemWar <- function() {
               highchartOutput("war_trend_tweet")
             ),
             hr(),
+            fluidRow(
+              column(6, highchartOutput("twitter_war_lang")),
+              column(6, highchartOutput("mastodon_war_lang"))
+            ),
+            hr(),
             h5('Charts and map are created using ', 
                a("Highcharter", 
                  href="https://jkunst.com/highcharter/"), 
