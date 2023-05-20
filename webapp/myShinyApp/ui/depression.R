@@ -28,7 +28,6 @@ tabItemDepression <- function() {
                Here,  delve into the comparison of Twitter and Mastodon data, illuminating differences and similarities 
                in the conversation surrounding mental health on these different social networks."),
             hr(),
-            # Use fluid row layout to put two plots side by side
             fluidRow(
               column(3, valueBoxOutput("depression_percentage_twitter", width = 14)),
               column(3, valueBoxOutput("depression_total_twitter", width = 14)),

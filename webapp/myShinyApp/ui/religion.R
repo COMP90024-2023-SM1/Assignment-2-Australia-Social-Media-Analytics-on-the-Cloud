@@ -32,8 +32,6 @@ tabItemReligion <- function() {
               column(4, valueBoxOutput("christianity_percentage_twitter", width = 14)),
               column(4, valueBoxOutput("christianity_percentage_mastodon", width = 14))
             ),
-            # Define highcharter output
-            #highchartOutput("education_religion", height = 485),
             hr(),
             highchartOutput("christianity", height = 486),
             hr(),
