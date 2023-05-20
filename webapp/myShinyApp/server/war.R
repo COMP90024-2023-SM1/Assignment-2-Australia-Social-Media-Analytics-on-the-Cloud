@@ -16,6 +16,7 @@ library(dashboardthemes)
 source('helper.R')
   
 serverWar = function(input, output){
+  auto_refresh <- reactiveTimer(5000)
   
   output$war_trend_tweet <- renderHighchart({
     war_month_data <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-war-by-date?reduce=true&group=true&update=false')
@@ -44,8 +45,8 @@ serverWar = function(input, output){
     data <- as.data.frame(fromJSON(httr::content(data, "text", encoding = "UTF-8"))$rows)
     
     data %>%
-      mutate(freq = round(value/sum(value), 3)) %>%
-      hchart("pie", innerSize = '60%', hcaes(x = key, y = freq*100), showInLegend = TRUE, 
+      mutate(freq = round(value/sum(value), 2) * 100) %>%
+      hchart("pie", innerSize = '60%', hcaes(x = key, y = freq), showInLegend = TRUE, 
              dataLabels = list(enabled = FALSE), allowPointSelect = TRUE) %>%
       hc_exporting(enabled = TRUE) %>%
       hc_colors(c('#ffb6c1', '#3cdfff')) %>%
@@ -59,7 +60,7 @@ serverWar = function(input, output){
   })
   
   get_mastodon_war_count <- reactive({
-    # auto_refresh()
+    auto_refresh()
     legacy_social_count <- GET('http://admin:admin@172.26.128.113:5984/legacy_mastodon_social_data/_design/customDoc/_view/count-war?reduce=true&group=true&update=false')
     legacy_social_count <- fromJSON(httr::content(legacy_social_count, "text", encoding = "UTF-8"))$rows$value
     legacy_world_count <- GET('http://admin:admin@172.26.128.113:5984/legacy_mastodon_world_data/_design/customDoc/_view/count-war?reduce=true&group=true&update=false')
@@ -74,7 +75,7 @@ serverWar = function(input, output){
   })
   
   get_mastodon_count <- reactive({
-    # auto_refresh()
+    auto_refresh()
     legacy_social_count <- GET('http://172.26.128.113:5984/legacy_mastodon_social_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false')
     legacy_social_count <- fromJSON(httr::content(legacy_social_count, "text", encoding = "UTF-8"))$rows$value
     legacy_world_count <- GET('http://172.26.128.113:5984/legacy_mastodon_world_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false')
