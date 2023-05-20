@@ -4,26 +4,27 @@ FROM rocker/shiny:latest
 COPY . /srv/shiny-server/
 
 # Set the working directory
+WORKDIR /app
+
+# install packages
 RUN apt-get update && apt-get install -y \
     libssl-dev \
     libcurl4-gnutls-dev \
     libglpk40 
 
+
 # Install Shiny and other required packages
 RUN R -e "install.packages(c('shiny', 'httr', 'stringr', 'shinythemes', 'fontawesome', 'shinydashboard', 'igraph', 'highcharter', 'dplyr', 'tidyr', 'dashboardthemes','shinyWidgets','tm'))"
-# Copy the app files to the image
-COPY ./server.R /app/server.R
-COPY ./ui.R /app/ui.R
-COPY ./helper.R /app/helper.R
-COPY ./SUDO_data/ /app/SUDO_data/
-COPY ./ui/ /app/ui/
-COPY ./server/ /app/server/
 
-# Set the working directory
-WORKDIR /
+# Copy the app files to the image
+COPY ./server.R ./ui.R ./helper.R ./
+COPY ./SUDO_data/ ./SUDO_data/
+COPY ./ui/ ./ui/
+COPY ./server/ ./server/
 
 # Expose the Shiny app port
 EXPOSE 3838
 
+
 # Run the Shiny app
-CMD ["R", "-e", "shiny::runApp('/app/', host='0.0.0.0', port=3838)"]
+CMD ["R", "-e", "shiny::runApp('.', host='0.0.0.0', port=3838)"]

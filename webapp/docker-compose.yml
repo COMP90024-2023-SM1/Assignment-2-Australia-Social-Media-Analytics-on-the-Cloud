@@ -4,6 +4,7 @@ services:
     build:
       context: ./myShinyApp
       dockerfile: Dockerfile
+    restart: always
     ports:
       - 3838:3838
     volumes:
