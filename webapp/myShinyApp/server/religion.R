@@ -16,17 +16,6 @@ library(dashboardthemes)
 source('helper.R')
   
 serverReligion = function(input, output){
-  #output$education_religion <- renderHighchart({
-    # education_data <- education_sudo
-  #  highchart() %>%
-  #    hc_chart(type = "column") %>%
-  #    hc_title(text = "Religion People Number and Year 12 or Above by Area") %>%
-  #    hc_xAxis(categories = sudo_data$key) %>%
-  #    hc_yAxis(title = list(text = "Year 12 or Above")) %>%
-  #    hc_add_series(name = "Year 12 or Above", data = sudo_data$year_12_or_above) %>%
-  #    hc_plotOptions(series = list(borderRadius = 4, animation = list(duration = 3000)))
-  #  
-  #})
   
   count_religion_response <- GET("http://admin:admin@172.26.128.113:5984//twitter_data/_design/customDoc/_view/count-religion?reduce=true&group=true&update=false")
   count_religion <- as.data.frame(fromJSON(httr::content(count_religion_response,"text", encoding = "UTF-8"))$rows)
@@ -34,17 +23,6 @@ serverReligion = function(input, output){
   month_religion_reponse <- GET("http://admin:admin@172.26.128.113:5984//twitter_data/_design/customDoc/_view/count-religion-tweet-month?reduce=true&group=true&update=false")
   month_religion <- as.data.frame(fromJSON(httr::content(month_religion_reponse,"text", encoding = "UTF-8"))$rows)
                                   
-  #output$education_religion <- renderHighchart({
-    # education_data <- education_sudo
-  #  highchart() %>%
-  #    hc_chart(type = "column") %>%
-  #    hc_title(text = "Religion People Number and Year 12 or Above by Area") %>%
-  #    hc_xAxis(categories = sudo_data$key) %>%
-  #    hc_yAxis(title = list(text = "Year 12 or Above")) %>%
-  #    hc_add_series(name = "2016 SUDO", data = sudo_data$year_12_or_above) %>%
-  #    hc_plotOptions(series = list(borderRadius = 4, animation = list(duration = 3000)))
-    
-  #})
   
   output$christianity <- renderHighchart({
     # Define color options
@@ -72,7 +50,7 @@ serverReligion = function(input, output){
   output$christrianity_date_range <- renderHighchart({
     highchart() %>%
       hc_chart(type = "spline") %>%
-      hc_title(text = "Tweet Counts by Date Range") %>%
+      hc_title(text = "Christian-related Tweet Time Distribution in 2022") %>%
       hc_xAxis(categories = month_religion$key) %>%
       hc_yAxis(title = list(text = "Tweet Count")) %>%
       hc_add_series(name = "Tweet Count", data = month_religion$value) %>%
