@@ -53,9 +53,10 @@ serverDepression = function(input, output){
                 y = 60, symbolHeight = 250)
   })
 
+  auto_refresh <- reactiveTimer(50000)
   
   get_mastodon_depression_count <- reactive({
-    # auto_refresh()
+    auto_refresh()
     legacy_social_count <- GET('http://admin:admin@172.26.128.113:5984/legacy_mastodon_social_data/_design/customDoc/_view/count-depression?reduce=true&group=true&update=false')
     legacy_social_count <- fromJSON(httr::content(legacy_social_count, "text", encoding = "UTF-8"))$rows$value
     legacy_world_count <- GET('http://admin:admin@172.26.128.113:5984/legacy_mastodon_world_data/_design/customDoc/_view/count-depression?reduce=true&group=true&update=false')
@@ -70,6 +71,7 @@ serverDepression = function(input, output){
   })
   
   get_mastodon_count <- reactive({
+    auto_refresh()
     legacy_social_count <- GET('http://172.26.128.113:5984/legacy_mastodon_social_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false')
     legacy_social_count <- fromJSON(httr::content(legacy_social_count, "text", encoding = "UTF-8"))$rows$value
     legacy_world_count <- GET('http://172.26.128.113:5984/legacy_mastodon_world_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false')

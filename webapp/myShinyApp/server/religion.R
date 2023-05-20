@@ -76,6 +76,8 @@ serverReligion = function(input, output){
     )
   })
   
+  # auto_refresh <- reactiveTimer(50000)
+  
   get_mastodon_religion_count <- reactive({
     # auto_refresh()
     legacy_social_count <- GET('http://admin:admin@172.26.128.113:5984/legacy_mastodon_social_data/_design/customDoc/_view/count-religion?reduce=true&group=true&update=false')
