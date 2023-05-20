@@ -30,6 +30,14 @@ tabItemWar <- function() {
             It then conducted unsuccessful operations in the Donbas, preparing for an expected Ukrainian counteroffensive. 
             The war has led to a severe refugee crisis and numerous fatalities."),
             hr(),
+            # Use fluid row layout to put two plots side by side
+            fluidRow(
+              column(3, valueBoxOutput("war_percentage_twitter", width = 14)),
+              column(3, valueBoxOutput("war_total_twitter", width = 14)),
+              column(3, valueBoxOutput("war_percentage_mastodon", width = 14)),
+              column(3, valueBoxOutput("war_total_mastodon", width = 14))
+            ),
+            hr(),
             fluidRow(
               highchartOutput("war_trend_tweet")
             ),

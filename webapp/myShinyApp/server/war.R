@@ -38,4 +38,66 @@ serverWar = function(input, output){
       hc_xAxis(title = list(text = "Month")) %>%
       hc_colors('#FBE106')
   })
+  
+  get_mastodon_war_count <- reactive({
+    # auto_refresh()
+    legacy_social_count <- GET('http://admin:admin@172.26.128.113:5984/legacy_mastodon_social_data/_design/customDoc/_view/count-war?reduce=true&group=true&update=false')
+    legacy_social_count <- fromJSON(httr::content(legacy_social_count, "text", encoding = "UTF-8"))$rows$value
+    legacy_world_count <- GET('http://admin:admin@172.26.128.113:5984/legacy_mastodon_world_data/_design/customDoc/_view/count-war?reduce=true&group=true&update=false')
+    legacy_world_count <- fromJSON(httr::content(legacy_world_count, "text", encoding = "UTF-8"))$rows$value
+    stream_social_count <- GET('http://admin:admin@172.26.128.113:5984/streaming_mastodon_social_data/_design/customDoc/_view/count-war?reduce=true&group=true&update=false')
+    stream_social_count <- fromJSON(httr::content(stream_social_count, "text", encoding = "UTF-8"))$rows$value
+    stream_world_count <- GET('http://admin:admin@172.26.128.113:5984/streaming_mastodon_world_data/_design/customDoc/_view/count-war?reduce=true&group=true&update=false')
+    stream_world_count <- fromJSON(httr::content(stream_world_count, "text", encoding = "UTF-8"))$rows$value
+    total_count <- legacy_social_count + legacy_world_count + stream_social_count + stream_world_count
+    
+    return(total_count)
+  })
+  
+  get_mastodon_count <- reactive({
+    # auto_refresh()
+    legacy_social_count <- GET('http://172.26.128.113:5984/legacy_mastodon_social_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false')
+    legacy_social_count <- fromJSON(httr::content(legacy_social_count, "text", encoding = "UTF-8"))$rows$value
+    legacy_world_count <- GET('http://172.26.128.113:5984/legacy_mastodon_world_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false')
+    legacy_world_count <- fromJSON(httr::content(legacy_world_count, "text", encoding = "UTF-8"))$rows$value
+    stream_social_count <- GET('http://172.26.128.113:5984/streaming_mastodon_social_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false')
+    stream_social_count <- fromJSON(httr::content(stream_social_count, "text", encoding = "UTF-8"))$rows$value
+    stream_world_count <- GET('http://172.26.128.113:5984/streaming_mastodon_world_data/_design/customDoc/_view/count-total?reduce=true&group=true&update=false')
+    stream_world_count <- fromJSON(httr::content(stream_world_count, "text", encoding = "UTF-8"))$rows$value
+    total_count <- legacy_social_count + legacy_world_count + stream_social_count + stream_world_count
+    
+    return(total_count)
+  })
+  
+  response_twitter <- GET('http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-war?reduce=true&group=true&update=false')
+  count_war_twitter <- as.data.frame(fromJSON(httr::content(response_twitter,"text", encoding = "UTF-8"))$rows)
+  print(count_war_twitter)
+  output$war_percentage_twitter <- renderValueBox({
+    valueBox(
+      value = paste0(round(count_war_twitter$value/total_tweet$value * 100, 2), "%"), subtitle = "Percentage of Russia vs. Ukraine War Mentioned in Twitter 2022",
+      icon = fa_i("twitter"),color="aqua"
+    )
+  })
+  
+  output$war_percentage_mastodon <- renderValueBox({
+    valueBox(
+      value = paste0(round(get_mastodon_war_count()/get_mastodon_count() * 100, 2), "%"), subtitle = "Percentage of Russia vs. Ukraine War Mentioned in Mastodon 2023",
+      icon = fa_i("mastodon"),color="purple"
+    )
+  })
+  
+  output$war_total_twitter <- renderValueBox({
+    valueBox(
+      value = paste0(count_war_twitter$value), subtitle = "Total Number of Russia vs. Ukraine War Mentioned in Twitter 2022",
+      icon = fa_i("twitter"),color="aqua"
+    )
+  })
+  
+  output$war_total_mastodon <- renderValueBox({
+    valueBox(
+      value = get_mastodon_war_count(), subtitle = "Total Number of Russia vs. Ukraine War Mentioned in Mastodon 2023",
+      icon = fa_i("mastodon"), color = "purple"
+    )
+  })
+  
 }
