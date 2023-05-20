@@ -18,7 +18,7 @@ source('helper.R')
 menuItemWar <- function() {
   menuItem("War",
            tabName = "war",
-           icon = fa_i("jet-fighter"))}
+           icon = fa_i("person-rifle"))}
 
 tabItemWar <- function() {
   tabItem("war",
