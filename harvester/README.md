@@ -26,3 +26,6 @@ sudo docker build -t $folder_name .
 sudo docker create --restart=always --network=host --name $folder_name $folder_name
 sudo docker start $folder_name
 ```
+
+## Twitter
+Run `twitter/main.py` to proprocess and upload the twitter data to Couchdb.
