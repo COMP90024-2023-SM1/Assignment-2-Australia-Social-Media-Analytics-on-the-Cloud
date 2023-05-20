@@ -7,14 +7,17 @@ COPY . /srv/shiny-server/
 RUN apt-get update && apt-get install -y \
     libssl-dev \
     libcurl4-gnutls-dev \
-    libglpk40
+    libglpk40 
 
 # Install Shiny and other required packages
-RUN R -e "install.packages(c('shiny', 'httr', 'stringr', 'shinythemes', 'fontawesome', 'shinydashboard', 'igraph', 'highcharter', 'dplyr', 'tidyr', 'dashboardthemes','shinyWidgets','rgdal','tm'))"
+RUN R -e "install.packages(c('shiny', 'httr', 'stringr', 'shinythemes', 'fontawesome', 'shinydashboard', 'igraph', 'highcharter', 'dplyr', 'tidyr', 'dashboardthemes','shinyWidgets','tm'))"
 # Copy the app files to the image
 COPY ./server.R /app/server.R
 COPY ./ui.R /app/ui.R
 COPY ./helper.R /app/helper.R
+COPY ./SUDO_data/ /app/SUDO_data/
+COPY ./ui/ /app/ui/
+COPY ./server/ /app/server/
 
 # Set the working directory
 WORKDIR /

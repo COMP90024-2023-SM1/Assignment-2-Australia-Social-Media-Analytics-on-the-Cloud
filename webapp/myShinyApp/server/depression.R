@@ -85,7 +85,6 @@ serverDepression = function(input, output){
   
   response_twitter <- GET('http://admin:admin@172.26.128.113:5984/twitter_data/_design/customDoc/_view/count-depression?reduce=true&group=true&update=false')
   count_depression_twitter <- as.data.frame(fromJSON(httr::content(response_twitter,"text", encoding = "UTF-8"))$rows)
-  print(count_depression_twitter)
   output$depression_percentage_twitter <- renderValueBox({
     valueBox(
       value = paste0(round(count_depression_twitter$value/total_tweet$value * 100, 2), "%"), subtitle = "Percentage of Depression Mentioned in Twitter 2022",
