@@ -4,6 +4,7 @@
 This project aims to develop a Cloud-based solution that exploits virtual machines on the UniMelb Research Cloud for harvesting and processing Mastodon toots, and use social media data to develop a range of analytic scenarios.
 
 - [Overleaf report link](https://www.overleaf.com/1266832138wzvgdrcdbypy)
+- [Webapp link](http://172.26.129.235)
 
 ## Group Details
 Group 64
