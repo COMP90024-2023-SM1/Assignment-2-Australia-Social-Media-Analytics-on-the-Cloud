@@ -49,21 +49,31 @@ serverHome = function(input, output){
   })
   
   output$aus_map <- renderHighchart({
-    if (length(input$map_state) == 0) {
-      hcmap("countries/au/au-all", borderColor = "#808080", borderWidth = 0.1, showInLegend = FALSE) %>%
-        hc_exporting(enabled = TRUE) %>%
-        hc_chart(backgroundColor = "#D8F9FF") %>%
-        hc_title(text = "General Tweet Statistics of Australia in 2022 <small>(Hover for more detail)</small>", 
-                 useHTML = T)
-    }
-    else{
+    
+    base_map <- hcmap(
+      "countries/au/au-all",
+      data = state_population_data,
+      value = "population",
+      joinBy = c("hc-key", "state"),
+      name = "Population Heat Map",
+      dataLabels = list(enabled = TRUE, format = "{point.name}"),
+      borderColor = "#808080",
+      borderWidth = 0.1,
+      showInLegend = FALSE
+    ) %>%
+      hc_exporting(enabled = TRUE) %>%
+      hc_chart(backgroundColor = "#D8F9FF") %>%
+      hc_title(text = "Tweet and Population Statistics Australia 2022 <small>(Hover for more detail)</small>", useHTML = T) %>%
+      hc_colorAxis(minColor = '#FFEBEE', maxColor = '#FF7F7F')  # Light pink to darker pink
+    
+    
+    if (length(input$map_state) > 0) {
       if (length(input$map_state) == 2) {
         data <- generalTweet_info
       } else if (input$map_state == 'Greater Capital City') {
         data <- subset(generalTweet_info, !grepl("^Rural", key))
       } else if (input$map_state == 'Rural') {
         data <- subset(generalTweet_info, grepl("^Rural", key))
-        
       }
       
       data <- data %>%
@@ -73,7 +83,8 @@ serverHome = function(input, output){
       colnames(data) <- c('key', 'z', 'lat', 'lon')
       
       # Add the bubble color column based on the condition
-      colorGCC = "#67bd7e"
+      colorGCC = "#9966CC"  
+      
       colorRural = "#6795bd"
       
       data <- data %>%
@@ -83,23 +94,31 @@ serverHome = function(input, output){
       data <- data %>%
         filter(area %in% input$map_state)
       
-      hcmap("countries/au/au-all", borderColor = "#808080", borderWidth = 0.1, showInLegend = FALSE) %>%
-        hc_exporting(enabled = TRUE) %>%
-        hc_chart(backgroundColor = "#D8F9FF") %>%
+      base_map <- base_map %>%
         hc_add_series(type = "mapbubble", data = data, maxSize = "15%", showInLegend = TRUE, name = "Greater Capital City", color = colorGCC) %>%
-        hc_add_series(type = "mapbubble", data = data, maxSize = "15%", showInLegend = TRUE, name = "Rural", color = colorRural) %>%
-        hc_title(text = "General Tweet Statistics of Australia in 2022 <small>(Hover for more detail)</small>", 
-                 useHTML = TRUE) %>%
-        hc_tooltip(
-          useHTML = TRUE,
-          formatter = JS("function() {
-            return '<b>' + this.point.key + '</b>' +
-                   '<br/><b>Number of tweets:</b> ' + this.point.z;
-        }")
-        ) %>%
-        hc_legend(enabled = TRUE)
+        hc_add_series(type = "mapbubble", data = data, maxSize = "15%", showInLegend = TRUE, name = "Rural", color = colorRural)
     }
+    
+    # Unified tooltip that checks the series name before determining what information to display
+    base_map <- base_map %>%
+      hc_tooltip(
+        useHTML = TRUE,
+        formatter = JS("
+        function() {
+          if (this.series.name == 'Population Heat Map') {
+            return '<b>' + this.series.name + '</b><br><b>' + this.point.name + '</b>: ' + this.point.value;
+          } else {
+            return '<b>' + this.point.key + '</b><br/><b>Number of tweets:</b> ' + this.point.z;
+          }
+        }
+      ")
+      ) %>%
+      hc_legend(enabled = TRUE)
+    
+    return(base_map)
   })
+  
+  
   
   output$tweet_timeline <- renderHighchart({
     hchart(tweet_month, "spline", hcaes(x = YearMonth, y = value),

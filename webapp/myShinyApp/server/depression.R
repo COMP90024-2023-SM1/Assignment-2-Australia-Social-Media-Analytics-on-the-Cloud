@@ -89,28 +89,28 @@ serverDepression = function(input, output){
   count_depression_twitter <- as.data.frame(fromJSON(httr::content(response_twitter,"text", encoding = "UTF-8"))$rows)
   output$depression_percentage_twitter <- renderValueBox({
     valueBox(
-      value = paste0(round(count_depression_twitter$value/total_tweet$value * 100, 2), "%"), subtitle = "Percentage of Depression Mentioned in Twitter 2022",
+      value = paste0(round(count_depression_twitter$value/total_tweet$value * 100, 2), "%"), subtitle = "Depression-related Tweet Proportion 2022",
       icon = fa_i("twitter"),color="aqua"
     )
   })
   
   output$depression_percentage_mastodon <- renderValueBox({
     valueBox(
-      value = paste0(round(get_mastodon_depression_count()/get_mastodon_count() * 100, 2), "%"), subtitle = "Percentage of Depression Mentioned in Mastodon 2023",
+      value = paste0(round(get_mastodon_depression_count()/get_mastodon_count() * 100, 2), "%"), subtitle = "Depression-related Toot Proportion 2023",
       icon = fa_i("mastodon"),color="purple"
     )
   })
   
   output$depression_total_twitter <- renderValueBox({
     valueBox(
-      value = paste0(count_depression_twitter$value), subtitle = "Total Number of Depression Mentioned in Twitter 2022",
+      value = paste0(count_depression_twitter$value), subtitle = "Total Number of Depression-related Tweets 2022",
       icon = fa_i("twitter"),color="aqua"
     )
   })
   
   output$depression_total_mastodon <- renderValueBox({
     valueBox(
-      value = get_mastodon_depression_count(), subtitle = "Total Number of Depression Mentioned in Mastodon 2023",
+      value = get_mastodon_depression_count(), subtitle = "Total Number of Depression-related Toots 2023",
       icon = fa_i("mastodon"), color = "purple"
     )
   })

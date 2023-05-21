@@ -23,10 +23,10 @@ menuItemDepression <- function() {
 tabItemDepression <- function() {
   tabItem("depression",
           fluidPage(
-            titlePanel(strong("Depression Scenario")),
-            h5("The depression dashboard provides an in-depth analysis of depression-related data across various regions. 
-               Here,  delve into the comparison of Twitter and Mastodon data, illuminating differences and similarities 
-               in the conversation surrounding mental health on these different social networks."),
+            titlePanel(strong("Scenario 2 - Depression")),
+            h5("This scenario aims to provide an in-depth analysis of depression-related tweets/toots across various locations in Australia. 
+               We are then able to visualise insights into differences and similarities in the conversation surrounding mental health on 
+               Twitter VS. Mastodon."),
             hr(),
             fluidRow(
               column(3, valueBoxOutput("depression_percentage_twitter", width = 14)),

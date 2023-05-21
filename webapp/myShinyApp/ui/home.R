@@ -26,7 +26,7 @@ tabItemHome <- function(){
             # Title for home tab
             titlePanel(strong("Australia Social Media Analytics on the Cloud")),
             hr(),
-            h5(strong("General Statistics"),
+            h5(strong("Summary Statistics"),
                style = "font-size:16px;"),
             
             # Value box
@@ -53,7 +53,7 @@ tabItemHome <- function(){
                                     max = "2022-08-10"),
                      pickerInput("map_state",
                                  tags$p(fa("filter", fill = "forestgreen"),
-                                        "State filter for visualisation"),
+                                        "State filter for visualisation:"),
                                  ruralcity_choiceVec, selected = ruralcity_choiceVec,
                                  multiple = TRUE, options = list(`actions-box` = TRUE)),
                      style = "position: absolute; top: 60px; right: 10px; padding: 10px; border-radius: 5px;"

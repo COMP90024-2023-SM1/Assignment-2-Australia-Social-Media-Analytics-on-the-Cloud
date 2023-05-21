@@ -34,7 +34,7 @@ serverWar = function(input, output){
     
     hchart(war_month_data, "spline", hcaes(x = YearMonth, y = value),
            tooltip = list(pointFormat = "Number of Tweets Made: <b>{point.value}</b>")) %>%
-      hc_title(text = "Number of Tweets Made About Russo-Ukraine War in 2022") %>%
+      hc_title(text = "Number of Tweets related to the Russo-Ukraine War 2022") %>%
       hc_yAxis(title = list(text = "Number of Tweets")) %>%
       hc_xAxis(title = list(text = "Month")) %>%
       hc_colors('#FBE106')
@@ -59,17 +59,29 @@ serverWar = function(input, output){
     return(combined_df)
   })
   
+  output$sudo_war_lang <- renderHighchart({
+    data_lang %>%
+      hchart("pie", innerSize = '60%', hcaes(x = key, y = freq), showInLegend = TRUE, 
+             dataLabels = list(enabled = FALSE), allowPointSelect = TRUE) %>%
+      hc_exporting(enabled = TRUE) %>%
+      hc_colors(c('#3cdfff', '#ffb6c1')) %>%
+      hc_title(text = "The Linguistic Landscape of Australia Obtained from SUDO Data (2016)") %>%
+      hc_tooltip(pointFormat = 'Percentage of Tweets: <b>{point.y:.2f}%</b>') %>%
+      hc_legend(labelFormat = '{name}')
+  })
+  
+  
   output$twitter_war_lang <- renderHighchart({
     data <- GET('http://172.26.128.113:5984/twitter_data/_design/customDoc/_view/war-language?reduce=true&group=true&update=false')
     data <- as.data.frame(fromJSON(httr::content(data, "text", encoding = "UTF-8"))$rows)
     
     data %>%
-      mutate(freq = round(value/sum(value), 2) * 100) %>%
+      mutate(freq = round(value/sum(value), 4) * 100) %>%
       hchart("pie", innerSize = '60%', hcaes(x = key, y = freq), showInLegend = TRUE, 
              dataLabels = list(enabled = FALSE), allowPointSelect = TRUE) %>%
       hc_exporting(enabled = TRUE) %>%
       hc_colors(c('#3cdfff', '#ffb6c1')) %>%
-      hc_title(text = "The Linguistic Landscape of Australia in the Russo-Ukraine War") %>%
+      hc_title(text = "The Linguistic Landscape of Tweets Related to the Russo-Ukraine War") %>%
       hc_tooltip(pointFormat = 'Percentage of Tweets: <b>{point.freq:.2f}%</b>') %>%
       hc_legend(labelFormat = '{name} <span style="opacity: 0.4">{n}</span>')
   })
@@ -77,12 +89,12 @@ serverWar = function(input, output){
   output$mastodon_war_lang <- renderHighchart({
     data <- get_mastodon_lang()
     data %>%
-      mutate(freq = round(total_value/sum(total_value), 2) * 100) %>%
+      mutate(freq = round(total_value/sum(total_value), 4) * 100) %>%
       hchart("pie", innerSize = '60%', hcaes(x = key, y = freq), showInLegend = TRUE, 
              dataLabels = list(enabled = FALSE), allowPointSelect = TRUE) %>%
       hc_exporting(enabled = TRUE) %>%
       hc_colors(c('#3cdfff', '#ffb6c1')) %>%
-      hc_title(text = "The Linguistic Landscape of Mastodon in the Russo-Ukraine War") %>%
+      hc_title(text = "The Linguistic Landscape of Toots Related to the Russo-Ukraine War") %>%
       hc_tooltip(pointFormat = 'Percentage of Tweets: <b>{point.freq:.2f}%</b>') %>%
       hc_legend(labelFormat = '{name} <span style="opacity: 0.4">{n}</span>')
   })
@@ -122,28 +134,28 @@ serverWar = function(input, output){
   print(count_war_twitter)
   output$war_percentage_twitter <- renderValueBox({
     valueBox(
-      value = paste0(round(count_war_twitter$value/total_tweet$value * 100, 2), "%"), subtitle = "Percentage of Russia vs. Ukraine War Mentioned in Twitter 2022",
+      value = paste0(round(count_war_twitter$value/total_tweet$value * 100, 2), "%"), subtitle = "Russo-Ukraine War related Tweet Proportion 2022",
       icon = fa_i("twitter"),color="aqua"
     )
   })
   
   output$war_percentage_mastodon <- renderValueBox({
     valueBox(
-      value = paste0(round(get_mastodon_war_count()/get_mastodon_count() * 100, 2), "%"), subtitle = "Percentage of Russia vs. Ukraine War Mentioned in Mastodon 2023",
+      value = paste0(round(get_mastodon_war_count()/get_mastodon_count() * 100, 2), "%"), subtitle = "Russo-Ukraine War related Toot Proportion 2023",
       icon = fa_i("mastodon"),color="purple"
     )
   })
   
   output$war_total_twitter <- renderValueBox({
     valueBox(
-      value = paste0(count_war_twitter$value), subtitle = "Total Number of Russia vs. Ukraine War Mentioned in Twitter 2022",
+      value = paste0(count_war_twitter$value), subtitle = "Total Number of Russo-Ukraine War related Tweets 2022",
       icon = fa_i("twitter"),color="aqua"
     )
   })
   
   output$war_total_mastodon <- renderValueBox({
     valueBox(
-      value = get_mastodon_war_count(), subtitle = "Total Number of Russia vs. Ukraine War Mentioned in Mastodon 2023",
+      value = get_mastodon_war_count(), subtitle = "Total Number of Russo-Ukraine War related Toots 2023",
       icon = fa_i("mastodon"), color = "purple"
     )
   })

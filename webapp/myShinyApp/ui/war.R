@@ -23,12 +23,12 @@ menuItemWar <- function() {
 tabItemWar <- function() {
   tabItem("war",
           fluidPage(
-            titlePanel(strong("Russo-Ukrainian War")),
+            titlePanel(strong("Scenario 3 - Russo-Ukrainian War")),
             h5("In February 2022, Russia recognized the DPR and LPR as independent states and subsequently invaded Ukraine, 
             facing international condemnation and increased sanctions. Russia's attempt to capture Kyiv failed, with Ukraine 
             reclaiming territories by August. Despite international rejection, Russia declared annexation of four Ukrainian regions. 
-            It then conducted unsuccessful operations in the Donbas, preparing for an expected Ukrainian counteroffensive. 
-            The war has led to a severe refugee crisis and numerous fatalities."),
+            Russia then conducted unsuccessful operations in the Donbas, preparing for an expected Ukrainian counteroffensive. 
+            The war has led to heated media debate and controversy on social media"),
             hr(),
             # Use fluid row layout to put two plots side by side
             fluidRow(
@@ -39,8 +39,9 @@ tabItemWar <- function() {
             ),
             hr(),
             fluidRow(
-              column(6, highchartOutput("twitter_war_lang")),
-              column(6, highchartOutput("mastodon_war_lang"))
+              column(4, highchartOutput("sudo_war_lang")),
+              column(4, highchartOutput("twitter_war_lang")),
+              column(4, highchartOutput("mastodon_war_lang"))
             ),
             hr(),
             fluidRow(

@@ -24,8 +24,8 @@ tabItemReligion <- function() {
   tabItem("religion",
           fluidPage(
             
-            titlePanel(strong("Religion Scenario ")),
-            h5("This scenario aims to study the christianity across various areas and different demographic categories in Australia, using supplementary SUDO data to explore the situation of its development and distribution. "),
+            titlePanel(strong("Scenario 1 - Religion ")),
+            h5("This scenario aims to study the relationship between christianity proportion and percentage of tweets/toots associated with christianity across various locations in Australia, using supplementary SUDO data to asisst in analysis. "),
             hr(),
             fluidRow(
               column(4, valueBoxOutput("christianity_percentage_2016", width = 14)),

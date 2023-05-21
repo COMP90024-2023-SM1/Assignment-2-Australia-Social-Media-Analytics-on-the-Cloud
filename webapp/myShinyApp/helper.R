@@ -96,6 +96,35 @@ sudo_data <- sudo_data %>%
   mutate(key = factor(key, levels = desired_order)) %>%
   arrange(key)
 
+sudo_data_pop <- sudo_data %>%
+  mutate(state = case_when(
+    gccsa_name %in% c('Greater Adelaide', 'Rest of SA') ~ 'au-sa',
+    gccsa_name %in% c('Greater Brisbane', 'Rest of Qld') ~ 'au-qld',
+    gccsa_name %in% c('Greater Darwin', 'Rest of NT') ~ 'au-nt',
+    gccsa_name %in% c('Greater Melbourne', 'Rest of Vic.') ~ 'au-vic',
+    gccsa_name %in% c('Greater Perth', 'Rest of WA') ~ 'au-wa',
+    gccsa_name %in% c('Greater Sydney', 'Rest of NSW') ~ 'au-nsw',
+    gccsa_name %in% c('Greater Hobart', 'Rest of Tas.') ~ 'au-tas',
+    gccsa_name %in% c('Australian Capital Territory') ~ 'au-act',
+    TRUE ~ NA_character_
+  ))
+
+# Prepare state population data
+state_population_data <- sudo_data_pop %>%
+  group_by(state) %>%
+  summarise(population = sum(population)) %>%
+  mutate(state = tolower(state)) # assuming state names are in lower case in the map data
+
+additional_states <- data.frame(state = c('au-jb', 'au-nf'), 
+                                population = c(0, 0))
+
+state_population_data <- rbind(state_population_data, additional_states)
+
+data_lang <- data.frame(
+  key = c("English", "Others"),
+  freq = c(71.77, 28.23)
+)
+
 # load spatial data
 #gcc_shapefile <- readOGR( 
 #  dsn = "./SUDO_data", 
