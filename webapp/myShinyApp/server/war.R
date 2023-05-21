@@ -37,6 +37,7 @@ serverWar = function(input, output){
       hc_title(text = "Twitter Reacts: The Rise and Fall of Tweet Volume of Russo-Ukraine War") %>%
       hc_yAxis(title = list(text = "Number of Tweets")) %>%
       hc_xAxis(title = list(text = "Month")) %>%
+      hc_plotOptions(series = list(animation = list(duration = 3000))) %>%
       hc_colors('#FBE106')
   })
   
@@ -68,6 +69,7 @@ serverWar = function(input, output){
       hc_title(text = "The Linguistic Landscape of Australia 2016") %>%
       hc_subtitle(text = 'Source: Spatial Urban Data Observatory') %>%
       hc_tooltip(pointFormat = 'Percentage of Tweets: <b>{point.y:.2f}%</b>') %>%
+      hc_plotOptions(series = list(animation = list(duration = 3000))) %>%
       hc_legend(labelFormat = '{name}')
   })
   
@@ -84,6 +86,7 @@ serverWar = function(input, output){
       hc_colors(c('#3cdfff', '#ffb6c1')) %>%
       hc_title(text = "The Linguistic Landscape of Tweets Related to the Russo-Ukraine War") %>%
       hc_tooltip(pointFormat = 'Percentage of Tweets: <b>{point.freq:.2f}%</b>') %>%
+      hc_plotOptions(series = list(animation = list(duration = 3000))) %>%
       hc_legend(labelFormat = '{name} <span style="opacity: 0.4">{n}</span>')
   })
   
@@ -97,6 +100,7 @@ serverWar = function(input, output){
       hc_colors(c('#3cdfff', '#ffb6c1')) %>%
       hc_title(text = "The Linguistic Landscape of Toots Related to the Russo-Ukraine War") %>%
       hc_tooltip(pointFormat = 'Percentage of Tweets: <b>{point.freq:.2f}%</b>') %>%
+      hc_plotOptions(series = list(animation = list(duration = 3000))) %>%
       hc_legend(labelFormat = '{name} <span style="opacity: 0.4">{n}</span>')
   })
   

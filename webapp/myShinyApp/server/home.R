@@ -63,7 +63,7 @@ serverHome = function(input, output){
     ) %>%
       hc_exporting(enabled = TRUE) %>%
       hc_chart(backgroundColor = "#D8F9FF") %>%
-      hc_title(text = "Tweet and Population Statistics Australia 2022 <small>(Hover for more detail)</small>", useHTML = T) %>%
+      hc_title(text = "Tweet and Population Statistics <small>(Hover for more detail)</small>", useHTML = T) %>%
       hc_colorAxis(minColor = '#FFEBEE', maxColor = '#FF7F7F')
     
     
@@ -83,9 +83,9 @@ serverHome = function(input, output){
       colnames(data) <- c('key', 'z', 'lat', 'lon')
       
       # Add the bubble color column based on the condition
-      colorGCC = "#9966CC"  
+      colorGCC = "purple"  
       
-      colorRural = "yellow"
+      colorRural = "#069AF3"
       
       data <- data %>%
         mutate(color = ifelse(grepl("Rural", key), colorRural, colorGCC)) %>%
@@ -123,7 +123,7 @@ serverHome = function(input, output){
   output$tweet_timeline <- renderHighchart({
     hchart(tweet_month, "spline", hcaes(x = YearMonth, y = value),
            tooltip = list(pointFormat = "Number of Tweets Made: <b>{point.value}</b>")) %>%
-      hc_title(text = "Number of Tweets Made in 2022") %>%
+      hc_title(text = "Twitter Time Machine: Tracking Tweet Distribution of 2022") %>%
       hc_yAxis(title = list(text = "Number of Tweets")) %>%
       hc_xAxis(title = list(text = "Month")) %>%
       hc_colors('#FBE106')

@@ -28,6 +28,7 @@ serverDepression = function(input, output){
       hc_xAxis(title = list(text = "Hour of Day")) %>%
       hc_yAxis(title = list(text = "Weekday")) %>%
       hc_colorAxis(stops = color_stops(n = 10, colors = c("white", "red"))) %>%
+      hc_plotOptions(series = list(animation = list(duration = 3000))) %>%
       hc_tooltip(pointFormat = '<b>{point.weekday} {point.hour}:00</b>
                    <br/><b>Number of tweets:</b> {point.value}') %>% 
       hc_legend(align = "right", layout = "vertical",
@@ -46,6 +47,7 @@ serverDepression = function(input, output){
       hc_xAxis(title = list(text = "Hour of Day")) %>%
       hc_yAxis(title = list(text = "Weekday")) %>%
       hc_colorAxis(stops = color_stops(n = 10, colors = c("white", "blue"))) %>%
+      hc_plotOptions(series = list(animation = list(duration = 3000))) %>%
       hc_tooltip(pointFormat = '<b>{point.weekday} {point.hour}:00</b>
                    <br/><b>Number of tweets:</b> {point.value}') %>% 
       hc_legend(align = "right", layout = "vertical",

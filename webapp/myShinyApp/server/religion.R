@@ -54,6 +54,7 @@ serverReligion = function(input, output){
       hc_xAxis(categories = month_religion$key) %>%
       hc_yAxis(title = list(text = "Tweet Count")) %>%
       hc_add_series(name = "Tweet Count", data = month_religion$value) %>%
+      hc_plotOptions(series = list(animation = list(duration = 3000))) %>%
       hc_exporting(enabled = TRUE) %>%
       hc_colors('red')
   })
@@ -63,7 +64,7 @@ serverReligion = function(input, output){
     valueBox(
       value = paste0(round(mean(sudo_data$christianity_percentage), 2), "%"), 
       subtitle = "Christianity Proportion in Australia (2016)",
-      icon = icon("earth-oceania", class='fa-spin'), 
+      icon = icon("earth-oceania"), 
       color = "blue"
     )
   })
