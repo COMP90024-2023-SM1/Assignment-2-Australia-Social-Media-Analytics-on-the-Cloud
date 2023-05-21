@@ -34,7 +34,7 @@ serverWar = function(input, output){
     
     hchart(war_month_data, "spline", hcaes(x = YearMonth, y = value),
            tooltip = list(pointFormat = "Number of Tweets Made: <b>{point.value}</b>")) %>%
-      hc_title(text = "Number of Tweets related to the Russo-Ukraine War 2022") %>%
+      hc_title(text = "Twitter Reacts: The Rise and Fall of Tweet Volume of Russo-Ukraine War") %>%
       hc_yAxis(title = list(text = "Number of Tweets")) %>%
       hc_xAxis(title = list(text = "Month")) %>%
       hc_colors('#FBE106')
@@ -65,7 +65,8 @@ serverWar = function(input, output){
              dataLabels = list(enabled = FALSE), allowPointSelect = TRUE) %>%
       hc_exporting(enabled = TRUE) %>%
       hc_colors(c('#3cdfff', '#ffb6c1')) %>%
-      hc_title(text = "The Linguistic Landscape of Australia Obtained from SUDO Data (2016)") %>%
+      hc_title(text = "The Linguistic Landscape of Australia 2016") %>%
+      hc_subtitle(text = 'Source: Spatial Urban Data Observatory') %>%
       hc_tooltip(pointFormat = 'Percentage of Tweets: <b>{point.y:.2f}%</b>') %>%
       hc_legend(labelFormat = '{name}')
   })
@@ -148,14 +149,14 @@ serverWar = function(input, output){
   
   output$war_total_twitter <- renderValueBox({
     valueBox(
-      value = paste0(count_war_twitter$value), subtitle = "Total Number of Russo-Ukraine War related Tweets 2022",
+      value = paste0(count_war_twitter$value), subtitle = "Number of Russo-Ukraine War related Tweets 2022",
       icon = fa_i("twitter"),color="aqua"
     )
   })
   
   output$war_total_mastodon <- renderValueBox({
     valueBox(
-      value = get_mastodon_war_count(), subtitle = "Total Number of Russo-Ukraine War related Toots 2023",
+      value = get_mastodon_war_count(), subtitle = "Number of Russo-Ukraine War related Toots 2023",
       icon = fa_i("mastodon"), color = "purple"
     )
   })

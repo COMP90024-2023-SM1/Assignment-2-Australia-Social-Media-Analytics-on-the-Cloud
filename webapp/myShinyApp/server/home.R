@@ -55,8 +55,8 @@ serverHome = function(input, output){
       data = state_population_data,
       value = "population",
       joinBy = c("hc-key", "state"),
-      name = "Population Heat Map",
-      dataLabels = list(enabled = TRUE, format = "{point.name}"),
+      name = "State Population",
+      dataLabels = list(enabled = FALSE, format = "{point.name}"),
       borderColor = "#808080",
       borderWidth = 0.1,
       showInLegend = FALSE
@@ -64,7 +64,7 @@ serverHome = function(input, output){
       hc_exporting(enabled = TRUE) %>%
       hc_chart(backgroundColor = "#D8F9FF") %>%
       hc_title(text = "Tweet and Population Statistics Australia 2022 <small>(Hover for more detail)</small>", useHTML = T) %>%
-      hc_colorAxis(minColor = '#FFEBEE', maxColor = '#FF7F7F')  # Light pink to darker pink
+      hc_colorAxis(minColor = '#FFEBEE', maxColor = '#FF7F7F')
     
     
     if (length(input$map_state) > 0) {
@@ -85,7 +85,7 @@ serverHome = function(input, output){
       # Add the bubble color column based on the condition
       colorGCC = "#9966CC"  
       
-      colorRural = "#6795bd"
+      colorRural = "yellow"
       
       data <- data %>%
         mutate(color = ifelse(grepl("Rural", key), colorRural, colorGCC)) %>%
@@ -105,7 +105,7 @@ serverHome = function(input, output){
         useHTML = TRUE,
         formatter = JS("
         function() {
-          if (this.series.name == 'Population Heat Map') {
+          if (this.series.name == 'State Population') {
             return '<b>' + this.series.name + '</b><br><b>' + this.point.name + '</b>: ' + this.point.value;
           } else {
             return '<b>' + this.point.key + '</b><br/><b>Number of tweets:</b> ' + this.point.z;
@@ -113,7 +113,7 @@ serverHome = function(input, output){
         }
       ")
       ) %>%
-      hc_legend(enabled = TRUE)
+      hc_legend(enabled = TRUE, title = list(text = "State Population"))
     
     return(base_map)
   })
