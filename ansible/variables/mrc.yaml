@@ -22,8 +22,9 @@ volumes:
     vol_size: 150
 
 # Security a group
+SECURITY_GROUP_NAME: "group-64-2"
 security_groups:
-  - name: group-64-2
+  - name: {{ SECURITY_GROUP_NAME }}
     description: "default"
     ether_type: IPv6
     protocol: any
@@ -31,7 +32,7 @@ security_groups:
     port_range_min: 1
     port_range_max: 65535
     remote_ip_prefix: ::/0
-  - name: group-64-2
+  - name: {{ SECURITY_GROUP_NAME }}
     description: "default"
     ether_type: IPv4
     protocol: any
@@ -39,7 +40,7 @@ security_groups:
     port_range_min: 1
     port_range_max: 65535
     remote_ip_prefix: 0.0.0.0/0
-  - name: group-64-2
+  - name: {{ SECURITY_GROUP_NAME }}
     ether_type: IPv4
     description: "SSH access"
     protocol: tcp
@@ -47,8 +48,7 @@ security_groups:
     port_range_min: 22
     port_range_max: 22
     remote_ip_prefix: 0.0.0.0/0
-    remote_security_group: "-"
-  - name: group-64-2
+  - name: {{ SECURITY_GROUP_NAME }}
     description: "HTTP access"
     ether_type: IPv4
     protocol: tcp
@@ -56,14 +56,38 @@ security_groups:
     port_range_min: 80
     port_range_max: 80
     remote_ip_prefix: 0.0.0.0/0
-  - name: group-64-2
-    description: "All Engress"
+  - name: {{ SECURITY_GROUP_NAME }}
+    description: "CouchDB access egress"
     ether_type: IPv4
     protocol: tcp
     direction: egress
-    port_range_min: 1
-    port_range_max: 65535
-    remote_ip_prefix: 0.0.0.0/0
+    port_range_min: 5984
+    port_range_max: 5984
+    remote_security_group: {{ SECURITY_GROUP_NAME }}
+  - name: {{ SECURITY_GROUP_NAME }}
+    description: "CouchDB access ingress"
+    ether_type: IPv4
+    protocol: tcp
+    direction: ingress
+    port_range_min: 5984
+    port_range_max: 5984
+    remote_security_group: {{ SECURITY_GROUP_NAME }}
+  - name: {{ SECURITY_GROUP_NAME }}
+    description: "CouchDB cluster communication ingress"
+    ether_type: IPv4
+    protocol: tcp
+    direction: ingress
+    port_range_min: 9100
+    port_range_max: 9100
+    remote_security_group: {{ SECURITY_GROUP_NAME }}
+  - name: {{ SECURITY_GROUP_NAME }}
+    description: "CouchDB cluster communication egress"
+    ether_type: IPv4
+    protocol: tcp
+    direction: egress
+    port_range_min: 9100
+    port_range_max: 9100
+    remote_security_group: {{ SECURITY_GROUP_NAME }}
   
 
 
