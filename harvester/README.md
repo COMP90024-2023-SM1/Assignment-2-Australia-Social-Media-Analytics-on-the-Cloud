@@ -29,3 +29,6 @@ sudo docker start $folder_name
 
 ## Twitter
 Run `twitter/main.py` to proprocess and upload the twitter data to Couchdb.
+```bash
+python3 twitter/main.py
+```
