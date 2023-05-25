@@ -121,3 +121,6 @@ Group 64
     │   └── ui.R
     └── nginx.conf
 ```
+
+## Instructions
+Navigate to [ansible](ansible), [harvester](harvester), and [webapp](webapp) for detailed intructions.
